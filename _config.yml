@@ -12,10 +12,8 @@ author:
 
 # Build settings
 markdown: kramdown
-plugins:
-  - jekyll-feed
 # Gems
-gems:
+plugins:
   - jekyll-paginate
-
+ #- jekyll-feed
 #Others
