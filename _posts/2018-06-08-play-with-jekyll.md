@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "玩转jekyll+github搭建个人博客"
+title: "玩转jekyll主题，搭建赏心悦目的个人博客"
 categories: jekyll
 ---
 # 玩转jekyll主题，搭建赏心悦目的个人博客
@@ -13,7 +13,7 @@ categories: jekyll
 - 书写体验非常流畅，直接操作本地的一个文件夹下的md文档
 - 没有数据库或者php的操作，专注于文字内容
 
-##搭建过程
+## 搭建过程
 
 网上的帖子很多，这里贴一下我用的
 
@@ -22,7 +22,7 @@ categories: jekyll
 - [github官方教程](https://pages.github.com/)
 - [jekyll中文版文档](https://www.jekyll.com.cn/docs/home/)
 
-##使用主题
+## 使用主题
 
 [Jekyll Themes](https://link.jianshu.com?t=http://jekyllthemes.org/)
 
@@ -32,7 +32,7 @@ https://jasonlong.github.io/cayman-theme/
 
 下载下来相关的主题，拷贝index.html到自己github仓库的主目录下面就好了，文章一般写在_post文件夹中，各种页面链接可以通过HTTP URL 或者本地绝对路径与相对路径来设置。
 
-##遇到的坑
+## 遇到的坑
 ```
 ---
 layout: post
