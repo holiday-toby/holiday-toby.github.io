@@ -1,6 +1,6 @@
 ---
 layout: main
-title："Android开发依赖冲突解决方案，一个so文件被导入了两次"
+title: "Android开发依赖冲突解决方案，一个so文件被导入了两次"
 date: 2018-06-11 16:46:00
 category: android-bug
 ---
