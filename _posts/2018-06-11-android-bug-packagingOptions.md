@@ -1,8 +1,9 @@
 ---
-layout: main
+layout: default
 title: "Android开发依赖冲突解决方案，一个so文件被导入了两次"
-category: android-bug
+category: bug
 ---
+### 问题描述： 
 
 > Error:Execution failed for task ':newbroker:transformNativeLibsWithMergeJniLibsForDebug'.
 > More than one file was found with OS independent path 'lib/armeabi/libengine.so'
@@ -36,13 +37,16 @@ android {
         pickFirst 'lib/armeabi-v7a/libengine.so'
         pickFirst 'lib/armeabi-v8a/libengine.so'
     }
+}
+```
+    //If you have a library that's adding some android .so files –like libassmidi.so or libgnustl_shared.
+    so– you have to tell gradle to pick just one when packaging, otherwise you'll get the conflict.
 
-    //If you have a library that's adding some android .so files –like libassmidi.so or libgnustl_shared.so– you have to tell gradle to pick just one when packaging, otherwise you'll get the conflict.
-
+    也可以这样：
+```
     packagingOptions{
         exclude 'META-INF/*'   //排除这些文件
         pickFirst 'lib/*/libengine.so'
         pickFirst 'lib/*/libwffmpeg.so'
     }    
-}
 ```
