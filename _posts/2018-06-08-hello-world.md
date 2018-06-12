@@ -5,9 +5,6 @@ category: jekyll
 ---
 ## hello world
 ![aa](/images/mv.png)
-![bb](/mv.png)
-![cc](/mv.png)
-![dd](/mv.jpeg)
+![ee](mv.png)
 
-[ee](mv.png)
 [jekyll主题readme的html版](/README.html)

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: "Android开发依赖冲突解决方案，一个so文件被导入了两次"
 category: bug
 ---
@@ -39,8 +39,8 @@ android {
     }
 }
 ```
-    //If you have a library that's adding some android .so files –like libassmidi.so or libgnustl_shared.
-    so– you have to tell gradle to pick just one when packaging, otherwise you'll get the conflict.
+    If you have a library that's adding some android .so files –like libassmidi.so or libgnustl_shared.so– 
+    you have to tell gradle to pick just one when packaging, otherwise you'll get the conflict.
 
     也可以这样：
 ```

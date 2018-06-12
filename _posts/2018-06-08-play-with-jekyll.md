@@ -3,7 +3,6 @@ layout: post
 title: "玩转jekyll主题，搭建赏心悦目的个人博客"
 categories: jekyll
 ---
-# 玩转jekyll主题，搭建赏心悦目的个人博客
 之前选择云服务器+Wordpress搭建了一个技术博客，详情可查看 [Ubuntu下搭建LNMP环境安装wordpress]()。不过文章没有写几篇，一年的特价服务器倒快要到期了。看了续费的金额觉得不值，都没怎么用呀，只是布置好了环境。听说github也可以搭建博客，于是尝试了一下github + jekyll。
 
 对比下来，github + jecyll更加专注与写作，是写技术博客的程序员更好的选择。
@@ -89,6 +88,10 @@ categories:jekyll
 
 有时候会遇到设置了date行，jekyll主题无法正常生成html文件与索引。这个时候可以删除date行。配置标题上已有时间，一般无需设置date行。
 
+layout: post 会自动生成标题
+layout: default 不会自动生成标题，这里其实可以定制多种布局模版
+
+### 兼容图片与html标记语言
 <p>Small images should be shown at their actual size.</p>
 <p><a href="https://camo.githubusercontent.com/16a9d5241f679b6429fc0597f10816dd2665bbb2/687474703a2f2f706c6163656b697474656e2e636f6d2f672f3330302f3230302f" target="_blank"><img src="https://camo.githubusercontent.com/16a9d5241f679b6429fc0597f10816dd2665bbb2/687474703a2f2f706c6163656b697474656e2e636f6d2f672f3330302f3230302f" alt="" data-canonical-src="https://placekitten.com/g/300/200/" style="max-width:100%;"></a></p>
     
