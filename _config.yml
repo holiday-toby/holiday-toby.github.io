@@ -1,13 +1,13 @@
 # Setup
-title:        大地母亲在护佑着你
-tagline:      A responsive theme for your project on GitHub Pages
+title:        从容取舍即优雅
+tagline:      Elegance is refusal.
 baseurl:      ""
 paginate:     1
 locale:       "en"
 
 # About/contact
 author:
-  name:       月神指引着
+  name:       ldh
   url:        http://yourhomepage.com 
 
 # Build settings
