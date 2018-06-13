@@ -1,13 +1,18 @@
-#Ubuntu下搭建LNMP环境安装wordpress手记#
+---
+layout: post
+title: "Ubuntu下搭建LNMP环境安装wordpress手记"
+category: linux
+---
 
-##1.安装nginx##  
+## 1.安装nginx##  
+
 ```
 #安装
 sudo apt-get install nginx 
 #启动
 sudo service nginx start
 ```
-​            **找到配置文件/etc/nginx/nginx.conf**
+​     **找到配置文件/etc/nginx/nginx.conf**
  - 把worker_procrsses设置为服务器的CPU核数
  - 在event里增加 use epoll
  - worker_connections的值设置大一些，如果是1G内存，不要大于100000/worker_processes
@@ -16,7 +21,9 @@ sudo service nginx start
 #重新加载参数
 sudo nginx -s reload
 ```
-##2.安装MySQL##
+
+## 2.安装MySQL##
+
 ```
 #安装
 sudo apt-get install mysql-server
@@ -25,7 +32,8 @@ sudo apt-get install mysql-server
 ```
 mysql -u root -p
 ```
-##3.安装php
+## 3.安装php
+
 ```
 #默认安装7.0版本
 sudo apt-get install php
@@ -37,6 +45,7 @@ sudo apt-get install php-mysql
 sudo service php7.0-fpm restart
 ```
 ​	修改PHP配置文件
+
 ```
 sudo vim /etc/php/7.0/fpm/pool.d/www.conf
 
@@ -55,6 +64,7 @@ sudo service php-fpm7.0 restart
 ```
 
 ​	修改nginx配置文件
+
 ```
 sudo vim /etc/nginx/sites-enabled/default
  
@@ -78,4 +88,4 @@ sudo service nginx restart
 #nginx 检查配置文件命令是
 sudo nginx -t
 ```
-##4安装Wordpress 的最新版本
+## 4.安装Wordpress 的最新版本

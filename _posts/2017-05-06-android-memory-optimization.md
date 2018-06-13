@@ -1,4 +1,8 @@
-# Android 内存优化笔记
+---
+layout: post
+title: "Android 内存优化笔记"
+category: android
+---
 
 ## What is RAM ?
 

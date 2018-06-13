@@ -1,7 +1,7 @@
 # Setup
 title:        从容取舍即优雅
 tagline:      Elegance is refusal.
-baseurl:      ""
+baseurl:      "ldh"
 paginate:     1
 locale:       "en"
 

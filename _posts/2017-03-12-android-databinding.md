@@ -1,4 +1,8 @@
-#Android Databinding使用手册
+---
+layout: post
+title: "Android Databinding使用手册"
+category: android
+---
 
 ## 1.开启Databinding与基本使用
 ```groovy
@@ -15,7 +19,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-		   <variable
+<variable
             name="user"
             type="com.ldh.User"/>
     </data>
