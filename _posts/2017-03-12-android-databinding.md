@@ -6,12 +6,13 @@ category: android
 
 ## 1.开启Databinding与基本使用
 ```groovy
-#module的build文件中
+//module的build文件中
    dataBinding {
         enabled = true
     }
 ```
 ​        activity_demo.xml文件中添加
+
 ```xml
 <layout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -20,7 +21,7 @@ category: android
 
     <data>
 <variable
-            name="user"
+           	name="user"
             type="com.ldh.User"/>
     </data>
 
@@ -34,6 +35,7 @@ category: android
 </layout
 ```
 ​	替换Activity 的setContentView方法
+
 ```Java
 ActivityDemoBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_demo);
 //数据关联 
@@ -118,7 +120,8 @@ android:onClick = "@{()->presenter.onClickBinding(user)}"
           android:layout_height="wrap_content"
           android:layout="@layout/widget" />
  if (binding.viewstub.getViewStub() != null) {
-     //viewstub在以下方法调用的时候inflate，且只可以inflate一次                 	  binding.viewstub.getViewStub().inflate();
+     //viewstub在以下方法调用的时候inflate，且只可以inflate一次     
+     binding.viewstub.getViewStub().inflate();
  } 
 ```
 
