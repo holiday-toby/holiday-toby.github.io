@@ -46,9 +46,12 @@ du -sk filename 查看指定文件大小
 - [如何优雅地连接ssh](https://segmentfault.com/a/1190000000585526)
 - [SCP命令详解](https://www.cnblogs.com/likui360/p/6011769.html)
 
-    $scp -r root@117.48.201.36:/backup ~/Linux/backup
-    $scp my-key-file.pub loginname@yourdomain.com:.
-
+ ```
+ //远程复制文件夹到本机，默认覆盖
+ $scp -r root@117.48.201.36:/backup ~/Linux/  
+ //复制本地文件到远程Unix
+ $scp my-key-file.pub loginname@yourdomain.com:.
+ ```
 
 ## 文件夹内容查看命令 ls
 
