@@ -1,0 +1,12 @@
+[user]
+	name = ldh
+	email = lingduanhao@gamil.com
+[core]
+	autocrlf = input
+[alias]
+	lm = log --no-merges --color --date=format:'%Y-%m-%d %H:%M:%S' --author='ldh' --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Cblue %s %Cgreen(%cd) %C(bold blue)<%an>%Creset' --abbrev-commit
+[filter "lfs"]
+	process = git-lfs filter-process
+	required = true
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f

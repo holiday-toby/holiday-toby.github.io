@@ -21,7 +21,7 @@ category: linux
    └── Style: 风格配色
    └── Help: 帮助文档
 ```
-### 3.使用pgk install 命令安装htop,man,openssh,vim curl git wget unzip unrar...与apt命令通用
+### 3.使用pgk install 命令安装htop man openssh tree vim curl git wget unzip unrar...与apt命令通用
 ```shell
 pkg search <query>              搜索包
 pkg install <package>           安装包

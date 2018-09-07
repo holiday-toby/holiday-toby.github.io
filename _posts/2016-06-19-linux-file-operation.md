@@ -83,7 +83,7 @@ $echo "hello world" >> test.md
     find /home ! -name "*.txt"  找出/home下不是以.txt结尾的文件
     
     find . -type 类型参数
-​          类型参数列表：
+          类型参数列表：
 - f 普通文件
 - l 符号连接
 - d 目录
