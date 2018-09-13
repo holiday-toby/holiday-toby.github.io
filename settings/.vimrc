@@ -124,3 +124,8 @@ let g:Powerline_symbols ='fancy'
 "}
 
 "}}
+
+"解决termux下的vim汉字乱码
+"set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
+"set enc=utf8
+"set fencs=utf8,gbk,gb2312,gb18030
