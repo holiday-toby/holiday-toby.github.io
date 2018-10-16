@@ -4,6 +4,9 @@ export PATH=$HOME/bin:/usr/local/bin:/usr/local/mysql/bin:/Users/ldh/Library/And
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
 
+#Path to Android 
+export ANDROID_HOME=/Users/ldh/Library/Android/sdk
+
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
@@ -57,7 +60,7 @@ source $ZSH/oh-my-zsh.sh
 #shell中开启vim编辑模式
 set -o vi
 EDITOR=vim
-sxport EDITOR
+export EDITOR
 #[[-s ~/.autojump/etc/profile.d/autojump.sh]]&&. ~/.autojump/etc/profile.d/autojump.sh
 # User configuration
 
@@ -133,3 +136,5 @@ zle -N backward-delete-char check-cmd-backward-delete-char
 ####
 if which pyenv > /dev/null; then eval "$(pyenv init -)"; fi
 export PYENV_ROOT=/usr/local/var/pyenv
+#brew doctor
+export PATH="/usr/local/sbin:$PATH"
