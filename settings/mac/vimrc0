@@ -28,15 +28,16 @@ Plugin 'L9'
 " different version somewhere else.
 " Plugin 'ascenator/L9', {'name': 'newL9'}
 
+Plugin 'iamcco/dict.vim'
 
 
 "md文档的编辑与预览支持，tabular插件必须在vim-markdown之前
 Plugin 'godlygeek/tabular'
-Plugin 'plasticboy/vim-markdown' 
+Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
 "最早安装的插件
-Plugin 'vim-powerline'
-Plugin 'nerdtree'
+Plugin 'powerline/powerline'
+Plugin 'scrooloose/nerdtree'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -69,15 +70,15 @@ let g:mkdp_path_to_chrome = '/Applications/Google\ Chrome.app/Contents/MacOS/Goo
 
 
 syn on                      "语法支持
- 
-"common conf {{             "通用配置 
+
+"common conf {{             "通用配置
 set ai                      "自动缩进
 set bs=2                    "在insert 模式下用退格键删除
 set showmatch               "代码匹配
 set laststatus=2            "总是显示状态行
 set expandtab               "以下三个配置配合使用，设置tab和缩进空格数
-set shiftwidth=4            
-set tabstop=4 
+set shiftwidth=4
+set tabstop=4
 set smartindent
 set softtabstop=4
 set cursorline              "为光标所在行加下划线
@@ -98,34 +99,43 @@ setlocal foldlevel=1        " 设置折叠层数为
 set foldlevelstart=99       " 打开文件是默认不折叠代码
 set mouse=a                 "启动对鼠标的支持，双击标签挑战，见:help
 
-"set foldclose=all          " 设置为自动关闭折叠                
+"set foldclose=all          " 设置为自动关闭折叠
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
                             " 用空格键来开关折叠
-"}}    
-   
+"}}
+
 " conf for tabs 为标签页进行的配置，通过ctrl h/l 切换标签等
 let mapleader =','
 nnoremap <C-l> gt
 nnoremap <C-h> gT
 nnoremap <leader>t :tabe<CR>
 
-"conf for plugins {{  插件相关的配置            
+"conf for plugins {{  插件相关的配置
 "状态栏的配置
 "powerline{
-set guifont=PowerlineSymbols\ for\ Powerline 
-set nocompatible
-set t_Co=256
-let g:Powerline_symbols ='fancy'
+"set guifont=PowerlineSymbols\ for\ Powerline
+"set nocompatible
+"set t_Co=256
+"let g:Powerline_symbols ='fancy'
 "let Powerline_symbols='compatible'
-"} 
-"pathogen是vim用来管理插件的插件
-"pathogen{
-"call pathogen#infect()
 "}
 
 "}}
+set rtp+=/data/data/com.termux/files/home/.vim/bundle/powerline/powerline/bindings/bash/powerline.sh
+
+set nocompatible
+set t_Co=256
+
+let g:minBufExplForceSyntaxEnable = 1
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
+
+set laststatus=2
+set guifont=Source\ Code\ Pro\ for\ Powerline:h12
+set noshowmode
 
 "解决termux下的vim汉字乱码
-"set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
-"set enc=utf8
-"set fencs=utf8,gbk,gb2312,gb18030
+set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
+set enc=utf8
+set fencs=utf8,gbk,gb2312,gb18030
