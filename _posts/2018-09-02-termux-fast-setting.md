@@ -47,9 +47,13 @@ apt edit-sources
 pkg update
 pkg install vim curl git wget unzip unrar
 
-安装git需配置ssh信息
 ```
-### 4.安装ohmyzsh
+安装git需[配置ssh信息](https://blog.csdn.net/hustpzb/article/details/8230454/)  
+git config --global user.name "ldh"  
+git config --global user.email "lin@gmail.com"
+
+### 4.安装termux-ohmyzsh
+在oh-my-zsh基础上有改动，添加了命令颜色信息
 ```
 sh -c "$(curl -fsSL https://github.com/Cabbagec/termux-ohmyzsh/raw/master/install.sh)"
 #如果安装失败，home目录下手动创建termux-ohmyzsh，然后再次手动安装
@@ -70,5 +74,5 @@ chmod +x /bin/cht.sh
 pkg install proot
 termux-chroot
 ```
-### 7.使用python 继续安装python ,vim-python 
+### 8.使用python 继续安装python ,vim-python 
 

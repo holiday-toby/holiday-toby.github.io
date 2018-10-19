@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "hello world"
-category: jekyll 
+category: jekyll
 ---
 
 [TOC]
