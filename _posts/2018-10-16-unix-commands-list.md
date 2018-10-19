@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "常用linux命令记录"
-category:linux
+category: linux
 ---
 #### 1.scp与rsync
 同步远程文件
