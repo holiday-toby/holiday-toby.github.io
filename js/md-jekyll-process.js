@@ -1,14 +1,7 @@
-<head>
-  <meta charset="UTF-8">
-  <title>{{ site.title }}</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#157878">
-  <link rel="stylesheet" href="{{ site.baseurl }}/css/normalize.css">
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
-  <link rel="stylesheet" href="{{ site.baseurl }}/css/cayman.css">
-  <script src="//cdn.bootcss.com/raphael/2.2.0/raphael-min.js"></script>
-  <script src="//cdn.bootcss.com/flowchart/1.6.3/flowchart.js"></script>
-  <script>
+<script src="//cdn.bootcss.com/raphael/2.2.0/raphael-min.js"></script>
+<script src="//cdn.bootcss.com/flowchart/1.6.3/flowchart.js"></script>
+
+<script>
 	function flow(name,f)
 	{
                     var chart = flowchart.parse(f);
@@ -64,8 +57,8 @@
 			cd[i].innerHTML = "<div id=\"" + canvas + "\"></div>"
 			flow(canvas, t);
 		}
+        
 	}
 
 
 </script>
-</head>
