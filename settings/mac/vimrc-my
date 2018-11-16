@@ -16,6 +16,36 @@ Plugin 'VundleVim/Vundle.vim'
 " plugin on GitHub repo
 Plugin 'tpope/vim-fugitive' "添加git语法支持
 
+Plugin 'vim-airline/vim-airline'
+"vim-airline配置:优化vim界面"
+"let g:airline#extensions#tabline#enabled = 1
+" airline设置
+" 显示颜色
+set t_Co=256
+set laststatus=2
+" 使用powerline打过补丁的字体
+let g:airline_powerline_fonts = 1
+" 开启tabline
+let g:airline#extensions#tabline#enabled = 1
+" tabline中当前buffer两端的分隔字符
+let g:airline#extensions#tabline#left_sep = ' '
+" tabline中未激活buffer两端的分隔字符
+let g:airline#extensions#tabline#left_alt_sep = ' '
+" tabline中buffer显示编号
+let g:airline#extensions#tabline#buffer_nr_show = 1
+" 映射切换buffer的键位
+nnoremap [b :bp<CR>
+nnoremap ]b :bn<CR>
+" 映射<leader>num到num buffer
+map <leader>1 :b 1<CR>
+map <leader>2 :b 2<CR>
+map <leader>3 :b 3<CR>
+map <leader>4 :b 4<CR>
+map <leader>5 :b 5<CR>
+map <leader>6 :b 6<CR>
+map <leader>7 :b 7<CR>
+map <leader>8 :b 8<CR>
+map <leader>9 :b 9<CR>
 
 " All of your Plugins mustd be added before the following line
 " 自动补全，依赖python2
@@ -50,7 +80,6 @@ inoremap <expr> <PageDown> pumvisible() ? '\<PageDown>\<C-p>\<C-n>' : '\<PageDow
 inoremap <expr> <PageUp>   pumvisible() ? '\<PageUp>\<C-p>\<C-n>' : '\<PageUp>'
 "
 
-
 "md文档的编辑与预览支持，tabular插件必须在vim-markdown之前
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown' 
@@ -64,6 +93,7 @@ let g:vim_markdown_emphasis_multiline = 0
 set conceallevel=2
 let g:vim_markdown_frontmatter=1
 syntax on "必须设置,否则md标记不能高亮显示 
+let g:mkdp_path_to_chrome = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
 
 
 " vim-scripts 中的插件 "
@@ -114,14 +144,14 @@ let g:NERDTreeIndicatorMapCustom = {
 
 
 "indentLine是一款缩进指示线，由纯字符实现，效果比较完美。
-"开启以后导致md文档中的链接无法正确展开，编辑md文件需要关闭
+""开启以后导致md文档中的链接无法正确展开，编辑md文件需要关闭
 "Plugin 'indentLine.vim'
 "缩进指示线"
-let g:indentLine_char='┆'
-let g:indentLine_enabled = 1
+"let g:indentLine_char='┆'
+"let g:indentLine_enabled = 1
 "
 "自动缩进
-Plugin 'vim-scripts/indentpython.vim'
+"Plugin 'vim-scripts/indentpython.vim'
 "
 "autopep8自动格式化工具，在Normal模式输入:Autopep8或按F8就可以自动依照pep8的标准自动格式化代码。
 Plugin 'tell-k/vim-autopep8' 
@@ -170,13 +200,11 @@ Plugin 'kien/ctrlp.vim'
 
 
 "最早安装的插件,先于插件管理器vundleVim
-Plugin 'vim-powerline'
+"Plugin 'vim-powerline'
 "Plugin 'nerdtree'
 "Plugin 'powerline/powerline'
 "Plugin 'Lokaltog/powerline', {'rtp': 'powerline/bindings/vim/'}
 "Plugin 'scrooloose/nerdtree'
-" plugin from http://vim-scripts.org/vim/scripts.html
-" Plugin 'ascenator/L9', {'name': 'newL9'}
 
 
 call vundle#end()            " required
@@ -193,12 +221,55 @@ filetype plugin indent on    " required 加载vim自带和插件相应的语法�
 " 查阅 :h vundle 获取更多细节和wiki以及FAQ
 " Put your non-Plugin stuff after this line
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""新文件标题
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"新建.c,.h,.sh,.java文件，自动插入文件头 
+autocmd BufNewFile *.cpp,*.[ch],*.sh,*.java exec ":call SetTitle()" 
+""定义函数SetTitle，自动插入文件头 
+func SetTitle() 
+        "如果文件类型为.sh文件 
+        if &filetype == 'sh' 
+                call setline(1, "##########################################################################") 
+                call append(line("."), "# File Name: ".expand("%")) 
+                call append(line(".")+1, "# Author: ldh") 
+                call append(line(".")+2, "# mail: lingduanhao@gmail.com") 
+                call append(line(".")+3, "# Created Time: ".strftime("%c")) 
+                call append(line(".")+4, "#########################################################################") 
+                call append(line(".")+5, "#!/bin/zsh")
+                call append(line(".")+6, "PATH=/home/edison/bin:/home/edison/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/ga
+mes:/snap/bin:/work/tools/gcc-3.4.5-glibc-2.3.6/bin")
+                call append(line(".")+7, "export PATH")
+                call append(line(".")+8, "")
+        else 
+                call setline(1, "/*************************************************************************") 
+                call append(line("."), "        > File Name: ".expand("%")) 
+                call append(line(".")+1, "      > Author:ldh") 
+                call append(line(".")+2, "      > Mail:lingduanhao@gmail.com ") 
+                call append(line(".")+3, "      > Created Time: ".strftime("%c")) 
+                call append(line(".")+4, " ************************************************************************/") 
+                call append(line(".")+5, "")
+        endif
+        if &filetype == 'cpp'
+                call append(line(".")+6, "#include<iostream>")
+        call append(line(".")+7, "using namespace std;")
+                call append(line(".")+8, "")
+        endif
+        if &filetype == 'c'
+                call append(line(".")+6, "#include<stdio.h>")
+                call append(line(".")+7, "")
+        endif
+        "       if &filetype == 'java'
+        "               call append(line(".")+6,"public class ".expand("%"))
+        "               call append(line(".")+7,"")
+        "       endif
+        "新建文件后，自动定位到文件末尾
+        autocmd BufNewFile * normal G
+endfunc 
 
-
-let g:mkdp_path_to_chrome = '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome'
-
-
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"通用设置
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syn on                      "语法支持
  
 "common conf {{             "通用配置 
@@ -214,6 +285,7 @@ set softtabstop=4
 set cursorline              "为光标所在行加下划线
 set number                  "显示行号
 set autoread                "文件在vim之外使用过，自动重新读入
+set autowrite               "自动保存
 
 "set ignorecase              "检索时忽略大小写
 set ignorecase smartcase    "包含大写字母的时候不忽略大小写，只有小写字母时忽略
@@ -228,6 +300,7 @@ set foldcolumn=0            " 设置折叠区域的宽度
 setlocal foldlevel=1        " 设置折叠层数为
 set foldlevelstart=99       " 打开文件是默认不折叠代码
 set mouse=a                 "启动对鼠标的支持，双击标签挑战，见:help
+set clipboard=unnamed       "共享剪贴板  
 
 "set foldclose=all          " 设置为自动关闭折叠                
 nnoremap <space> @=((foldclosed(line('.')) < 0) ? 'zc' : 'zo')<CR>
@@ -240,23 +313,126 @@ nnoremap <C-l> gt
 nnoremap <C-h> gT
 nnoremap <leader>t :tabe<CR>
 
-"conf for plugins {{  插件相关的配置            
 "状态栏的配置
 "powerline{
 set guifont=PowerlineSymbols\ for\ Powerline 
 set nocompatible
 set t_Co=256
-let g:Powerline_symbols ='fancy'
-"let Powerline_symbols='compatible'
+"let g:Powerline_symbols ='fancy'
+let g:Powerline_symbols='compatible'
 "} 
-"pathogen是vim用来管理插件的插件
-"pathogen{
-"call pathogen#infect()
-"}
-
-"}}
 
 "解决termux下的vim汉字乱码
 "set fileencodings=utf-8,gb2312,gb18030,gbk,ucs-bom,cp936,latin1
 "set enc=utf8
 "set fencs=utf8,gbk,gb2312,gb18030
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"Settings For PYTHON
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Quickly Run
+"""""""""""""""""""""""""
+map <F5> :call CompileRunGcc()<CR>
+func! CompileRunGcc()
+        exec "w"
+        if &filetype == 'c'
+                exec "!g++ % -o %<"
+                exec "!time ./%<"
+        elseif &filetype == 'cpp'
+                exec "!g++ % -o %<"
+                exec "!time ./%<"
+        elseif &filetype == 'sh'
+                :!time bash %
+        elseif &filetype == 'python'
+                exec "!time python3 %"
+        elseif &filetype == 'java'
+                exec "!javac %"
+                exec "!java %<"
+        endif
+endfunc
+"按F4运行python"
+"map <F4> :Autopep8<CR> :w<CR> :call RunPython()<CR>
+"function RunPython()
+    "let mp = &makeprg
+    "let ef = &errorformat
+    "let exeFile = expand("%:t")
+    "setlocal makeprg=python\ -u
+    "set efm=%C\ %.%#,%A\ \ File\ \"%f\"\\,\ line\ %l%.%#,%Z%[%^\ ]%\\@=%m
+    "silent make %
+    "copen
+    "let &makeprg = mp
+    "let &errorformat = ef
+"endfunction
+"那个Python自动执行有点bug, 执行后显示执行结果在quick-fix里面, 但是源代码窗口的内容却不见了, 只需要在map后面加个redraw!即可。
+
+
+"C,C++的调试
+map <F8> :call Rungdb()<CR>
+func! Rungdb()
+    exec "w"
+    exec "!g++ % -g -o %<"
+    exec "!gdb ./%<"
+endfunc
+
+let NERDTreeIgnore=['\.pyc$', '\~$'] "ignore files in NERDTree
+
+let python_highlight_all=1
+
+"python with virtualenv support
+"py << EOF
+"import os
+"import sys
+"if 'VIRTUAL_ENV' in os.environ:
+    "project_base_dir = os.environ['VIRTUAL_ENV']
+    "activate_this = os.path.join(project_base_dir, 'bin/activate_this.py')
+    "execfile(activate_this, dict(__file__=activate_this))
+"EOF
+
+
+au BufNewFile,BufRead *.py
+    \ set tabstop=4 |
+    \ set softtabstop=4 |
+    \ set shiftwidth=4 |
+    \ set textwidth=79 |
+    \ set expandtab |
+    \ set autoindent |
+    \ set fileformat=unix |
+
+au BufNewFile,BufRead *.js,*.html,*.css
+    \ set tabstop=2 |
+    \ set softtabstop=2 |
+    \ set shiftwidth=2 |
+
+"标示不必要的空白字符,这里会报错
+"我们希望避免出现多余的空白字符。可以让Vim帮我们标示出来，使其很容易发现并删除
+"au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"键盘命令
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+nmap <leader>w :w!<cr>
+nmap <leader>f :find<cr>
+
+" 映射全选+复制 ctrl+a
+map <C-A> ggVGY
+map! <C-A> <Esc>ggVGY
+map <F12> gg=G
+" 选中状态下 Ctrl+c 复制
+vmap <C-c> "+y
+map lv 0v$
+
+
+"比较文件  
+nnoremap <C-F2> :vert diffsplit 
+"新建标签  
+map <F9> :tabnew .<CR>  
+"打开树状文件目录  
+map <C-F9> \be  
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
