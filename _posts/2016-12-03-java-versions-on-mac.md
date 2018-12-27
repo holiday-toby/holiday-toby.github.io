@@ -1,12 +1,13 @@
 ---
 layout: post
-title: "mac上的不同version版本管理"
+title: "mac上的不同java版本管理"
 category: java
 ---
 
 ### mac环境下java不同版本的管理
 由于发现java控制面板中的版本，命令行版本及Android Studio中的版本均不一致，所以折腾了一番整理在这里。
-1. cd /Library/Java/JavaVirtualMachinesc查看已安装JDK版本,当前版本为在.bash_profile中配置
+1. cd /Library/Java/JavaVirtualMachinesc查看已安装JDK版本,当前版本为在.bash_profile中配置  
+
 ```
 ➜  JavaVirtualMachines la
 total 0
@@ -22,7 +23,8 @@ export PATH = ~/Applications/flutter/bin:${PATH}
 ```
 2. 系统偏好设置中打开java控制面板，显示更新到最新版本Java 9 Update 191.
 查看路径为/Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin/java
-这里是系统java runtime Environment，与JDK(java开发工具)并不会一致。如果想使用最新版本的jdk，可以安装新的JDK并在.bash_profile中修改配置。
+这里是系统java runtime Environment，与JDK(java开发工具)并不会一致。如果想使用最新版本的jdk，可以安装新的JDK并在.bash_profile中修改配置。   
+
 ```
 ➜  bin pwd
 /Library/Internet Plug-Ins/JavaAppletPlugin.plugin/Contents/Home/bin
