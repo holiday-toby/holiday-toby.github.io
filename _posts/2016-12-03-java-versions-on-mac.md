@@ -1,6 +1,6 @@
 ---
 layout: post
-title:"mac上的不同version版本管理"
+title: "mac上的不同version版本管理"
 category: java
 ---
 
