@@ -32,7 +32,6 @@ export PATH = ~/Applications/flutter/bin:${PATH}
 java version "1.8.0_191"
 Java(TM) SE Runtime Environment (build 1.8.0_191-b12)
 Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)
-
 ```
 3. Android Studio中工程配置中(cmd+;)找到java location，既可以配置本机JDK目录的，也可以使用推荐的自带JDK版本
 
