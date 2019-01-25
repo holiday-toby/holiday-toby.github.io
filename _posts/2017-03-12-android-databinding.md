@@ -20,7 +20,11 @@ category: android
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-<variable
+        <import type="android.view.View" />
+
+        <import type="android.text.TextUtils" />
+		
+        <variable
            	name="user"
             type="com.ldh.User"/>
     </data>
@@ -30,7 +34,15 @@ category: android
         android:layout_height="match_parent">
         <!--布局信息。。。-->
       
-      
+       <com.xxx.nmymodule.widget.MyTabItemView
+                android:id="@+id/wode_discount_coupon_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="@{()->presenter.onCouponClick()}"
+                app:itemImage="@drawable/my_my_icon_yhq"
+                app:itemName="优惠券"
+                app:itemState="@{TextUtils.equals(`0`,benefit.coupon.num)?``:benefit.coupon.num+`张优惠券`}" />
+
     </LinearLayout>
 </layout
 ```
