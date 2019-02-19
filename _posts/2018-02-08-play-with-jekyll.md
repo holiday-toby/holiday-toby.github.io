@@ -94,10 +94,11 @@ layout: default 不会自动生成标题，这里其实可以定制多种布局�
 ### 兼容图片与html标记语言
 <p>Small images should be shown at their actual size.</p>
 <p><a href="https://camo.githubusercontent.com/16a9d5241f679b6429fc0597f10816dd2665bbb2/687474703a2f2f706c6163656b697474656e2e636f6d2f672f3330302f3230302f" target="_blank"><img src="https://camo.githubusercontent.com/16a9d5241f679b6429fc0597f10816dd2665bbb2/687474703a2f2f706c6163656b697474656e2e636f6d2f672f3330302f3230302f" alt="" data-canonical-src="https://placekitten.com/g/300/200/" style="max-width:100%;"></a></p>
-    
+
 <p>Large images should always scale down and fit in the content container.</p>
-    
+
 <p><a href="https://camo.githubusercontent.com/afe46418285497605cf4f6376b75f8c818658fb1/687474703a2f2f706c6163656b697474656e2e636f6d2f672f313230302f3830302f" target="_blank"><img src="https://camo.githubusercontent.com/afe46418285497605cf4f6376b75f8c818658fb1/687474703a2f2f706c6163656b697474656e2e636f6d2f672f313230302f3830302f" alt="" data-canonical-src="https://placekitten.com/g/1200/800/" style="max-width:100%;"></a></p>
 
 <pre><code>This is the final element on the page and there should be no margin below this.</code></pre>
 
+![屏幕快照 2019-01-08 下午7.35.19 (/Users/ldh/myblog/images/屏幕快照 2019-01-08 下午7.35.19 (2).png)](../images/屏幕快照 2019-01-08 下午7.35.19 (2).png)

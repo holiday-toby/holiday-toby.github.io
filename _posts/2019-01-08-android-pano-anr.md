@@ -219,6 +219,9 @@ private class MJpegViewThread extends Thread {
 google pixel手机会报权限拒绝，需要root,手中的oppo手机刚好可以正常获取
 ```
 #### 2.找了一台可以获取anr日志的手机复现了这个anr，获取到了anr日志,部分信息摘录如下：
+
+![屏幕快照 2019-01-08 下午7.35.19 (/Users/ldh/myblog/images/屏幕快照 2019-01-08 下午7.35.19 (2).png)](../images/屏幕快照 2019-01-08 下午7.35.19 (2).png)
+
 ```
 "main" prio=5 tid=1 Waiting
   | group="main" sCount=1 dsCount=0 obj=0x74633360 self=0xf52c2500
