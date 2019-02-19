@@ -1,6 +1,7 @@
 ---
 layout: post
 title: "玩转jekyll主题，搭建赏心悦目的个人博客"
+date:   2016-02-09 17:50:00
 categories: jekyll
 ---
 之前选择云服务器+Wordpress搭建了一个技术博客，详情可查看 [Ubuntu下搭建LNMP环境安装wordpress]()。不过文章没有写几篇，一年的特价服务器倒快要到期了。看了续费的金额觉得不值，都没怎么用呀，只是布置好了环境。听说github也可以搭建博客，于是尝试了一下github + jekyll。
