@@ -1,6 +1,6 @@
 ---
 layout: default
-title: "Mac下设置TimeMachine"
+title: "Mac下TimeMachine的配置与使用"
 date: 2019-2-16 12:00:00
 categories: main
 ---
