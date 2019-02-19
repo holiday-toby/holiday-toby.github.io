@@ -101,4 +101,3 @@ layout: default 不会自动生成标题，这里其实可以定制多种布局�
 
 <pre><code>This is the final element on the page and there should be no margin below this.</code></pre>
 
-![屏幕快照 2019-01-08 下午7.35.19 (/Users/ldh/myblog/images/屏幕快照 2019-01-08 下午7.35.19 (2).png)](../images/屏幕快照 2019-01-08 下午7.35.19 (2).png)
