@@ -78,6 +78,8 @@ lrwxr-xr-x  1 ldh  admin    33B Feb 15 11:03 /usr/local/bin/pip3 -> ../Cellar/py
 
 <!--这里是注释-->
 
+这里直接通过brew upgrade 升级软件可以自动删除历史版本。
+
 ```
 #不同版本的python，这里只保留最新的版本，历史版本可以直接删除
 ➜  Cellar cd python@2 

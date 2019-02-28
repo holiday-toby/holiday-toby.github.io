@@ -168,7 +168,7 @@ user.put("hi","world")
 employee.user["hi"]
 ```
 
-##7.高级绑定
+## 7.高级绑定
 
  -  动态变量 RecyclerView
  ```
@@ -194,7 +194,7 @@ contact_item.xml -> ContactItemBinding
 </data>
 ```
 
-##8.双向绑定
+## 8.双向绑定
 - android:text="@={postBody.mobile}"
 - model继承BaseObservable
 ```

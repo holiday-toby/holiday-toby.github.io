@@ -4,7 +4,7 @@ title: "Android 内存优化笔记"
 category: android
 ---
 
-## What is RAM ?
+## RAM的定义
 
 - Registers 寄存器
 
@@ -31,11 +31,14 @@ category: android
 adb shell dumpsys meminfo $package_name or $pid
 ```
 
-##Android的沙盒机制  
+## Android的沙盒机制  
 
 - *继承进程隔离机制与最小权限原则*     
 - 不同的应用有不同的UID，不能互相访问资源
 - 每一个Android应用程序都在它自己的进程中运行，都拥有一个独立的Dalvik虚拟机实例。Dalvik经过优化，允许在有限的内存中同时高效地运行多个虚拟机的实例，并且每一个Dalvik应用作为一个独立的Linux进程执行
+- ART虚拟机
 
-## How
+## 最后
 
+- Android内存优化主要是针对堆（Heap）而言的，当堆中对象的作用域结束的时候，这部分内存也不会立刻被回收，而是等待系统GC进行回收。
+- Java中造成内存泄漏的根本原因是：堆内存中长生命周期的对象持有短生命周期对象的强/软引用，尽管短生命周期对象已经不再需要，但是因为长生命周期对象持有它的引用而导致不能被回收。
