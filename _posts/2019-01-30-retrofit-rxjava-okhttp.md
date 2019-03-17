@@ -79,3 +79,10 @@ category: net
 ## 六、一些非标准格式的请求处理
 
 非标准格式数据，同步请求，非Rxjava处理请求使用RetrofitFactory，其它使用HttpProvider
+
+## 七、遇到的一些坑
+
+1. 一开始没有brokerIntercepter中没有使用TheadLocal，导致同时掉用两个接口的时候，其中一个接口有几率失败
+2. 升级Rxjava2的时候，重新封装了一套新的调用方式，对老的调用方式进行了兼容
+3. 一开始对Retrofit生成的接口service没有进行复用，后来通过HashMap实现了接口生成类的复用
+4. 整个项目需要共用一个OkhttpClient实体，否则有可能导致内存溢出
