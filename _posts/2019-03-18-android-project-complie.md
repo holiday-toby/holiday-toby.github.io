@@ -13,7 +13,7 @@ category: other
 
 [Android 官网的流程图](<https://developer.android.google.cn/studio/build>)
 
-![img](../images/build-process_2x.png)
+![img](/images/build-process_2x.png)
 图 1. 典型 Android 应用模块的构建流程。
 
 如图 1 所示，典型 Android 应用模块的构建流程通常依循下列步骤：

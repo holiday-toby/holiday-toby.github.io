@@ -1,7 +1,7 @@
 ---
 layout: post
-title: "keep foolish,keep hungry!"
-category: other
+title: "Android开发中会遇到的常用Utils"
+category: android
 ---
 
 ### 背景
