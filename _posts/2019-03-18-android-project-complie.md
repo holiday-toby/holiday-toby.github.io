@@ -52,7 +52,7 @@ APK 打包器使用调试或发布密钥库签署您的 APK：
 
 #### 1.aapt报错，一般是资源的问题，也是今天刚好遇到的问题
 
-![](../images/屏幕快照 2019-03-27 下午12.10.47.png)
+![](/images/屏幕快照 2019-03-27 下午12.10.47.png)
 
 ```
 Caused by: org.gradle.process.internal.ExecException: Process 'command '/Users/ldh/Library/Android/sdk/build-tools/27.0.2/aapt'' finished with non-zero exit value 1
