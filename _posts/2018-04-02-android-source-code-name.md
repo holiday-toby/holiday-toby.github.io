@@ -16,20 +16,30 @@ category: android
 
 如是，有以下列表，排名不分先后：
 
-|name  |  翻译 | 常见场合 |备注 |  |  |
-|------| :-----: |:------:|------|------|------|
-|handler|处理者|RejectedExecutionHandler 、Android消息处理机制||||
-|adapter|适配器|各种列表View的适配器||||
-|poxy|代理|动态代理，静态代理||||
-|behavior|行为,表现|策略模式，CoordinatorLayout||||
-|builder|建筑者|构建者模式||||
-|||||||
-|||||||
-|||||||
-|||||||
+|name  |  翻译 | 常用场合 |备注 |
+|------| :-----: |:------:|------|
+|handler|处理者|RejectedExecutionHandler 、Android消息处理机制||
+|adapter|适配器|各种列表View的适配器||
+|poxy|代理|动态代理，静态代理||
+|behavior|行为,表现|策略模式，CoordinatorLayout||
+|builder|建筑者|构建者模式||
+|provider|提供者|||
+|presenter|主持人|||
+|model|模型|||
+|component|组件|||
+|listener|倾听者|||
+|Observer|观察者|||
+|||||
+|||||
+|||||
+|||||
+|||||
+|||||
+|||||
+|||||
 
 
-### 详解
+### 部分字段详解
 
 #### -Handler
 
