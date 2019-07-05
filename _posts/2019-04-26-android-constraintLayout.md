@@ -248,7 +248,7 @@ category: other
 
 总结一下，在ConstraintLayout使用的过程中，如果使用单一维度上的双约束，却不是matchParent或者居中展示，就会很容易导致某个方向上的Margin属性无效，出现这种布局重叠的问题。这里是顶部的layout_marginTop属性失效了。
 
-### 一些小提示
+### Tips
 
 可见，新的ConstraintLayout控件，布局测量中还有一些不完善的地方，需要慢慢去摸索。
 
