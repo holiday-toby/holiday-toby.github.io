@@ -67,6 +67,7 @@ android {
 }
 ```
 - 配置混淆
+
 ```
 ###greenDAO 3
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
@@ -78,8 +79,8 @@ public static java.lang.String TABLENAME;
 -dontwarn org.greenrobot.greendao.database.**
 #If you do not use RxJava:
 -dontwarn rx.**
-
 ```
+
 - 通过注解使用GreenDao
 
 - 数据库的加密与升级
@@ -88,5 +89,8 @@ public static java.lang.String TABLENAME;
 ### 遇到的一些坑
 
 1. 回调处理
+   需要注意onNext不可以传null，这时候使用onCompleted，以及数据请求成功和失败事是否都要处理回调
 2. 缓存问题
+   在查询的时候最好首先清除数据库的缓存，再执行操作。
 3. 数据库升级
+
