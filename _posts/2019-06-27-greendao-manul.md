@@ -80,8 +80,33 @@ public static java.lang.String TABLENAME;
 #If you do not use RxJava:
 -dontwarn rx.**
 ```
+- DaoMaster、具体的Dao 和 DaoSession对象为greedao生成的代码
+```
+DaoMaster
+GreenDao的总入口，负责整个库的运行，实现了SqliteOpenHelper
+DaoSession
+会话层，操作Dao的具体对象，包括DAO对象的注册
+xxEntity
+实体类，和表内容一一对应
+xxDao
+生成的DAO对象，进行具体的数据库操作
+```
+- 通过注解使用GreenDao，以官方demo为例
+```
+@Entity(indexes = {
+    @Index(value = "text, date DESC", unique = true)
+})
+public class Note {
+    @Id
+    private Long id;
 
-- 通过注解使用GreenDao
+    @NotNull
+    private String text;
+    private String comment;
+    private java.util.Date date;
+ }
+
+```
 
 - 数据库的加密与升级
 可以参考[GreenDao3使用说明，包括加密与升级](https://www.jianshu.com/p/4e6d72e7f57a)
