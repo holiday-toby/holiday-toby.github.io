@@ -1,5 +1,5 @@
 ---
-layout: post
+^layout: post
 title: "Android Databinding使用手册"
 category: android
 ---
@@ -41,7 +41,7 @@ category: android
                 android:onClick="@{()->presenter.onCouponClick()}"
                 app:itemImage="@drawable/my_my_icon_yhq"
                 app:itemName="优惠券"
-                app:itemState="@{TextUtils.equals(`0`,benefit.coupon.num)?``:benefit.coupon.num+`张优惠券`}" />
+                app:itemState="@{TextUtils.equals(`0`,benefit.coupon.num)?``:benefit.coupon.num+`张优惠券`}" /> 
 
     </LinearLayout>
 </layout
@@ -172,10 +172,10 @@ employee.user["hi"]
 
  -  动态变量 RecyclerView
  ```
- RecyclerView#onBindViewHolder
+ //在RecyclerView的onBindViewHolder方法中
  final T item = mItems.get(position);
  holder.getBinding().setVariable(BR.item,item);
- #重用的View需要立即刷新
+ //重用的View需要立即刷新
  holder.getBinding().executePendingBindings();
  ```
 

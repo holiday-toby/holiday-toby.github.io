@@ -1,7 +1,7 @@
 ---
 layout: default
 title:  "Welcome to Jekyll!"
-date:   2016-02-12 17:50:00
+date:   2016-02-08 17:50:00
 categories: main
 ---
 
@@ -15,6 +15,7 @@ def print_hi(name)
   puts "Hi, #{name}"
 end
 print_hi('Tom')
+
 #=> prints 'Hi, Tom' to STDOUT.
 {% endhighlight %}
 

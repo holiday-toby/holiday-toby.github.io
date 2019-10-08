@@ -21,7 +21,7 @@ Plugin 'L9'
 "Plugin 'git://git.wincent.com/command-t.git'
 " git repos on your local machine (i.e. when working on your own plugin)
 "Plugin 'file:///home/gmarik/path/to/plugin'
-" The sparkup vim script is in a subdirectory of this repo called vim.
+:" The sparkup vim script is in a subdirectory of this repo called vim.
 " Pass the path to set the runtimepath properly.
 "Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
 " Install L9 and avoid a Naming conflict if you've already installed a
@@ -36,8 +36,14 @@ Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
 "最早安装的插件
+<<<<<<< HEAD:settings/mac/vimrc0
 Plugin 'powerline/powerline'
 Plugin 'scrooloose/nerdtree'
+=======
+Plugin 'vim-powerline'
+Plugin 'nerdtree'
+map <F2> :NERDTreeToggle<CR>
+>>>>>>> 237bcba91ebb6578ba2baab887f378f8173721fc:settings/mac/vimrc-simple
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required

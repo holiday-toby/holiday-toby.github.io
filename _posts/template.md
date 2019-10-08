@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "keep foolish,keep hungry!"
+title: "迷人的天山牧场"
 category: other
 ---
 
