@@ -30,20 +30,14 @@ Plugin 'L9'
 
 Plugin 'iamcco/dict.vim'
 
-
 "md文档的编辑与预览支持，tabular插件必须在vim-markdown之前
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'suan/vim-instant-markdown'
 "最早安装的插件
-<<<<<<< HEAD:settings/mac/vimrc0
-Plugin 'powerline/powerline'
-Plugin 'scrooloose/nerdtree'
-=======
 Plugin 'vim-powerline'
 Plugin 'nerdtree'
 map <F2> :NERDTreeToggle<CR>
->>>>>>> 237bcba91ebb6578ba2baab887f378f8173721fc:settings/mac/vimrc-simple
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
