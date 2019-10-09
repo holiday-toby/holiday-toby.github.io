@@ -72,6 +72,14 @@ dao.detachAll();
 
 >org.greenrobot.greendao.gradle.AndroidPluginSourceProvider.addGeneratorTask(SourceProvider.kt:62)
 
+查看[greenDao官方github的issues](https://github.com/greenrobot/greenDAO/issues/942#issuecomment-511774178)，里面提到注释掉build.gradle的一行代码就好
+
+```
+targetGenDir 'src/main/java'
+```
+
+这一句指定生成类的文件目录用到了上面过时的api。据说会在下一版本中修复。
+
 详细报错如下。
 
 ```
