@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "迷人的天山牧场"
+title: "面向浏览器编程"
 category: other
 ---
 
