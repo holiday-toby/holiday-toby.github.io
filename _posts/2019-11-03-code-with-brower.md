@@ -1,8 +1,10 @@
 ---
 layout: post
-title: "快速上手新语言之code everywhere"
+title: "新语言学习之code everywhere"
 category: other
 ---
+
+学习的目的不在于快，而在于真正地掌握知识。
 
 ### Repl.it上网页编程
 
