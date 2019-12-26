@@ -5,7 +5,7 @@ category: bug
 ---
 ### 问题描述： 
 
-> Error:Execution failed for task ':newbroker:transformNativeLibsWithMergeJniLibsForDebug'.
+> Error:Execution failed for task ':app:transformNativeLibsWithMergeJniLibsForDebug'.
 > More than one file was found with OS independent path 'lib/armeabi/libengine.so'
 
 在引入一个依赖的时候，如果报了这种错误，一般是两个library都使用了同一个.so文件，解决方案有两个
@@ -41,7 +41,7 @@ android {
 ```
     If you have a library that's adding some android .so files –like libassmidi.so or libgnustl_shared.so– 
     you have to tell gradle to pick just one when packaging, otherwise you'll get the conflict.
-
+    
     也可以这样：
 ```
     packagingOptions{
