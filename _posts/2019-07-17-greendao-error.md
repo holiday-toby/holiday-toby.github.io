@@ -80,6 +80,10 @@ targetGenDir 'src/main/java'
 
 这一句指定生成类的文件目录用到了上面过时的api。据说会在下一版本中修复。
 
+**注释：这个问题在greendao的最新版本里面已经修复，赶在了19年底之前**
+
+` implementation 'org.greenrobot:greendao:3.2.2' `
+
 详细报错如下。
 
 ```

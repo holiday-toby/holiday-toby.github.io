@@ -110,7 +110,7 @@ nnoremap <C-l> gt
 nnoremap <C-h> gT
 nnoremap <leader>t :tabe<CR>
 
-"conf for plugins {{  插件相关的配置
+"conf for plugins  插件相关的配置
 "状态栏的配置
 "powerline{
 "set guifont=PowerlineSymbols\ for\ Powerline
@@ -120,7 +120,7 @@ nnoremap <leader>t :tabe<CR>
 "let Powerline_symbols='compatible'
 "}
 
-"}}
+
 set rtp+=/data/data/com.termux/files/home/.vim/bundle/powerline/powerline/bindings/bash/powerline.sh
 
 set nocompatible
