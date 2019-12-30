@@ -77,11 +77,11 @@ Build cache (/Users/ldh/.gradle/caches/build-cache-1) has not been cleaned up in
 
 问题是怎么确定是aar覆写了这些jdk的核心类，一般不会有程序员做这种事吧～～
 
-忽然想到可以在AS中连续两次按下command+O，应该可以搜索到SDK中的类。![35021574675668_.pic](/images/35021574675668_.pic.jpg)
+忽然想到可以在AS中连续两次按下command+O，应该可以搜索到SDK中的类。![35021574675668_pic](/images/35021574675668_pic.jpg)
 
 这一下问题清晰了，找到这个aar，改后缀为zip，解压之后获取到classes.jar文件，扔到jd-gui里面，找到了这些被覆盖的类，于是发给类SDK提供方要求检查一下为啥打入了java的核心类。
 
-![2031574678993_.pic](/images/2031574678993_.pic.jpg)
+![2031574678993_pic](/images/2031574678993_pic.jpg)
 
 
 
