@@ -17,3 +17,5 @@ plugins:
   - jekyll-paginate
  #- jekyll-feed
 #Others
+
+theme: jekyll-theme-hacker
