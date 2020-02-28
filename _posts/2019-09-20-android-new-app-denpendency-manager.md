@@ -4,8 +4,6 @@ title: "使用gradle管理android项目中的依赖包"
 category: other
 ---
 
-
-
 ### 查看依赖信息
 
 1. 命令行方式

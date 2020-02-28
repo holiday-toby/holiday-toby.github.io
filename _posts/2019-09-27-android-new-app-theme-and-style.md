@@ -4,6 +4,8 @@ title: "新APP打造之主题与样式配置"
 category: other
 ---
 
+Android开发中，样式的配置，比较零散，分散在各个xml文件中，需要系统整理下。可参考一下官方的demo。
+
 ### 主题配置(Theme)
 
 [总结一下Android中主题(Theme)的正确玩法](https://www.cnblogs.com/zhouyou96/p/5323138.html)
@@ -58,12 +60,34 @@ Theme.AppCompat.Black 兼容主题的黑色主题
 Theme.AppCompat.Light 兼容主题的白色主题
 ```
 
+### 标题栏相关
+
+[新APP打造之标题栏](https://duanhaoling.github.io/other/2019/09/29/android-new-app-toolbar-and-actionbar.html)
+
+```
+     <!--无标题栏-->
+    <style name="AppTheme.NoActionBar" parent="@style/AppBaseTheme">
+        <item name="android:windowActionBar">false</item>
+        <item name="windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <!--无标题栏、无状态栏-->
+    <style name="AppTheme.FullScreen" parent="@style/AppTheme.NoActionBar">
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+    </style>
+
+    <!--无标题栏、透明背景、过场动画为dialog类型-->
+    <style name="AppTheme.TransParentBg" parent="@style/AppTheme.NoActionBar">
+        <item name="android:windowBackground">@color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:colorBackgroundCacheHint">@null</item>
+        <item name="android:windowAnimationStyle">@style/Animation.AppCompat.Dialog</item>
+    </style>
+```
+
 ### 控件样式(style)
-
-
-
-### 标题栏
-
-
 
 ### 白天夜间模式

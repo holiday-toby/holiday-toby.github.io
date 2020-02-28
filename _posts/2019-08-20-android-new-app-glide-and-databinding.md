@@ -6,7 +6,7 @@ category: other
 
 ### 方案
 
-使用google的glide开源框架，结合databinding使用，主要涉及到了@BindingAdapter注解的使用。
+使用google的glide开源框架，结合databinding使用，主要涉及到了@BindingAdapter注解（自定义属性）的使用。
 
 ###  步骤
 

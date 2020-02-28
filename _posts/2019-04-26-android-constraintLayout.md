@@ -1,8 +1,6 @@
----
 layout: post
 title: "ConstraintLayout中使用paddingTop的兼容性问题"
 category: other
----
 
 ### 问题一
 
@@ -151,7 +149,7 @@ category: other
             android:layout_marginLeft="@dimen/dp_4"
             android:layout_marginBottom="@dimen/dp_4"
             android:background="@drawable/bg_video_duration"
-            android:textColor="@color/brokerWhiteColor"
+            android:textColor="@color/appWhiteColor"
             app:layout_constraintBottom_toBottomOf="@+id/iv_video_cover"
             app:layout_constraintStart_toStartOf="@id/iv_video_cover"
             tools:text="00:03:20" />
@@ -227,7 +225,7 @@ category: other
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/dp_15"
-            android:button="@drawable/cb_broker"
+            android:button="@drawable/cb_app"
             android:clickable="false"
             android:focusable="false"
             app:layout_constraintBottom_toBottomOf="parent"

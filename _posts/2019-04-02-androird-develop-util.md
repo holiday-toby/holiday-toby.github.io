@@ -28,13 +28,10 @@ Android开发中有很多常用功能都封装了util，作为开发的模版，
 
 #### ***[ldh-android-utils](https://github.com/duanhaoling/ldh-android-utils)***
 
-
-
-
-
 Todo-List
 - [ ] 做好项目索引
 - [ ] 目录可以同步到这里
 - [ ] 勿以简单而不为，不积硅步无以至千里
 - [ ] 后续其实可以新建单独的TinkerDemo，ArouterDemo，FlutterDemo，KotilinDemo，ViewDemo，AnimationDemo等等，不必把所有的技术展示放在一个综合项目里，这些应该很容易。
+- [x] Dash其实一个更好的Uitils管理软件，最重要的是得分好类，了解用法。
 
