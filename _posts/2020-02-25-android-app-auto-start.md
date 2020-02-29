@@ -8,9 +8,9 @@ category: other
 
 #### 一、Android 8.0以后的静态注册广播限制及开机广播
 
-由一个线上问题说起：
+由一个线上问题说起：![OPPO后台推送适配](https://i.loli.net/2020/02/29/eHgiM7WtGwyYhID.jpg)
 
-![OPPO后台推送适配](../images/OPPO后台推送适配.jpeg)
+
 
 [Android隐式广播例外情况](https://developer.android.google.cn/guide/components/broadcast-exceptions)
 

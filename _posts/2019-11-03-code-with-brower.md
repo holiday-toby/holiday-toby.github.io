@@ -4,7 +4,7 @@ title: "新语言学习之code everywhere"
 category: other
 ---
 
-学习的目的不在于快，而在于真正地掌握知识。
+学习的目的不在于快，而在于真正地掌握知识。兴趣是最好的老师。
 
 ### Repl.it上网页编程
 

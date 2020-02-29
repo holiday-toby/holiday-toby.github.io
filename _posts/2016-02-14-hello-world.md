@@ -15,7 +15,7 @@ category: jekyll
 ### 一、基本语法
 
 >图片展示
-![aa](/images/mv.png "图片标题")
+![aa](../images/mv.png "图片标题")
 
 1. 水平线  
 三个「 - 」或「 * 」都可以画出一条水平分割线
@@ -23,13 +23,13 @@ category: jekyll
 -----
 ***
 2. 图片展示
-  ![jpeg图片](/images/mv.jpeg  "妹子")
+    ![jpeg图片](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/mv.jpeg  "妹子")
 3. 换行操作  
-  行尾两个空格+enter(vim中需要使用)
+    行尾两个空格+enter(vim中需要使用)
 4. 粗体与斜体
-  **这个是粗体** 
-  *这个是斜体* 
-  ***这个是粗体加斜体***
+    **这个是粗体** 
+    *这个是斜体* 
+    ***这个是粗体加斜体***
 
 ### 二、制作高级列表
 

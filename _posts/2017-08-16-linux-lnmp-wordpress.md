@@ -1,10 +1,10 @@
 ---
 layout: post
 title: "Ubuntu下搭建LNMP环境安装wordpress手记"
-category: linux
+category: tools
 ---
 
-## 1.安装nginx##  
+## 1.安装nginx ##  
 
 ```
 #安装
@@ -89,3 +89,5 @@ sudo service nginx restart
 sudo nginx -t
 ```
 ## 4.安装Wordpress 的最新版本
+
+最后一步，一定要使用最新版本，之前参考mactalk的攻略，由于里面是历史版本一直没法正常访问。

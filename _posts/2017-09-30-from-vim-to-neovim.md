@@ -2,7 +2,7 @@
 layout: default
 title:  "从Vim到NeoVim一些配置备案"
 date:   2017-09-30 17:50:00
-categories: linux 
+categories: tools
 ---
 ##从Vim到NeoVim一些配置备案
 

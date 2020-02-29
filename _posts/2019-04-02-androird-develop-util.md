@@ -26,7 +26,7 @@ Android开发中有很多常用功能都封装了util，作为开发的模版，
 
 ### github上的链接如下
 
-#### ***[ldh-android-utils](https://github.com/duanhaoling/ldh-android-utils)***
+#### ***[ldh-android-utils](https://github.com/duanholiy/ldh-android-utils)***
 
 Todo-List
 - [ ] 做好项目索引

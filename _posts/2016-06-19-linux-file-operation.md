@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Linux下常用文件与文件夹操作命令"
-category: linux
+category: tools
 ---
 
 ## 查看文件和文件夹大小du与df

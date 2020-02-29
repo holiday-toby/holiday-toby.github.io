@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "termux手机终端快速配置"
-category: linux
+category: tools
 ---
 
 

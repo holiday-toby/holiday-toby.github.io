@@ -1,8 +1,10 @@
 ---
 layout: post
-title: "android性能调试工具的一些使用技巧"
+title: "Android Studio性能调试工具tips"
 category: other
 ---
+
+
 
 ## 1. 使用 Layout Inspector 调试布局
 
