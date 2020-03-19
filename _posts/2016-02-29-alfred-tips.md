@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Alfred使用tips"
+title: "Alfred使用Tips"
 category: tools
 ---
 
