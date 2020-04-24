@@ -46,8 +46,8 @@ category: net
 
 ## 三、接口调用方式
 
-- 定义一个接口![屏幕快照 2018-05-07 下午2.56.08](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/屏幕快照%202018-05-07%20下午2.56.08.png)
-- 业务调用![屏幕快照 2018-05-07 下午2.46.22](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/屏幕快照%202018-05-07%20下午2.46.22.png)
+- 定义一个接口![屏幕快照 2018-05-07 下午2.56.08](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/屏幕快照%202018-05-07%20下午2.56.08.png)
+- 业务调用![屏幕快照 2018-05-07 下午2.46.22](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/屏幕快照%202018-05-07%20下午2.46.22.png)
 
 ## 四、框架整体结构
 
@@ -55,7 +55,7 @@ category: net
 
 基本思路是，拿到数据后，我们可以对请求返回的最外层数据，统一进行异常的处理和非空的判断，页面状态的判断，这样就不用在每个接口去做一堆重复的操作了。
 
-![屏幕快照 2018-05-08 下午12.25.39](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/屏幕快照%202018-05-08%20下午12.25.39.png)项目中的progressBar是封装在BaseActivity中的，而且有多种形式，这里没有做封装。如果加入进来也很方便。
+![屏幕快照 2018-05-08 下午12.25.39](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/屏幕快照%202018-05-08%20下午12.25.39.png)项目中的progressBar是封装在BaseActivity中的，而且有多种形式，这里没有做封装。如果加入进来也很方便。
 
 ## 五、代码细节
 

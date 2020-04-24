@@ -23,7 +23,7 @@ category: jekyll
 -----
 ***
 2. 图片展示
-    ![jpeg图片](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/mv.jpeg  "妹子")
+    ![jpeg图片](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/mv.jpeg  "妹子")
 3. 换行操作  
     行尾两个空格+enter(vim中需要使用)
 4. 粗体与斜体

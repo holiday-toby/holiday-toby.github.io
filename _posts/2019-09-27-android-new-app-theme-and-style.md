@@ -62,7 +62,7 @@ Theme.AppCompat.Light 兼容主题的白色主题
 
 ### 标题栏相关
 
-[新APP打造之标题栏](https://duanholiy.github.io/other/2019/09/29/android-new-app-toolbar-and-actionbar.html)
+[新APP打造之标题栏](https://holiday-toby.github.io/other/2019/09/29/android-new-app-toolbar-and-actionbar.html)
 
 ```
      <!--无标题栏-->

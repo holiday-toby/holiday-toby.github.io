@@ -11,4 +11,4 @@ category: tools
  	2.[简洁的 Mac 图床客户端 uPic](https://blog.svend.cc/upic/)  
 ​     
 
-![99a870f72bf14b1a8e0c6e2a1e79a3c0_th](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/99a870f72bf14b1a8e0c6e2a1e79a3c0_th.jpg)
+![99a870f72bf14b1a8e0c6e2a1e79a3c0_th](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/99a870f72bf14b1a8e0c6e2a1e79a3c0_th.jpg)

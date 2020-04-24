@@ -11,10 +11,10 @@ category: other
    ```
    ➜  MyProject git:(develop) ./gradlew :app:dependencies > ./dependen.txt
    ```
-   ![屏幕快照 2019-09-25 下午5.34.56](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/屏幕快照%202019-09-25%20下午5.34.56.png)
+   ![屏幕快照 2019-09-25 下午5.34.56](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/屏幕快照%202019-09-25%20下午5.34.56.png)
 2. 鼠标操作
 
-   ![屏幕快照 2019-09-25 下午5.37.15](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/屏幕快照%202019-09-25%20下午5.37.15.png)
+   ![屏幕快照 2019-09-25 下午5.37.15](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/屏幕快照%202019-09-25%20下午5.37.15.png)
 
 
 

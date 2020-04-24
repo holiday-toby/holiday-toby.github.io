@@ -13,7 +13,7 @@ category: other
 
 [Android 官网的流程图](<https://developer.android.google.cn/studio/build>)
 
-![img](https://duanholiy.github.io/images/build-process_2x.png)
+![img](https://holiday-toby.github.io/images/build-process_2x.png)
 图 1. 典型 Android 应用模块的构建流程。
 
 如图 1 所示，典型 Android 应用模块的构建流程通常依循下列步骤：
@@ -52,7 +52,7 @@ APK 打包器使用调试或发布密钥库签署您的 APK：
 
 #### 1.aapt报错，一般是资源的问题，也是今天刚好遇到的问题
 
-![](https://cdn.jsdelivr.net/gh/duanholiy/imageBed@master/uPic/屏幕快照%202019-03-27%20下午12.10.47.png)
+![](https://cdn.jsdelivr.net/gh/holiday-toby/imageBed@master/uPic/屏幕快照%202019-03-27%20下午12.10.47.png)
 
 ```
 Caused by: org.gradle.process.internal.ExecException: Process 'command '/Users/ldh/Library/Android/sdk/build-tools/27.0.2/aapt'' finished with non-zero exit value 1
