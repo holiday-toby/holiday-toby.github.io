@@ -1,7 +1,8 @@
+---
 layout: post
 title: "android中实现图文混排"
 category: other
-
+---
 UI设计师需要实现如下图的效果，图中的描述信息由4个部分+3个分割线组成，这里如果使用多个view无法合理的换行（最后一个textview换行会导致展示错乱），发现用SpannableStringBuilder 来实现是最方便的选择。
 
 这应该也是聊天中文字表情混排的基本实现。
@@ -42,6 +43,28 @@ UI设计师需要实现如下图的效果，图中的描述信息由4个部分+3
    ```
    
    这里考虑到了图片左右各有5dp的间距
+   
+   还有一种绘制方式，使用矢量图更加简洁灵活
+   
+   ```xml
+   <vector xmlns:android="http://schemas.android.com/apk/res/android"
+       android:width="10dp"
+       android:height="8dp"
+       android:viewportWidth="10"
+       android:viewportHeight="8">
+   
+   
+       <path
+           android:name="septalLine"
+           android:pathData="M 5,0 l 0,10"
+           android:strokeWidth="0.5"
+           android:strokeAlpha="1"
+           android:strokeColor="@color/septalLineColor" />
+   
+   </vector>
+   ```
+   
+   
    
 2. 创建SpannableStringBuilder
 
