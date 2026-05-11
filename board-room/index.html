@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>棋局大厅</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main id="entryView" class="entry-shell">
+      <section class="entry-panel" aria-labelledby="entryTitle">
+        <div class="title-block">
+          <p class="eyebrow">Board Room</p>
+          <h1 id="entryTitle">棋局大厅</h1>
+        </div>
+
+        <div class="game-choice-grid" aria-label="选择玩法">
+          <button class="game-choice" type="button" data-game="gomoku">
+            <span class="choice-mark gomoku-mark" aria-hidden="true"></span>
+            <span>
+              <strong>五子棋</strong>
+              <small>15 路连五</small>
+            </span>
+          </button>
+          <button class="game-choice" type="button" data-game="cannons">
+            <span class="choice-mark cannon-mark" aria-hidden="true">炮</span>
+            <span>
+              <strong>三炮十五兵</strong>
+              <small>5 路围捕</small>
+            </span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <main id="gameView" class="app-shell" hidden>
+      <section class="game-area" aria-label="棋盘">
+        <div class="board-wrap">
+          <canvas id="board" width="760" height="760" aria-label="棋盘"></canvas>
+          <div id="thinking" class="thinking" hidden>电脑思考中</div>
+          <div id="resultEffect" class="result-effect" hidden aria-live="polite">
+            <span class="result-icon" aria-hidden="true"></span>
+            <strong id="resultTitle"></strong>
+            <span id="resultDetail"></span>
+          </div>
+        </div>
+      </section>
+
+      <aside class="side-panel">
+        <div class="panel-actions">
+          <button id="backToMenu" type="button" title="返回入口">
+            <span aria-hidden="true">←</span>
+            <span>入口</span>
+          </button>
+          <button id="soundToggle" type="button" title="声音">
+            <span aria-hidden="true">♪</span>
+            <span id="soundText">声音 开</span>
+          </button>
+        </div>
+
+        <div class="title-block">
+          <p class="eyebrow" id="gameKicker">Gomoku</p>
+          <h1 id="gameTitle">五子棋</h1>
+        </div>
+
+        <div class="status-card">
+          <div class="status-row">
+            <span>当前</span>
+            <strong id="turnText">黑棋</strong>
+          </div>
+          <div class="status-message" id="statusText">黑棋先行</div>
+        </div>
+
+        <div class="control-group" id="sideControl" hidden>
+          <label for="sideSelect">你的阵营</label>
+          <select id="sideSelect">
+            <option value="cannon" selected>炮兵</option>
+            <option value="soldier">小兵</option>
+          </select>
+        </div>
+
+        <div class="control-group">
+          <label for="difficulty">电脑难度</label>
+          <select id="difficulty">
+            <option value="easy">简单</option>
+            <option value="hard" selected>困难</option>
+            <option value="madness">疯狂</option>
+          </select>
+        </div>
+
+        <div class="button-row">
+          <button id="newGame" type="button" class="primary-button" title="重新开局">
+            <span aria-hidden="true">↻</span>
+            <span>重新开局</span>
+          </button>
+          <button id="undoMove" type="button" title="悔棋">
+            <span aria-hidden="true">←</span>
+            <span>悔棋</span>
+          </button>
+        </div>
+
+        <div class="score-grid" aria-label="战绩">
+          <div>
+            <span>你</span>
+            <strong id="humanWins">0</strong>
+          </div>
+          <div>
+            <span>电脑</span>
+            <strong id="computerWins">0</strong>
+          </div>
+          <div>
+            <span>平局</span>
+            <strong id="draws">0</strong>
+          </div>
+        </div>
+
+        <ol id="moveList" class="move-list" aria-label="落子记录"></ol>
+      </aside>
+    </main>
+
+    <script src="scripts/core.js"></script>
+    <script src="scripts/gomoku.js"></script>
+    <script src="scripts/cannons.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>

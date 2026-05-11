@@ -4,6 +4,15 @@ title: {{ site.name }}
 ---
 
 <div id="home">
+  <section class="home-feature-card" aria-labelledby="boardRoomTitle">
+    <div>
+      <p class="home-feature-kicker">Game</p>
+      <h1 id="boardRoomTitle">棋局大厅</h1>
+      <p>在线体验五子棋与三炮十五兵，支持三档电脑难度、阵营选择、背景音与落子音效。</p>
+    </div>
+    <a class="home-feature-link" href="{{ site.baseurl }}/board-room/">进入棋局大厅</a>
+  </section>
+
   <h1>Blog Posts</h1>
   <ul class="posts">
     {% for post in site.posts %}
