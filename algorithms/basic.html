@@ -13,11 +13,43 @@ title: 基础算法
   <section class="algorithm-section">
     <h2>排序</h2>
     <p>重点掌握快排、归并、堆排序，以及稳定排序和非稳定排序的差异。</p>
+    <div class="algorithm-visual" aria-label="快速排序分区示意图">
+      <svg viewBox="0 0 760 210" role="img">
+        <rect class="visual-soft" x="70" y="74" width="70" height="48" rx="8" />
+        <rect class="visual-soft" x="150" y="74" width="70" height="48" rx="8" />
+        <rect class="visual-accent" x="230" y="74" width="70" height="48" rx="8" />
+        <rect class="visual-soft" x="310" y="74" width="70" height="48" rx="8" />
+        <rect class="visual-soft" x="390" y="74" width="70" height="48" rx="8" />
+        <rect class="visual-soft" x="470" y="74" width="70" height="48" rx="8" />
+        <rect class="visual-soft" x="550" y="74" width="70" height="48" rx="8" />
+        <text x="105" y="104" text-anchor="middle">3</text>
+        <text x="185" y="104" text-anchor="middle">1</text>
+        <text x="265" y="104" text-anchor="middle" fill="#fff">5</text>
+        <text x="345" y="104" text-anchor="middle">8</text>
+        <text x="425" y="104" text-anchor="middle">6</text>
+        <text x="505" y="104" text-anchor="middle">2</text>
+        <text x="585" y="104" text-anchor="middle">7</text>
+        <path class="visual-line" d="M265 130 C225 178 145 178 105 130" />
+        <path class="visual-line" d="M265 130 C340 178 520 178 585 130" />
+        <text x="155" y="184" text-anchor="middle">小于 pivot</text>
+        <text x="475" y="184" text-anchor="middle">大于 pivot</text>
+        <text x="265" y="44" text-anchor="middle">pivot</text>
+      </svg>
+    </div>
     <ul class="algorithm-list">
       <li><strong>快速排序：</strong>平均 O(n log n)，工程里常见，核心是分区。</li>
       <li><strong>归并排序：</strong>稳定，适合链表排序和外部排序。</li>
       <li><strong>堆排序：</strong>适合 Top K 和优先级场景。</li>
     </ul>
+    <pre class="algorithm-code"><code class="language-python">def quick_sort(nums):
+    if len(nums) &lt;= 1:
+        return nums
+
+    pivot = nums[len(nums) // 2]
+    left = [x for x in nums if x &lt; pivot]
+    middle = [x for x in nums if x == pivot]
+    right = [x for x in nums if x &gt; pivot]
+    return quick_sort(left) + middle + quick_sort(right)</code></pre>
   </section>
 
   <section class="algorithm-section">
@@ -28,6 +60,15 @@ title: 基础算法
       <li>左边界 / 右边界：处理重复元素和范围查询。</li>
       <li>二分答案：把最优解问题转成可判定问题。</li>
     </ul>
+    <pre class="algorithm-code"><code class="language-python">def lower_bound(nums, target):
+    left, right = 0, len(nums)
+    while left &lt; right:
+        mid = (left + right) // 2
+        if nums[mid] &lt; target:
+            left = mid + 1
+        else:
+            right = mid
+    return left</code></pre>
   </section>
 
   <section class="algorithm-section">

@@ -492,6 +492,65 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
 }
 
+.algorithm-visual {
+  overflow: hidden;
+  border: 1px solid #dce6f0;
+  border-radius: 0.45rem;
+  background: linear-gradient(135deg, #f7fbfb, #ffffff);
+}
+
+.algorithm-visual svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.algorithm-visual .visual-line {
+  stroke: #b9d3df;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.algorithm-visual .visual-accent {
+  fill: #159957;
+}
+
+.algorithm-visual .visual-blue {
+  fill: #155799;
+}
+
+.algorithm-visual .visual-soft {
+  fill: #eaf4f4;
+  stroke: #b9d3df;
+  stroke-width: 2;
+}
+
+.algorithm-visual text {
+  fill: #155799;
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.algorithm-code {
+  overflow: auto;
+  margin: 0;
+  padding: 1rem;
+  border: 1px solid #dce6f0;
+  border-radius: 0.45rem;
+  background: #f3f6fa;
+  color: #35535f;
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+
+.algorithm-code code {
+  padding: 0;
+  background: transparent;
+  color: inherit;
+  white-space: pre;
+}
+
 @media screen and (max-width: 42em) {
   .home-dashboard {
     grid-template-columns: 1fr;

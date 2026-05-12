@@ -13,16 +13,57 @@ title: AI 时代算法
   <section class="algorithm-section">
     <h2>向量检索</h2>
     <p>向量检索是 RAG、AI 搜索、推荐系统的重要基础。</p>
+    <div class="algorithm-visual" aria-label="向量检索从问题到相似文档的流程图">
+      <svg viewBox="0 0 760 220" role="img">
+        <rect class="visual-soft" x="70" y="78" width="118" height="54" rx="10" />
+        <rect class="visual-accent" x="245" y="78" width="118" height="54" rx="10" />
+        <circle class="visual-blue" cx="455" cy="105" r="44" />
+        <rect class="visual-soft" x="590" y="48" width="110" height="42" rx="8" />
+        <rect class="visual-soft" x="590" y="106" width="110" height="42" rx="8" />
+        <rect class="visual-soft" x="590" y="164" width="110" height="42" rx="8" />
+        <path class="visual-line" d="M188 105 H245 M363 105 H411 M499 88 L590 70 M501 105 H590 M499 122 L590 185" />
+        <text x="129" y="111" text-anchor="middle">问题</text>
+        <text x="304" y="111" text-anchor="middle" fill="#fff">Embedding</text>
+        <text x="455" y="111" text-anchor="middle" fill="#fff">ANN</text>
+        <text x="645" y="75" text-anchor="middle">文档 A</text>
+        <text x="645" y="133" text-anchor="middle">文档 B</text>
+        <text x="645" y="191" text-anchor="middle">文档 C</text>
+        <text x="380" y="34" text-anchor="middle">把语义变成向量，再找最近邻</text>
+      </svg>
+    </div>
     <ul class="algorithm-list">
       <li><strong>Embedding：</strong>把文本、图片、用户行为表示成向量。</li>
       <li><strong>ANN：</strong>近似最近邻检索，用速度换取可接受的召回。</li>
       <li><strong>HNSW / FAISS：</strong>工程中常见的向量检索方案。</li>
     </ul>
+    <pre class="algorithm-code"><code class="language-python">import math
+
+def cosine_similarity(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    norm_a = math.sqrt(sum(x * x for x in a))
+    norm_b = math.sqrt(sum(y * y for y in b))
+    return dot / (norm_a * norm_b)
+
+def search(query_vec, docs, top_k=3):
+    scored = [
+        (cosine_similarity(query_vec, doc_vec), doc_id)
+        for doc_id, doc_vec in docs.items()
+    ]
+    return sorted(scored, reverse=True)[:top_k]</code></pre>
   </section>
 
   <section class="algorithm-section">
     <h2>机器学习基础</h2>
     <p>至少理解线性回归、决策树、XGBoost、KMeans 这些经典模型的目标和适用场景。</p>
+    <pre class="algorithm-code"><code class="language-python">def predict_linear(x, weight, bias):
+    return weight * x + bias
+
+def mse_loss(samples, weight, bias):
+    errors = [
+        (predict_linear(x, weight, bias) - y) ** 2
+        for x, y in samples
+    ]
+    return sum(errors) / len(errors)</code></pre>
   </section>
 
   <section class="algorithm-section">

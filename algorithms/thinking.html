@@ -13,6 +13,25 @@ title: 算法思想
   <section class="algorithm-section">
     <h2>递归与分治</h2>
     <p>递归关注终止条件和状态传递；分治强调把大问题拆成可合并的小问题。</p>
+    <div class="algorithm-visual" aria-label="分治递归树示意图">
+      <svg viewBox="0 0 760 230" role="img">
+        <circle class="visual-accent" cx="380" cy="46" r="30" />
+        <circle class="visual-blue" cx="250" cy="118" r="28" />
+        <circle class="visual-blue" cx="510" cy="118" r="28" />
+        <circle class="visual-soft" cx="180" cy="188" r="24" />
+        <circle class="visual-soft" cx="320" cy="188" r="24" />
+        <circle class="visual-soft" cx="440" cy="188" r="24" />
+        <circle class="visual-soft" cx="580" cy="188" r="24" />
+        <path class="visual-line" d="M356 64 L274 100 M404 64 L486 100 M232 136 L198 170 M268 136 L302 170 M492 136 L458 170 M528 136 L562 170" />
+        <text x="380" y="52" text-anchor="middle" fill="#fff">问题</text>
+        <text x="250" y="124" text-anchor="middle" fill="#fff">子问题</text>
+        <text x="510" y="124" text-anchor="middle" fill="#fff">子问题</text>
+        <text x="180" y="194" text-anchor="middle">解</text>
+        <text x="320" y="194" text-anchor="middle">解</text>
+        <text x="440" y="194" text-anchor="middle">解</text>
+        <text x="580" y="194" text-anchor="middle">解</text>
+      </svg>
+    </div>
     <ul class="algorithm-list">
       <li><strong>递归：</strong>树遍历、DFS、回溯的基础。</li>
       <li><strong>分治：</strong>快速排序、归并排序、FFT 的共同思想。</li>
@@ -29,6 +48,14 @@ title: 算法思想
       <span>编辑距离</span>
       <span>股票买卖</span>
     </div>
+    <pre class="algorithm-code"><code class="language-python">def climb_stairs(n):
+    if n &lt;= 2:
+        return n
+
+    prev, cur = 1, 2
+    for _ in range(3, n + 1):
+        prev, cur = cur, prev + cur
+    return cur</code></pre>
   </section>
 
   <section class="algorithm-section">
@@ -38,6 +65,24 @@ title: 算法思想
       <li><strong>贪心：</strong>区间问题、Huffman 编码、部分最小生成树思路。</li>
       <li><strong>回溯：</strong>全排列、N 皇后、数独。</li>
     </ul>
+    <pre class="algorithm-code"><code class="language-python">def permutations(nums):
+    ans, path, used = [], [], [False] * len(nums)
+
+    def dfs():
+        if len(path) == len(nums):
+            ans.append(path[:])
+            return
+        for i, value in enumerate(nums):
+            if used[i]:
+                continue
+            used[i] = True
+            path.append(value)
+            dfs()
+            path.pop()
+            used[i] = False
+
+    dfs()
+    return ans</code></pre>
   </section>
 
   <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>

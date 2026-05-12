@@ -12,10 +12,45 @@ title: 工程算法
 
   <section class="algorithm-section">
     <h2>缓存算法</h2>
+    <div class="algorithm-visual" aria-label="LRU 缓存淘汰示意图">
+      <svg viewBox="0 0 760 190" role="img">
+        <rect class="visual-soft" x="90" y="70" width="96" height="50" rx="10" />
+        <rect class="visual-soft" x="212" y="70" width="96" height="50" rx="10" />
+        <rect class="visual-soft" x="334" y="70" width="96" height="50" rx="10" />
+        <rect class="visual-accent" x="456" y="70" width="96" height="50" rx="10" />
+        <rect class="visual-blue" x="578" y="70" width="96" height="50" rx="10" />
+        <path class="visual-line" d="M186 95 H212 M308 95 H334 M430 95 H456 M552 95 H578" />
+        <text x="138" y="101" text-anchor="middle">旧</text>
+        <text x="260" y="101" text-anchor="middle">B</text>
+        <text x="382" y="101" text-anchor="middle">C</text>
+        <text x="504" y="101" text-anchor="middle" fill="#fff">A</text>
+        <text x="626" y="101" text-anchor="middle" fill="#fff">新</text>
+        <text x="382" y="152" text-anchor="middle">访问 A 后移到队尾；容量满时淘汰最久未使用的旧节点</text>
+      </svg>
+    </div>
     <ul class="algorithm-list">
       <li><strong>LRU：</strong>淘汰最近最少使用的数据，适合本地缓存和热点缓存。</li>
       <li><strong>LFU：</strong>淘汰访问频率最低的数据，适合稳定热点场景。</li>
     </ul>
+    <pre class="algorithm-code"><code class="language-python">from collections import OrderedDict
+
+class LRUCache:
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.data = OrderedDict()
+
+    def get(self, key):
+        if key not in self.data:
+            return None
+        self.data.move_to_end(key)
+        return self.data[key]
+
+    def put(self, key, value):
+        if key in self.data:
+            self.data.move_to_end(key)
+        self.data[key] = value
+        if len(self.data) &gt; self.capacity:
+            self.data.popitem(last=False)</code></pre>
   </section>
 
   <section class="algorithm-section">
@@ -52,6 +87,24 @@ title: 工程算法
 
   <section class="algorithm-section">
     <h2>分布式与海量数据</h2>
+    <div class="algorithm-visual" aria-label="一致性哈希环示意图">
+      <svg viewBox="0 0 760 260" role="img">
+        <circle cx="380" cy="130" r="88" fill="none" stroke="#b9d3df" stroke-width="8" />
+        <circle class="visual-accent" cx="380" cy="42" r="24" />
+        <circle class="visual-blue" cx="468" cy="130" r="24" />
+        <circle class="visual-accent" cx="380" cy="218" r="24" />
+        <circle class="visual-blue" cx="292" cy="130" r="24" />
+        <circle class="visual-soft" cx="440" cy="76" r="18" />
+        <circle class="visual-soft" cx="330" cy="198" r="18" />
+        <text x="380" y="48" text-anchor="middle" fill="#fff">N1</text>
+        <text x="468" y="136" text-anchor="middle" fill="#fff">N2</text>
+        <text x="380" y="224" text-anchor="middle" fill="#fff">N3</text>
+        <text x="292" y="136" text-anchor="middle" fill="#fff">N4</text>
+        <text x="440" y="82" text-anchor="middle">K</text>
+        <text x="330" y="204" text-anchor="middle">K</text>
+        <text x="380" y="248" text-anchor="middle">键落到环上，顺时针找到负责节点</text>
+      </svg>
+    </div>
     <ul class="algorithm-list">
       <li><strong>布隆过滤器：</strong>防缓存穿透、海量去重，有误判无漏判。</li>
       <li><strong>一致性哈希：</strong>分布式缓存、Redis Cluster、CDN 的核心思想。</li>

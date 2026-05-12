@@ -38,6 +38,40 @@ title: 算法学习路线
   </section>
 
   <section class="algorithm-section">
+    <h2>路线图图示</h2>
+    <div class="algorithm-visual">
+      <svg viewBox="0 0 760 230" role="img" aria-label="从基础到核心思想再到工程应用的算法学习路线">
+        <path class="visual-line" d="M115 116 C210 40 292 40 384 116 S558 192 648 116" />
+        <circle class="visual-accent" cx="115" cy="116" r="42" />
+        <circle class="visual-blue" cx="384" cy="116" r="42" />
+        <circle class="visual-accent" cx="648" cy="116" r="42" />
+        <rect class="visual-soft" x="63" y="38" width="104" height="26" rx="13" />
+        <rect class="visual-soft" x="320" y="38" width="128" height="26" rx="13" />
+        <rect class="visual-soft" x="590" y="38" width="116" height="26" rx="13" />
+        <text x="115" y="121" text-anchor="middle">基础</text>
+        <text x="384" y="121" text-anchor="middle">思想</text>
+        <text x="648" y="121" text-anchor="middle">工程</text>
+        <text x="115" y="56" text-anchor="middle">数组 / 树 / 二分</text>
+        <text x="384" y="56" text-anchor="middle">递归 / DP / 贪心</text>
+        <text x="648" y="56" text-anchor="middle">缓存 / 搜索 / AI</text>
+      </svg>
+    </div>
+    <pre class="algorithm-code"><code>def weekly_plan(week):
+    stages = [
+        ("基础", ["array", "linked list", "stack", "binary search"]),
+        ("核心思想", ["dfs", "bfs", "backtracking", "dynamic programming"]),
+        ("进阶工程", ["graph", "heap", "trie", "cache", "vector search"]),
+    ]
+    stage_name, topics = stages[min(week // 4, len(stages) - 1)]
+    topic = topics[week % len(topics)]
+    return f"第 {week + 1} 周：{stage_name} - {topic}"
+
+
+for week in range(12):
+    print(weekly_plan(week))</code></pre>
+  </section>
+
+  <section class="algorithm-section">
     <h2>不同方向重点</h2>
     <ul class="algorithm-list">
       <li><strong>后端：</strong>Hash、堆、图、缓存、一致性哈希。</li>

@@ -47,6 +47,37 @@ title: 程序员算法地图
   </section>
 
   <section class="algorithm-section">
+    <h2>算法地图总览</h2>
+    <div class="algorithm-visual" aria-label="从基础到工程再到 AI 的算法学习路径图">
+      <svg viewBox="0 0 760 220" role="img">
+        <path class="visual-line" d="M96 110 H664" />
+        <circle class="visual-accent" cx="96" cy="110" r="38" />
+        <circle class="visual-blue" cx="238" cy="110" r="38" />
+        <circle class="visual-accent" cx="380" cy="110" r="38" />
+        <circle class="visual-blue" cx="522" cy="110" r="38" />
+        <circle class="visual-accent" cx="664" cy="110" r="38" />
+        <text x="96" y="116" text-anchor="middle" fill="#fff">基础</text>
+        <text x="238" y="116" text-anchor="middle" fill="#fff">结构</text>
+        <text x="380" y="116" text-anchor="middle" fill="#fff">思想</text>
+        <text x="522" y="116" text-anchor="middle" fill="#fff">工程</text>
+        <text x="664" y="116" text-anchor="middle" fill="#fff">AI</text>
+        <text x="380" y="42" text-anchor="middle">先会表达问题，再优化解决方式</text>
+        <text x="380" y="184" text-anchor="middle">数组、树、图、DP、缓存、检索共同构成算法工具箱</text>
+      </svg>
+    </div>
+    <pre class="algorithm-code"><code class="language-python">def choose_tool(problem):
+    if problem.needs_ordered_search:
+        return "binary search"
+    if problem.needs_fast_lookup:
+        return "hash table"
+    if problem.has_dependencies:
+        return "graph + topological sort"
+    if problem.has_overlapping_subproblems:
+        return "dynamic programming"
+    return "start with brute force, then optimize"</code></pre>
+  </section>
+
+  <section class="algorithm-section">
     <h2>一、最核心：基础算法</h2>
     <p>这些属于程序员的基本功。重点不是背代码，而是理解每种算法适合解决什么问题。</p>
     <div class="algorithm-table-wrap">
