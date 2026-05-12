@@ -4,19 +4,55 @@ title: {{ site.name }}
 ---
 
 <div id="home">
-  <section class="home-feature-card" aria-labelledby="boardRoomTitle">
-    <div>
-      <p class="home-feature-kicker">Game</p>
-      <h1 id="boardRoomTitle">棋局大厅</h1>
-      <p>在线体验五子棋与三炮十五兵，支持三档电脑难度、阵营选择、背景音与落子音效。</p>
-    </div>
-    <a class="home-feature-link" href="{{ site.baseurl }}/board-room/">进入棋局大厅</a>
-  </section>
+  <div class="home-dashboard">
+    <section class="home-module home-intro-card" aria-labelledby="homeTitle">
+      <p class="home-module-kicker">Blog</p>
+      <h1 id="homeTitle">从容取舍即优雅</h1>
+      <p>记录 Android、工具链、工程实践与日常折腾，把常用资料整理成可快速进入的模块。</p>
+    </section>
 
-  <h1>Blog Posts</h1>
-  <ul class="posts">
-    {% for post in site.posts %}
-      <li><span>{{ post.date | date_to_string }}</span> &raquo; <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></li>
-    {% endfor %}
-  </ul>
+    <section class="home-module home-posts-module" aria-labelledby="recentPostsTitle">
+      <div class="home-module-header">
+        <div>
+          <p class="home-module-kicker">Logs</p>
+          <h2 id="recentPostsTitle">最近日志</h2>
+        </div>
+        <span class="home-module-count">10 篇</span>
+      </div>
+
+      <ol class="recent-posts-list">
+        {% for post in site.posts limit: 10 %}
+          <li>
+            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+
+    <section class="home-module home-action-card" aria-labelledby="boardRoomTitle">
+      <div>
+        <p class="home-module-kicker">Game</p>
+        <h2 id="boardRoomTitle">棋局大厅</h2>
+        <p>在线体验五子棋与三炮十五兵，支持三档电脑难度、阵营选择、背景音与落子音效。</p>
+      </div>
+      <a class="home-module-link" href="{{ site.baseurl }}/board-room/">进入棋局大厅</a>
+    </section>
+
+    <section class="home-module home-link-card" aria-labelledby="resourcesTitle">
+      <p class="home-module-kicker">Resources</p>
+      <h2 id="resourcesTitle">资料入口</h2>
+      <div class="home-link-list">
+        <a href="{{ site.baseurl }}/settings/">环境配置</a>
+        <a href="{{ site.baseurl }}/todo/">待整理笔记</a>
+        <a href="{{ site.baseurl }}/webpages/">网页实验</a>
+      </div>
+    </section>
+
+    <section class="home-module home-meta-card" aria-labelledby="archiveTitle">
+      <p class="home-module-kicker">Archive</p>
+      <h2 id="archiveTitle">文章归档</h2>
+      <p>当前共收录 {{ site.posts | size }} 篇日志，首页优先展示最新更新。</p>
+    </section>
+  </div>
 </div>
