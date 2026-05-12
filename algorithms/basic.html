@@ -1,0 +1,47 @@
+---
+layout: default
+title: 基础算法
+---
+
+<article class="algorithm-page">
+  <header class="algorithm-hero compact">
+    <p class="algorithm-kicker">Algorithm 01</p>
+    <h1>基础算法</h1>
+    <p>排序、二分、哈希、双指针、栈与队列，是程序员解决问题时最先调用的工具箱。</p>
+  </header>
+
+  <section class="algorithm-section">
+    <h2>排序</h2>
+    <p>重点掌握快排、归并、堆排序，以及稳定排序和非稳定排序的差异。</p>
+    <ul class="algorithm-list">
+      <li><strong>快速排序：</strong>平均 O(n log n)，工程里常见，核心是分区。</li>
+      <li><strong>归并排序：</strong>稳定，适合链表排序和外部排序。</li>
+      <li><strong>堆排序：</strong>适合 Top K 和优先级场景。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>二分查找</h2>
+    <p>二分不仅用于找元素，也用于找边界和“二分答案”。</p>
+    <ul class="algorithm-list">
+      <li>普通二分：在有序数组中查找目标值。</li>
+      <li>左边界 / 右边界：处理重复元素和范围查询。</li>
+      <li>二分答案：把最优解问题转成可判定问题。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>哈希、双指针、栈队列</h2>
+    <p>这些算法模式在工程代码里非常高频，尤其适合处理去重、窗口、匹配、调度和遍历。</p>
+    <div class="algorithm-pill-grid">
+      <span>HashMap</span>
+      <span>HashSet</span>
+      <span>滑动窗口</span>
+      <span>快慢指针</span>
+      <span>单调栈</span>
+      <span>BFS 队列</span>
+    </div>
+  </section>
+
+  <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>
+</article>

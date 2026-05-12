@@ -1,0 +1,162 @@
+---
+layout: default
+title: 程序员算法地图
+---
+
+<article class="algorithm-page">
+  <header class="algorithm-hero">
+    <p class="algorithm-kicker">Algorithm</p>
+    <h1>程序员常用算法地图</h1>
+    <p>
+      程序员常用算法可以按「必须掌握」「高频面试」「实际工程」三个层次来理解。
+      很多人一上来就刷题，其实更重要的是建立算法体系。
+    </p>
+  </header>
+
+  <section class="algorithm-link-grid" aria-label="算法文章入口">
+    <a href="{{ site.baseurl }}/algorithms/basic.html">
+      <span>01</span>
+      <strong>基础算法</strong>
+      <small>排序、二分、哈希、双指针、栈与队列</small>
+    </a>
+    <a href="{{ site.baseurl }}/algorithms/data-structures.html">
+      <span>02</span>
+      <strong>数据结构</strong>
+      <small>链表、树、堆、图，算法的地基</small>
+    </a>
+    <a href="{{ site.baseurl }}/algorithms/thinking.html">
+      <span>03</span>
+      <strong>算法思想</strong>
+      <small>递归、分治、动态规划、贪心、回溯</small>
+    </a>
+    <a href="{{ site.baseurl }}/algorithms/engineering.html">
+      <span>04</span>
+      <strong>工程算法</strong>
+      <small>缓存、字符串、布隆过滤器、一致性哈希</small>
+    </a>
+    <a href="{{ site.baseurl }}/algorithms/ai.html">
+      <span>05</span>
+      <strong>AI 时代算法</strong>
+      <small>向量检索、机器学习基础、Transformer</small>
+    </a>
+    <a href="{{ site.baseurl }}/algorithms/learning-path.html">
+      <span>06</span>
+      <strong>学习路线</strong>
+      <small>按阶段和方向拆解学习优先级</small>
+    </a>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>一、最核心：基础算法</h2>
+    <p>这些属于程序员的基本功。重点不是背代码，而是理解每种算法适合解决什么问题。</p>
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>算法</th>
+            <th>时间复杂度</th>
+            <th>特点</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>冒泡排序</td>
+            <td>O(n²)</td>
+            <td>理解交换思想</td>
+          </tr>
+          <tr>
+            <td>选择排序</td>
+            <td>O(n²)</td>
+            <td>理解最值选择</td>
+          </tr>
+          <tr>
+            <td>插入排序</td>
+            <td>O(n²)</td>
+            <td>小数据很好用</td>
+          </tr>
+          <tr>
+            <td>快速排序</td>
+            <td>O(n log n)</td>
+            <td>最常用</td>
+          </tr>
+          <tr>
+            <td>归并排序</td>
+            <td>O(n log n)</td>
+            <td>稳定排序</td>
+          </tr>
+          <tr>
+            <td>堆排序</td>
+            <td>O(n log n)</td>
+            <td>适合 TopK</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p>
+      二分查找、哈希表、双指针、栈与队列也属于必须熟练的基础能力。
+      它们在日志检索、缓存去重、窗口统计、表达式计算、任务调度里都非常常见。
+    </p>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>二、数据结构是算法的基础</h2>
+    <p>
+      很多算法本质上是在选择合适的数据结构。链表、树、堆、图这些结构决定了问题能否被高效表达。
+    </p>
+    <ul class="algorithm-list">
+      <li><strong>链表：</strong>反转链表、合并链表、快慢指针、环检测。</li>
+      <li><strong>树：</strong>二叉树遍历、BST、AVL/红黑树、Trie。</li>
+      <li><strong>堆：</strong>优先队列、Top K、调度系统、定时任务。</li>
+      <li><strong>图：</strong>BFS、DFS、Dijkstra、Floyd、拓扑排序、并查集。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>三、高频算法思想</h2>
+    <p>真正决定水平的是算法思想：看见问题后，能不能把它转化成熟悉的模型。</p>
+    <div class="algorithm-pill-grid">
+      <span>递归</span>
+      <span>分治</span>
+      <span>动态规划</span>
+      <span>贪心</span>
+      <span>回溯</span>
+      <span>剪枝</span>
+    </div>
+    <p>
+      动态规划尤其值得单独投入时间，它训练的是定义状态、建立状态转移、识别最优子结构的能力。
+    </p>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>四、工程里最实用的算法</h2>
+    <p>
+      实际工作里，缓存淘汰、字符串匹配、分布式路由、海量数据判重，经常比纯刷题更有价值。
+    </p>
+    <ul class="algorithm-list">
+      <li><strong>缓存算法：</strong>LRU、LFU，是 Redis 和本地缓存的高频知识。</li>
+      <li><strong>字符串算法：</strong>KMP、Trie、AC 自动机、Rabin-Karp。</li>
+      <li><strong>布隆过滤器：</strong>节省内存，有误判无漏判，常用于防缓存穿透和去重。</li>
+      <li><strong>一致性哈希：</strong>分布式缓存、Redis Cluster、CDN 的核心思想。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>五、AI 时代也要补算法视角</h2>
+    <p>
+      AI 工程不只是在调用模型。向量检索、机器学习基础、Embedding、Attention、Self-Attention
+      都会影响你对 RAG、搜索、推荐和模型应用的理解。
+    </p>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>六、真正推荐的学习路线</h2>
+    <ol class="algorithm-steps">
+      <li>基础阶段：数组、链表、栈、队列、哈希、二叉树、排序、二分。</li>
+      <li>核心思想：DFS/BFS、递归、回溯、贪心、动态规划。</li>
+      <li>进阶阶段：图、并查集、Trie、堆、线段树、位运算。</li>
+    </ol>
+    <blockquote>
+      算法本质是：优化问题解决方式的能力。
+    </blockquote>
+  </section>
+</article>

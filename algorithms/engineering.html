@@ -1,0 +1,63 @@
+---
+layout: default
+title: 工程算法
+---
+
+<article class="algorithm-page">
+  <header class="algorithm-hero compact">
+    <p class="algorithm-kicker">Algorithm 04</p>
+    <h1>工程算法</h1>
+    <p>工程里最常用的算法，往往直接服务于性能、稳定性、容量和扩展性。</p>
+  </header>
+
+  <section class="algorithm-section">
+    <h2>缓存算法</h2>
+    <ul class="algorithm-list">
+      <li><strong>LRU：</strong>淘汰最近最少使用的数据，适合本地缓存和热点缓存。</li>
+      <li><strong>LFU：</strong>淘汰访问频率最低的数据，适合稳定热点场景。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>字符串算法</h2>
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>算法</th>
+            <th>用途</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>KMP</td>
+            <td>字符串匹配</td>
+          </tr>
+          <tr>
+            <td>Trie</td>
+            <td>搜索提示、前缀查询</td>
+          </tr>
+          <tr>
+            <td>AC 自动机</td>
+            <td>敏感词、多模式匹配</td>
+          </tr>
+          <tr>
+            <td>Rabin-Karp</td>
+            <td>文本检索、滚动哈希</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="algorithm-section">
+    <h2>分布式与海量数据</h2>
+    <ul class="algorithm-list">
+      <li><strong>布隆过滤器：</strong>防缓存穿透、海量去重，有误判无漏判。</li>
+      <li><strong>一致性哈希：</strong>分布式缓存、Redis Cluster、CDN 的核心思想。</li>
+      <li><strong>B+ 树：</strong>数据库索引的核心结构。</li>
+    </ul>
+  </section>
+
+  <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>
+</article>
