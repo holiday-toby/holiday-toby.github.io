@@ -1,0 +1,76 @@
+---
+layout: default
+title: 职业测试
+---
+
+<article class="career-test-page">
+  <header class="career-test-hero">
+    <div>
+      <p class="career-kicker">Career Test</p>
+      <h1>MBTI 职业测试</h1>
+      <p>
+        通过 24 个工作与生活场景，快速观察你的性格偏好，并生成适合探索的职业方向。
+      </p>
+    </div>
+    <div class="career-hero-panel" aria-live="polite">
+      <strong id="answeredCount">0 / 24</strong>
+      <span>已完成题目</span>
+    </div>
+  </header>
+
+  <section class="career-test-shell" aria-label="MBTI 测试题">
+    <div class="career-progress" aria-hidden="true">
+      <span id="careerProgressBar"></span>
+    </div>
+
+    <form id="mbtiForm" class="career-question-list"></form>
+
+    <div class="career-actions">
+      <button class="career-primary-button" type="button" id="submitMbti">生成职业建议</button>
+      <button class="career-secondary-button" type="button" id="resetMbti">重新选择</button>
+    </div>
+    <p class="career-form-message" id="mbtiMessage" role="status"></p>
+  </section>
+
+  <section class="career-result" id="mbtiResult" hidden aria-live="polite">
+    <div class="career-result-header">
+      <div>
+        <p class="career-kicker">Result</p>
+        <h2 id="resultTitle">你的倾向</h2>
+        <p id="resultSummary"></p>
+      </div>
+      <strong id="resultTypeBadge"></strong>
+    </div>
+
+    <div class="career-axis-grid" id="axisGrid"></div>
+
+    <div class="career-suggestion-grid">
+      <section>
+        <h3>适合探索的职业</h3>
+        <ul id="careerList"></ul>
+      </section>
+      <section>
+        <h3>更匹配的工作环境</h3>
+        <p id="careerEnvironment"></p>
+      </section>
+      <section>
+        <h3>发展建议</h3>
+        <ul id="careerAdvice"></ul>
+      </section>
+    </div>
+
+    <div class="career-actions">
+      <button class="career-secondary-button" type="button" id="copyMbtiResult">复制结果</button>
+    </div>
+  </section>
+
+  <section class="career-note">
+    <h2>结果怎么看</h2>
+    <p>
+      MBTI 更适合作为自我观察工具，而不是职业定论。若某个维度分数接近中间，
+      可以同时参考相邻类型，把建议当成下一步试验清单。
+    </p>
+  </section>
+</article>
+
+<script src="{{ site.baseurl }}/career-test/mbti.js" defer></script>
