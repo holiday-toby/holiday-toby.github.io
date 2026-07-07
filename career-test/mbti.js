@@ -195,11 +195,11 @@
   ];
 
   var scale = [
-    { value: -2, label: "很像左边" },
-    { value: -1, label: "略像左边" },
-    { value: 0, label: "都差不多" },
-    { value: 1, label: "略像右边" },
-    { value: 2, label: "很像右边" }
+    { value: -2, label: "强烈偏向前一项", strength: "strong" },
+    { value: -1, label: "略微偏向前一项", strength: "medium" },
+    { value: 0, label: "中立或都差不多", strength: "neutral" },
+    { value: 1, label: "略微偏向后一项", strength: "medium" },
+    { value: 2, label: "强烈偏向后一项", strength: "strong" }
   ];
 
   var axisMeta = {
@@ -351,15 +351,19 @@
         var options = scale
           .map(function (option) {
             return (
-              '<label class="career-scale-option">' +
+              '<label class="career-scale-option" data-value="' +
+              option.value +
+              '" data-strength="' +
+              option.strength +
+              '">' +
               '<input type="radio" name="q' +
               index +
               '" value="' +
               option.value +
-              '">' +
-              "<span>" +
+              '" aria-label="' +
               option.label +
-              "</span>" +
+              '">' +
+              '<span aria-hidden="true"></span>' +
               "</label>"
             );
           })
