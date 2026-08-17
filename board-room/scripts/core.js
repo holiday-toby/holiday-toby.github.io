@@ -25,7 +25,7 @@ const ORTHOGONAL_DIRECTIONS = [
 const dom = {
   entryView: document.querySelector("#entryView"),
   gameView: document.querySelector("#gameView"),
-  gameChoices: document.querySelectorAll(".game-choice"),
+  gameChoices: document.querySelectorAll(".game-choice[data-game]"),
   boardWrap: document.querySelector(".board-wrap"),
   canvas: document.querySelector("#board"),
   difficultySelect: document.querySelector("#difficulty"),

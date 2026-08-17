@@ -8,7 +8,7 @@
 
 - **技术博客**：文章位于 `_posts/`，内容覆盖 Android、Gradle、Retrofit、RxJava、Linux、macOS 工具链等主题。
 - **算法地图**：`algorithms/` 下整理基础算法、数据结构、算法思想、工程算法和 AI 时代算法。
-- **棋局大厅**：`board-room/` 提供五子棋与三炮十五兵的浏览器小游戏。
+- **小游戏区**：`board-room/` 提供五子棋、三炮十五兵与古风剧情 RPG《青衫问路》。
 - **职业测试**：`career-test/` 提供一组 MBTI 场景题和职业建议结果。
 - **环境配置**：`settings/` 收集 macOS、Ubuntu、Termux 等环境下的配置脚本和工具配置。
 - **待整理笔记**：`todo/` 放置还没有整理成正式博客的草稿和资料。
