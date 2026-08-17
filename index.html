@@ -11,25 +11,6 @@ title: {{ site.name }}
       <p>记录 Android、工具链、工程实践与日常折腾，把常用资料整理成可快速进入的模块。</p>
     </section>
 
-    <section class="home-module home-posts-module" aria-labelledby="recentPostsTitle">
-      <div class="home-module-header">
-        <div>
-          <p class="home-module-kicker">Logs</p>
-          <h2 id="recentPostsTitle">最近日志</h2>
-        </div>
-        <span class="home-module-count">10 篇</span>
-      </div>
-
-      <ol class="recent-posts-list">
-        {% for post in site.posts limit: 10 %}
-          <li>
-            <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
-            <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
-          </li>
-        {% endfor %}
-      </ol>
-    </section>
-
     <section class="home-module home-action-card" aria-labelledby="miniGameZoneTitle">
       <div>
         <p class="home-module-kicker">Game</p>
