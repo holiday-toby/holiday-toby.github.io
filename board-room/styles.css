@@ -36,6 +36,11 @@ select {
   font: inherit;
 }
 
+a.game-choice {
+  font: inherit;
+  text-decoration: none;
+}
+
 [hidden] {
   display: none !important;
 }
@@ -103,6 +108,12 @@ select {
   border: 2px solid rgba(122, 30, 24, 0.35);
   background: radial-gradient(circle at 34% 28%, #ffe2ce, #c75849 68%, #8f302a);
   color: #fff8ef;
+  font-weight: 900;
+}
+
+.rpg-mark {
+  background: radial-gradient(circle at 34% 28%, #b9f4ed, #2f8791 64%, #174f65);
+  color: #f7fffd;
   font-weight: 900;
 }
 
