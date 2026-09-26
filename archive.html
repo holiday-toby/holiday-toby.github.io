@@ -1,0 +1,24 @@
+---
+layout: default
+title: 文章归档
+permalink: /archive/
+---
+
+<section class="home-module home-posts-module" aria-labelledby="archivePageTitle">
+  <div class="home-module-header">
+    <div>
+      <p class="home-module-kicker">Archive</p>
+      <h1 id="archivePageTitle">文章归档</h1>
+    </div>
+    <span class="home-module-count">最近 5 篇</span>
+  </div>
+
+  <ol class="recent-posts-list">
+    {% for post in site.posts limit: 5 %}
+      <li>
+        <time datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: "%Y-%m-%d" }}</time>
+        <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
+      </li>
+    {% endfor %}
+  </ol>
+</section>
