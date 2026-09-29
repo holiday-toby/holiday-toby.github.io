@@ -174,14 +174,14 @@ test('changing only hidden dimensions leaves the four basic scores unchanged', (
   assert.deepEqual(hiddenTies.candidateTypes, ['INFP']);
 });
 
-test('expanded bank keeps each dimension and question direction balanced', () => {
-  assert.equal(questions.length, 64);
-  assert.equal(questions.filter((question) => basicAxes.includes(question.axis)).length, 48);
-  assert.equal(new Set(questions.map((question) => question.prompt)).size, 64);
+test('32-question bank keeps each dimension and question direction balanced', () => {
+  assert.equal(questions.length, 32);
+  assert.equal(questions.filter((question) => basicAxes.includes(question.axis)).length, 24);
+  assert.equal(new Set(questions.map((question) => question.prompt)).size, 32);
 
   for (const axis of allAxes) {
     const bank = questions.filter((question) => question.axis === axis);
-    const expectedCount = basicAxes.includes(axis) ? 12 : 8;
+    const expectedCount = basicAxes.includes(axis) ? 6 : 4;
     assert.equal(bank.length, expectedCount, `${axis} question count`);
     assert.equal(bank.filter((question) => question.leftLetter === axisMeta[axis].leftLetter).length,
       expectedCount / 2, `${axis} option direction balance`);
@@ -191,8 +191,29 @@ test('expanded bank keeps each dimension and question direction balanced', () =>
       assert.ok(question.prompt && question.left && question.right, `${axis} has complete visible wording`);
     }
   }
-  const neutral = scoreAnswers(questions, Array(64).fill(0), axisMeta);
+  const neutral = scoreAnswers(questions, Array(32).fill(0), axisMeta);
   assert.equal(neutral.type, 'XXXX');
-  for (const axis of basicAxes) assert.equal(neutral.axes[axis].max, 24);
-  for (const axis of ['AO', 'CH']) assert.equal(neutral.axes[axis].max, 16);
+  for (const axis of basicAxes) assert.equal(neutral.axes[axis].max, 12);
+  for (const axis of ['AO', 'CH']) assert.equal(neutral.axes[axis].max, 8);
+});
+
+test('question pages put 24 basic questions before the eight hidden-dimension questions', () => {
+  assert.equal(questions.length, 32);
+  for (let pageIndex = 0; pageIndex < 3; pageIndex += 1) {
+    const page = questions.slice(pageIndex * 8, (pageIndex + 1) * 8);
+    assert.equal(page.length, 8);
+    for (const axis of basicAxes) {
+      assert.equal(page.filter((question) => question.axis === axis).length, 2,
+        `page ${pageIndex + 1} contains two ${axis} questions`);
+    }
+  }
+  const lastPage = questions.slice(24, 32);
+  assert.equal(lastPage.filter((question) => question.axis === 'AO').length, 4);
+  assert.equal(lastPage.filter((question) => question.axis === 'CH').length, 4);
+});
+
+test('every question has a nonempty unique ID', () => {
+  const ids = questions.map((question) => question.id);
+  assert.ok(ids.every((id) => typeof id === 'string' && id.trim().length > 0));
+  assert.equal(new Set(ids).size, questions.length);
 });

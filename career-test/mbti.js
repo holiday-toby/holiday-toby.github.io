@@ -22,6 +22,9 @@
   var pageTitle = document.getElementById("questionPageTitle");
   var coreAxes = ["EI", "SN", "TF", "JP"];
   var extensionAxes = ["AO", "CH"];
+  var extensionQuestionCount = questions.filter(function (question) {
+    return extensionAxes.indexOf(question.axis) !== -1;
+  }).length;
   var captions = ["明显偏前", "略偏前", "两者相近", "略偏后", "明显偏后"];
   var genericSuggestion = {
     summary: "部分维度尚未分化，暂不指定唯一的四字母类型。先结合具体场景观察自己，再参考相邻类型。",
@@ -85,12 +88,14 @@
     pageTitle.textContent = (isExtension ? "隐藏人格 · 扩展观察" : "基础偏好") +
       " · 第 " + (page + 1) + " / " + pageCount + " 组";
     document.getElementById("questionPageHint").textContent = isExtension ?
-      "最后 16 题分别观察 A–O 决策笃定度与 C–H 情感表达，独立计分，不改变基础四字母。" :
-      "按近半年大多数时候的自然反应作答，不必选择理想中的自己。每组 8 题，可以返回修改。";
+      "最后 " + extensionQuestionCount + " 题：看看你做选择时有多笃定、表达感情时有多直接。这部分独立计分。" :
+      "想想近半年平常的自己，选更自然的反应。每组 8 题，可以返回修改。";
     previousButton.disabled = page === 0;
     nextButton.hidden = page === pageCount - 1;
     submitButton.hidden = page !== pageCount - 1;
-    nextButton.textContent = page === 5 ? "进入隐藏人格测试" : "下一组";
+    var nextQuestion = questions[(page + 1) * pageSize];
+    nextButton.textContent = !isExtension && nextQuestion && extensionAxes.indexOf(nextQuestion.axis) !== -1 ?
+      "进入隐藏人格测试" : "下一组";
     if (moveFocus) {
       pageTitle.focus({ preventScroll: true });
       pageTitle.scrollIntoView({ behavior: "smooth", block: "start" });
