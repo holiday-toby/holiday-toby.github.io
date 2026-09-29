@@ -9,30 +9,38 @@ title: 职业测试
       <p class="career-kicker">Career Test</p>
       <h1>MBTI 职业测试</h1>
       <p>
-        通过 24 个工作与生活场景，快速观察你的性格偏好，并生成适合探索的职业方向。
+        48 道基础题＋16 道「隐藏人格」扩展题，观察四维偏好、A–O 决策笃定度与 C–H 情感表达。
       </p>
     </div>
     <div class="career-hero-panel" aria-live="polite">
-      <strong id="answeredCount">0 / 24</strong>
+      <strong id="answeredCount">0 / 64</strong>
       <span>已完成题目</span>
     </div>
   </header>
 
   <section class="career-test-shell" aria-label="MBTI 测试题">
+    <div class="career-test-instructions">
+      <h2 id="questionPageTitle" tabindex="-1">基础偏好 · 第 1 / 8 组</h2>
+      <p id="questionPageHint">按近半年大多数时候的自然反应作答，不必选择理想中的自己。每组 8 题，可以返回修改。</p>
+      <p>五个圆点依次表示：明显偏向前项、略偏前项、两者相近、略偏后项、明显偏向后项。没有更好的选项。</p>
+    </div>
     <div class="career-progress" aria-hidden="true">
       <span id="careerProgressBar"></span>
     </div>
 
     <form id="mbtiForm" class="career-question-list"></form>
+    <noscript>请启用 JavaScript 后进行测试。</noscript>
 
     <div class="career-actions">
-      <button class="career-primary-button" type="button" id="submitMbti">生成职业建议</button>
+      <button class="career-secondary-button" type="button" id="previousMbti" disabled>上一组</button>
+      <button class="career-primary-button" type="button" id="nextMbti">下一组</button>
+      <button class="career-primary-button" type="button" id="submitMbti" hidden>查看完整结果</button>
       <button class="career-secondary-button" type="button" id="resetMbti">重新选择</button>
     </div>
     <p class="career-form-message" id="mbtiMessage" role="status"></p>
   </section>
 
-  <section class="career-result" id="mbtiResult" hidden aria-live="polite">
+  <section class="career-result" id="mbtiResult" hidden aria-live="polite" tabindex="-1">
     <div class="career-result-header">
       <div>
         <p class="career-kicker">Result</p>
@@ -42,7 +50,18 @@ title: 职业测试
       <strong id="resultTypeBadge"></strong>
     </div>
 
+    <p id="resultCaution" class="career-result-caution"></p>
+    <p id="neighborTypes"></p>
+    <h3>四维偏好</h3>
+    <p class="career-result-note">百分比是本次作答的归一化倾向分，不是人格占比、准确率或能力评分。X 表示该维度平分、尚未分化。</p>
     <div class="career-axis-grid" id="axisGrid"></div>
+
+    <section class="career-extension" aria-labelledby="extensionTitle">
+      <h3 id="extensionTitle">隐藏人格 · 扩展观察</h3>
+      <p>本站将 A–O 定义为果断笃定／审慎易纠结，C–H 定义为克制表达／热情表达。这两项独立于四维偏好，不属于官方 MBTI 维度。</p>
+      <div class="career-axis-grid" id="extensionGrid"></div>
+      <p id="extensionSummary"></p>
+    </section>
 
     <div class="career-suggestion-grid">
       <section>
@@ -62,15 +81,22 @@ title: 职业测试
     <div class="career-actions">
       <button class="career-secondary-button" type="button" id="copyMbtiResult">复制结果</button>
     </div>
+    <p id="copyMbtiMessage" role="status"></p>
   </section>
 
   <section class="career-note">
     <h2>结果怎么看</h2>
     <p>
-      MBTI 更适合作为自我观察工具，而不是职业定论。若某个维度分数接近中间，
-      可以同时参考相邻类型，把建议当成下一步试验清单。
+      这是本站原创的偏好自测，未经标准化信效度验证，不是官方 MBTI 测评。
+      增加题量能扩大场景覆盖，但不代表已经验证准确率。临界维度可同时参考相邻类型，
+      职业建议只是探索线索，还需结合兴趣、技能和实际体验。
+    </p>
+    <p>可间隔 2–4 周，在相近状态下复测，关注反复出现的偏好。
+      <a href="https://www.myersbriggs.org/my-mbti-personality-type/my-mbti-results/home.htm">了解官方 MBTI 的四组偏好与结果解释</a>。
     </p>
   </section>
 </article>
 
+<script src="{{ site.baseurl }}/career-test/mbti-data.js" defer></script>
+<script src="{{ site.baseurl }}/career-test/mbti-scoring.js" defer></script>
 <script src="{{ site.baseurl }}/career-test/mbti.js" defer></script>
