@@ -7,77 +7,176 @@ title: 算法学习路线
   <header class="algorithm-hero compact">
     <p class="algorithm-kicker">Algorithm 06</p>
     <h1>算法学习路线</h1>
-    <p>不要乱刷题。先建立结构，再按题型训练，最后回到工程场景里验证。</p>
+    <p>从“能跟着算”走到“能解释为什么这样做”。每一阶段用具体输入、手写状态和边界结果检查理解，再按眼前的问题选择下一步。</p>
   </header>
 
-  <section class="algorithm-section">
-    <h2>第一阶段：基础</h2>
-    <ol class="algorithm-steps">
-      <li>数组、链表、栈、队列。</li>
-      <li>哈希、二叉树、排序、二分。</li>
-      <li>用简单题训练边界条件和复杂度意识。</li>
-    </ol>
-  </section>
-
-  <section class="algorithm-section">
-    <h2>第二阶段：核心思想</h2>
-    <ol class="algorithm-steps">
-      <li>DFS / BFS。</li>
-      <li>递归、回溯、贪心。</li>
-      <li>动态规划，重点练状态设计。</li>
-    </ol>
-  </section>
-
-  <section class="algorithm-section">
-    <h2>第三阶段：进阶</h2>
-    <ol class="algorithm-steps">
-      <li>图、并查集、Trie、堆。</li>
-      <li>线段树、位运算、状态压缩。</li>
-      <li>结合数据库、缓存、搜索、AI 检索理解工程应用。</li>
-    </ol>
-  </section>
-
-  <section class="algorithm-section">
-    <h2>路线图图示</h2>
-    <div class="algorithm-visual">
-      <svg viewBox="0 0 760 230" role="img" aria-label="从基础到核心思想再到工程应用的算法学习路线">
-        <path class="visual-line" d="M115 116 C210 40 292 40 384 116 S558 192 648 116" />
-        <circle class="visual-accent" cx="115" cy="116" r="42" />
-        <circle class="visual-blue" cx="384" cy="116" r="42" />
-        <circle class="visual-accent" cx="648" cy="116" r="42" />
-        <rect class="visual-soft" x="63" y="38" width="104" height="26" rx="13" />
-        <rect class="visual-soft" x="320" y="38" width="128" height="26" rx="13" />
-        <rect class="visual-soft" x="590" y="38" width="116" height="26" rx="13" />
-        <text x="115" y="121" text-anchor="middle">基础</text>
-        <text x="384" y="121" text-anchor="middle">思想</text>
-        <text x="648" y="121" text-anchor="middle">工程</text>
-        <text x="115" y="56" text-anchor="middle">数组 / 树 / 二分</text>
-        <text x="384" y="56" text-anchor="middle">递归 / DP / 贪心</text>
-        <text x="648" y="56" text-anchor="middle">缓存 / 搜索 / AI</text>
-      </svg>
+  <section class="algorithm-section" aria-labelledby="path-start">
+    <h2 id="path-start">从哪里开始：先修关系与学习证据</h2>
+    <p>开始前，先能读懂 Python 的变量、条件、循环、函数、列表和字典；知道下标从 0 开始，能用纸笔跟踪一次赋值。若还不能解释 <code>x = nums[i]</code> 与 <code>nums[i] = x</code> 的区别，先补这一步，再进入算法练习。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 436" role="img" aria-labelledby="path-stages-title path-stages-desc">
+            <title id="path-stages-title">三个阶段用掌握证据向下连接</title>
+            <desc id="path-stages-desc">从基础开始，能跟踪位置与引用，再进入核心思想，能解释状态与选择，再进入进阶与应用，能按成本组合工具。向下箭头表示先修关系；遇到缺口可以回看前一阶段。</desc>
+            <defs><marker id="path-stages-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#155799" /></marker></defs>
+            <rect class="visual-soft" x="14" y="16" width="292" height="92" rx="10" />
+            <text x="160" y="48" text-anchor="middle">第一阶段：基础</text>
+            <text x="160" y="80" text-anchor="middle">跟踪位置与引用</text>
+            <path d="M160 113 V157" fill="none" stroke="#155799" stroke-width="3" marker-end="url(#path-stages-arrow)" />
+            <rect class="visual-soft" x="14" y="170" width="292" height="92" rx="10" />
+            <text x="160" y="202" text-anchor="middle">第二阶段：核心思想</text>
+            <text x="160" y="234" text-anchor="middle">解释状态与选择</text>
+            <path d="M160 267 V311" fill="none" stroke="#155799" stroke-width="3" marker-end="url(#path-stages-arrow)" />
+            <rect class="visual-soft" x="14" y="324" width="292" height="92" rx="10" />
+            <text x="160" y="356" text-anchor="middle">第三阶段：进阶与应用</text>
+            <text x="160" y="388" text-anchor="middle">按成本组合工具</text>
+          </svg>
+        </div>
+        <figcaption>箭头表示“后一个练习依赖前一种能力”。阶段名与下文一致；可以为了一个目标先学所需分支，再回来补齐证据。</figcaption>
+      </figure>
+      <div class="algorithm-step-card">
+        <h3>用结果决定下一步</h3>
+        <ol class="algorithm-steps">
+          <li><strong>先预测：</strong>不运行程序，写出这组输入的返回值与中间状态。</li>
+          <li><strong>再对照：</strong>打开对应专题，逐步比较图、表和 Python 实现，找出第一次分歧。</li>
+          <li><strong>换一个边界：</strong>例如空数组、空链表或缓存未命中，再解释为什么结果成立。</li>
+          <li><strong>按缺口回看：</strong>队列顺序写错就回基础结构；递归返回后状态残留就回回溯撤销。能背出名称还不足以进入下一步。</li>
+        </ol>
+        <p>这不是固定周数的课表。已经懂数组、当前要理解缓存的读者，可以沿下方案例走向 LRU；暂时用不到线段树，就等出现区间查询问题时再深入。</p>
+      </div>
     </div>
-    <pre class="algorithm-code"><code>def weekly_plan(week):
-    stages = [
-        ("基础", ["array", "linked list", "stack", "binary search"]),
-        ("核心思想", ["dfs", "bfs", "backtracking", "dynamic programming"]),
-        ("进阶工程", ["graph", "heap", "trie", "cache", "vector search"]),
-    ]
-    stage_name, topics = stages[min(week // 4, len(stages) - 1)]
-    topic = topics[week % len(topics)]
-    return f"第 {week + 1} 周：{stage_name} - {topic}"
-
-
-for week in range(12):
-    print(weekly_plan(week))</code></pre>
   </section>
 
-  <section class="algorithm-section">
-    <h2>不同方向重点</h2>
+  <section class="algorithm-section" aria-labelledby="path-stage-1">
+    <h2 id="path-stage-1">第一阶段：基础</h2>
+    <p><strong>先会什么：</strong>能跟踪循环中的变量变化，并区分“数组中的位置”和“节点之间的引用”。从数组与哈希表开始，再比较链表、栈、队列和树，最后用排序与二分练习有序性的作用。</p>
+    <p><strong>练什么：</strong>用数组下标访问元素；用哈希表按键定位；画出链表的 <code>next</code>；用栈解释后进先出、用队列解释先进先出；沿树的父子关系访问节点。跟着基础页的快排过程分组，再在有序数组上找第一个不小于目标的位置。</p>
+    <p><strong>怎样判断掌握：</strong>能说明数组随机访问为何方便、链表改引用前要保留什么；能对 <code>[2,4,4,7,9]</code> 查 4 返回下标 <code>1</code>，而不是任意一个 4；能解释空输入和查不到时的插入位置。比较方案时，同时说明时间、额外空间与输入前提。</p>
+    <p><a href="{{ site.baseurl }}/algorithms/basic.html">练习排序与二分边界</a> · <a href="{{ site.baseurl }}/algorithms/data-structures.html">跟踪链表指针与树结构</a></p>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="path-stage-2">
+    <h2 id="path-stage-2">第二阶段：核心思想</h2>
+    <p><strong>先会什么：</strong>会用栈、队列和树；能读懂函数调用与返回。递归先写清“何时停止、规模怎样缩小”，再学习深度优先搜索（DFS，先沿一条分支走深）与广度优先搜索（BFS，借队列逐层扩展）。图有环时还要记录已访问节点。</p>
+    <p><strong>练什么：</strong>手写 BFS 的入队、出队过程；用爬楼梯理解动态规划（DP）如何保存子问题结果；用互异元素的全排列练习回溯的“选择、递归、撤销”。对贪心选择，必须说明局部最优为什么能通向整体最优，不能把看起来合适当作证明。</p>
+    <p><strong>怎样判断掌握：</strong>能从队列推出 BFS 的访问顺序；用 <code>f(0)=1</code>、<code>f(1)=1</code> 和 <code>f(n)=f(n-1)+f(n-2)</code> 算出 <code>climb_stairs(5)=8</code>；能指出回溯返回后恢复路径与使用标记的两行。遇到新题时，先定义状态或搜索范围，再选择方法。</p>
+    <p><a href="{{ site.baseurl }}/algorithms/data-structures.html">手写 BFS 队列变化</a> · <a href="{{ site.baseurl }}/algorithms/thinking.html">练习递归、DP、贪心与回溯</a></p>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="path-stage-3">
+    <h2 id="path-stage-3">第三阶段：进阶与应用</h2>
+    <p><strong>先会什么：</strong>能画出数据关系、解释一次遍历，并用时间和空间成本比较候选方案。图的基本表示与 BFS 可以在第二阶段入门，这里再学习路径、连通性和更多查询需求。</p>
+    <p><strong>练什么：</strong>图表示关系与路径；并查集维护集合合并和连通性；前缀树（Trie）按字符路径处理前缀；堆维护极值或候选集；线段树处理区间查询与更新；位运算和状态压缩用二进制表示小规模集合。这些工具各有问题边界：并查集不直接给出路径，堆不提供全部元素的排序，状态压缩也不会消除状态数的指数增长。</p>
+    <p><strong>怎样判断掌握：</strong>先写操作需求，再组合工具。缓存既要按键找到数据，又要维护最近使用顺序；向量检索既要计算相似度，也要选出前 K 项。能演算一次淘汰或排名，解释容量、零向量等边界，并说明教学实现与生产系统之间还缺哪些约束。</p>
+    <p><a href="{{ site.baseurl }}/algorithms/engineering.html">演算 LRU 淘汰与工程取舍</a> · <a href="{{ site.baseurl }}/algorithms/ai.html">手算向量检索与 AI 算法</a></p>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="path-cache-story">
+    <h2 id="path-cache-story">一个完整案例：从懂数组到理解缓存</h2>
+    <p>小林已经会遍历数组，想知道“缓存满了为什么删掉这一项”。目标是解释最近最少使用缓存（Least Recently Used，LRU）的一次淘汰。下面四步从熟悉的位置变化走到“按键查找 + 使用顺序”，每一步都有可以留在纸上的结果。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 254" role="img" aria-labelledby="path-boundary-title path-boundary-desc">
+            <title id="path-boundary-title">练习一：二分区间缩小到下标 1</title>
+            <desc id="path-boundary-desc">对有序数组 2、4、4、7、9 查 4，左闭右开区间从零到五，缩小到零到二、零到一，最后相遇于一到一，返回一。</desc>
+            <defs><marker id="path-boundary-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <text x="16" y="30">① 追踪二分边界</text>
+            <text x="160" y="62" text-anchor="middle">[2,4,4,7,9] 查 4</text>
+            <rect class="visual-soft" x="68" y="78" width="184" height="34" rx="6" /><text x="160" y="102" text-anchor="middle">[0,5) → [0,2)</text>
+            <path d="M160 116 V138" fill="none" stroke="#155799" stroke-width="2" marker-end="url(#path-boundary-arrow)" />
+            <rect class="visual-soft" x="68" y="150" width="184" height="34" rx="6" /><text x="160" y="174" text-anchor="middle">[0,1) → [1,1)</text>
+            <text x="160" y="225" text-anchor="middle">返回下标 1</text>
+          </svg>
+        </div>
+        <figcaption><strong>先把边界说清：</strong>每轮记录 left、right、mid；<code>[left,right)</code> 包含左端、不包含右端。查 4 依次比较下标 2、1、0，最后返回 1；空数组一开始就是 <code>[0,0)</code>，直接返回 0。这练习的是状态追踪，LRU 本身不依赖二分。<a href="{{ site.baseurl }}/algorithms/basic.html">对照二分实现</a>。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 254" role="img" aria-labelledby="path-pointer-title path-pointer-desc">
+            <title id="path-pointer-title">练习二：先保存后缀，再改链表引用</title>
+            <desc id="path-pointer-desc">第一轮 cur 在 A，先保存 nxt 等于 B，再把 A 的 next 改为 None。图中 A 指向 None，另一个后缀 B 指向 C、C 指向 D；两条链没有丢失节点。</desc>
+            <defs><marker id="path-pointer-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <text x="16" y="30">② 保存后再重连</text>
+            <text x="16" y="65">先存 nxt = B</text>
+            <text x="16" y="97">再改 A.next = None</text>
+            <rect class="visual-soft" x="20" y="115" width="48" height="38" rx="6" /><text x="44" y="141" text-anchor="middle">A</text>
+            <path d="M72 134 H120" fill="none" stroke="#155799" stroke-width="2" marker-end="url(#path-pointer-arrow)" /><text x="137" y="141">None</text>
+            <rect class="visual-soft" x="20" y="180" width="48" height="38" rx="6" /><text x="44" y="206" text-anchor="middle">B</text>
+            <path d="M72 199 H119" fill="none" stroke="#155799" stroke-width="2" marker-end="url(#path-pointer-arrow)" />
+            <rect class="visual-soft" x="132" y="180" width="48" height="38" rx="6" /><text x="156" y="206" text-anchor="middle">C</text>
+            <path d="M184 199 H231" fill="none" stroke="#155799" stroke-width="2" marker-end="url(#path-pointer-arrow)" />
+            <rect class="visual-soft" x="244" y="180" width="48" height="38" rx="6" /><text x="268" y="206" text-anchor="middle">D</text>
+          </svg>
+        </div>
+        <figcaption><strong>把四轮都补齐：</strong>从 <code>A → B → C → D</code> 开始，先保存 <code>nxt = cur.next</code>，再改 <code>cur.next = prev</code>。已反转前缀依次为 A、B→A、C→B→A、D→C→B→A；每条链末尾都是 None。图只展开第一轮，保存 nxt 才能接着处理后缀。<a href="{{ site.baseurl }}/algorithms/data-structures.html">跟踪全部链表指针</a>。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 254" role="img" aria-labelledby="path-lookup-title path-lookup-desc">
+            <title id="path-lookup-title">练习三：哈希定位和双向顺序各负其责</title>
+            <desc id="path-lookup-desc">哈希索引用键 A 指向顺序链中的 A 节点。顺序为 A、B、C，双向箭头表示节点有前后引用；最左 A 最久未用，最右 C 最近使用。</desc>
+            <defs><marker id="path-lookup-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto-start-reverse"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <text x="16" y="30">③ 按键定位 + 双向顺序</text>
+            <rect class="visual-soft" x="20" y="52" width="152" height="36" rx="6" /><text x="96" y="77" text-anchor="middle">哈希索引 A</text>
+            <path d="M50 92 V140" fill="none" stroke="#155799" stroke-width="2" marker-end="url(#path-lookup-arrow)" />
+            <rect class="visual-soft" x="20" y="154" width="56" height="44" rx="6" /><text x="48" y="183" text-anchor="middle">A</text>
+            <path d="M87 176 H119" fill="none" stroke="#155799" stroke-width="2" marker-start="url(#path-lookup-arrow)" marker-end="url(#path-lookup-arrow)" />
+            <rect class="visual-soft" x="132" y="154" width="56" height="44" rx="6" /><text x="160" y="183" text-anchor="middle">B</text>
+            <path d="M199 176 H231" fill="none" stroke="#155799" stroke-width="2" marker-start="url(#path-lookup-arrow)" marker-end="url(#path-lookup-arrow)" />
+            <rect class="visual-soft" x="244" y="154" width="56" height="44" rx="6" /><text x="272" y="183" text-anchor="middle">C</text>
+            <text x="48" y="235" text-anchor="middle">最久未用</text><text x="272" y="235" text-anchor="middle">最近使用</text>
+          </svg>
+        </div>
+        <figcaption><strong>分清两个问题：</strong>只用数组扫描也能找 A，但会随元素增多变慢。哈希表负责按键定位节点；双向链表负责摘下已知节点、接到末尾。组合后，查找与更新可做到平均 O(1)，保存条目需要 O(capacity) 空间。工程页用 Python 的有序字典封装这组能力。<a href="{{ site.baseurl }}/algorithms/engineering.html">看缓存结构与实现</a>。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 270" role="img" aria-labelledby="path-lru-title path-lru-desc">
+            <title id="path-lru-title">练习四：读 A 后插 D，淘汰 B</title>
+            <desc id="path-lru-desc">容量为三，从左到右是最久未用到最近使用。初始 A、B、C；读取 A 之后变 B、C、A；再放入 D 时移除最左 B，得到 C、A、D。</desc>
+            <defs><marker id="path-lru-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <text x="16" y="30">④ 容量 3，左旧右新</text>
+            <rect class="visual-soft" x="122" y="50" width="176" height="36" rx="6" /><text x="210" y="76" text-anchor="middle">A, B, C</text>
+            <text x="16" y="119">读 A</text><path d="M210 91 V126" fill="none" stroke="#155799" stroke-width="2" marker-end="url(#path-lru-arrow)" />
+            <rect class="visual-soft" x="122" y="138" width="176" height="36" rx="6" /><text x="210" y="164" text-anchor="middle">B, C, A</text>
+            <text x="16" y="208">放 D</text><path d="M210 179 V214" fill="none" stroke="#155799" stroke-width="2" marker-end="url(#path-lru-arrow)" />
+            <rect class="visual-soft" x="122" y="226" width="176" height="36" rx="6" /><text x="210" y="251" text-anchor="middle">C, A, D</text>
+          </svg>
+        </div>
+        <figcaption><strong>解释淘汰依据：</strong>依次 put A=1、B=2、C=3；get A 返回 1，并把 A 移到最近使用的一端；put D=4 时容量超限，最久未用的 B 被淘汰，顺序成为 <code>C,A,D</code>。随后 get B 未命中，顺序保持不变。小林能从这组操作推出结果，才算理解了“最近使用”。<a href="{{ site.baseurl }}/algorithms/engineering.html">演算 LRU 淘汰</a>。</figcaption>
+      </figure>
+    </div>
+    <p class="algorithm-note">这个目标不要求先学完所有进阶算法。若小林仍说不清“为什么 B 被删”，就回到第三步区分键查找与使用顺序；若重连时会丢节点，就回到第二步，而不是继续背更多缓存名称。</p>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="path-checkpoints">
+    <h2 id="path-checkpoints">五个可以对照的检查点</h2>
+    <p>先遮住“可观察证据”一列自己算，再打开专题核对。输出相同但无法解释中间状态时，把该项留作下一次练习。</p>
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>掌握证据：输入、过程、结果与下一步练习</caption>
+        <thead><tr><th>检查点</th><th>可观察证据</th><th>练习入口</th></tr></thead>
+        <tbody>
+          <tr><td>基础</td><td>手算 <code>[2,4,4,7,9]</code> 查 4 返回 <code>1</code>；解释 <code>[left,right)</code> 左闭右开，区间依次为 <code>[0,5) → [0,2) → [0,1) → [1,1)</code>；空数组返回 <code>0</code>。</td><td><a href="{{ site.baseurl }}/algorithms/basic.html">练习二分边界</a></td></tr>
+          <tr><td>结构</td><td>逐轮把 <code>A→B→C→D</code> 反转为 <code>D→C→B→A</code>，每条链末尾为 None；说明必须在修改 <code>cur.next</code> 之前保存 <code>nxt</code>，并指出四轮保存的是 B、C、D、None。</td><td><a href="{{ site.baseurl }}/algorithms/data-structures.html">跟踪链表指针</a></td></tr>
+          <tr><td>思想</td><td>按结构页的邻接表从 A 开始，队列（左为队头）为 <code>[A] → [B,C] → [C,D] → [D] → [E] → []</code>，D 只入队一次。爬楼梯状态从 n=0 到 5 为 <code>1,1,2,3,5,8</code>，所以 <code>climb_stairs(5)=8</code>。在全排列中标出 <code>path.pop()</code> 和 <code>used[i] = False</code> 两行撤销。</td><td><a href="{{ site.baseurl }}/algorithms/data-structures.html">核对 BFS</a> · <a href="{{ site.baseurl }}/algorithms/thinking.html">核对 DP 与回溯</a></td></tr>
+          <tr><td>工程</td><td>容量 3，写入 A、B、C；读 A 后为 <code>B,C,A</code>；再放 D 淘汰最久未用的 B，得到 <code>C,A,D</code>。解释淘汰依据是使用顺序，读操作也会更新它。</td><td><a href="{{ site.baseurl }}/algorithms/engineering.html">演算 LRU 淘汰</a></td></tr>
+          <tr><td>AI</td><td>对 <code>q=(1,0)</code> 与 <code>A=(1,0)</code>、<code>B=(1,1)</code>、<code>C=(0,1)</code>、<code>D=(-1,0)</code>，算出余弦得分 <code>1,1/√2,0,-1</code>，Top-2 依次为 <code>A、B</code>。零向量的长度为 0，会使分母为 0，不能直接计算余弦；专题实现会拒绝它。</td><td><a href="{{ site.baseurl }}/algorithms/ai.html">手算向量检索</a></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="path-directions">
+    <h2 id="path-directions">按实际方向安排优先级</h2>
+    <p>方向帮助选择先练的场景，具体工具仍由输入、操作和规模决定。同一岗位可能同时用到几个阶段，也可能长期不需要某一种进阶结构。</p>
     <ul class="algorithm-list">
-      <li><strong>后端：</strong>Hash、堆、图、缓存、一致性哈希。</li>
-      <li><strong>前端：</strong>树、DFS/BFS、Diff 算法、字符串。</li>
-      <li><strong>AI 工程：</strong>线代、概率、优化算法、向量搜索。</li>
-      <li><strong>游戏开发：</strong>图算法、A*、空间分区、碰撞检测。</li>
+      <li><strong>后端：</strong>先练哈希定位、缓存更新与容量边界，再按任务学习堆和图。排行榜候选可借堆维护，依赖关系可用图表示；跨节点路由再看一致性哈希。先说明一次请求读写什么，再谈平均性能和故障约束。<a href="{{ site.baseurl }}/algorithms/engineering.html">从工程案例开始</a>。</li>
+      <li><strong>前端：</strong>先练树、递归与 DFS/BFS，用组件树或菜单树跟踪访问；处理搜索建议时再比较字符串匹配与前缀结构。界面更新还受渲染和状态管理影响，学会遍历并不等于掌握全部差异比较策略。<a href="{{ site.baseurl }}/algorithms/data-structures.html">先跟踪树与遍历</a>。</li>
+      <li><strong>AI：</strong>先补向量、点积、长度和基础概率，再手算检索排名、线性预测误差与注意力权重。扩大到大量文档时，再比较精确检索的成本和近似检索的召回损失；先能解释小输入，才容易判断库返回的结果。<a href="{{ site.baseurl }}/algorithms/ai.html">从四个文档的检索开始</a>。</li>
+      <li><strong>游戏开发：</strong>先练图、队列与搜索，在无权地图上解释 BFS 的最少步数；有不同移动成本时再研究相应最短路与 A* 搜索及其启发条件。碰撞候选多时再引入空间分区，并核对每帧更新成本和漏检边界。<a href="{{ site.baseurl }}/algorithms/data-structures.html">先核对 BFS 的适用条件</a>。</li>
     </ul>
   </section>
 
