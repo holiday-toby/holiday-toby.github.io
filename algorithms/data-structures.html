@@ -6,107 +6,221 @@ title: 数据结构
 <article class="algorithm-page">
   <header class="algorithm-hero compact">
     <p class="algorithm-kicker">Algorithm 02</p>
-    <h1>数据结构</h1>
-    <p>数据结构决定数据如何组织，算法决定如何在这些结构上行动。</p>
+    <h1>数据结构：跟着引用和队列移动</h1>
+    <p>同一批数据，换一种组织方式，访问和修改的成本就会改变。这一页先用链表反转看清引用如何重连，再用图的广度优先搜索看清队列如何安排访问顺序。</p>
   </header>
 
-  <section class="algorithm-section">
-    <h2>链表</h2>
-    <p>链表适合练指针和引用思维。必须掌握反转、合并、快慢指针、环检测。</p>
-    <div class="algorithm-visual" aria-label="链表反转指针方向示意图">
-      <svg viewBox="0 0 760 190" role="img">
-        <rect class="visual-soft" x="90" y="68" width="88" height="46" rx="8" />
-        <rect class="visual-soft" x="250" y="68" width="88" height="46" rx="8" />
-        <rect class="visual-soft" x="410" y="68" width="88" height="46" rx="8" />
-        <rect class="visual-soft" x="570" y="68" width="88" height="46" rx="8" />
-        <path class="visual-line" d="M178 91 H250" />
-        <path class="visual-line" d="M338 91 H410" />
-        <path class="visual-line" d="M498 91 H570" />
-        <path class="visual-line" d="M250 124 C205 162 132 158 132 118" />
-        <path class="visual-line" d="M410 124 C365 162 292 158 292 118" />
-        <text x="134" y="97" text-anchor="middle">A</text>
-        <text x="294" y="97" text-anchor="middle">B</text>
-        <text x="454" y="97" text-anchor="middle">C</text>
-        <text x="614" y="97" text-anchor="middle">D</text>
-        <text x="380" y="38" text-anchor="middle">反转链表：每一步只改一个 next 指针</text>
-      </svg>
+  <section class="algorithm-section" aria-labelledby="reverse-heading">
+    <h2 id="reverse-heading">链表反转：先留住后路，再改变 next</h2>
+    <p>单链表的节点保存一个值和指向下一节点的 <code>next</code> 引用。输入是无环链表 <code>A → B → C → D → None</code>，我们要得到 <code>D → C → B → A → None</code>。这里的 A–D 是原来的四个节点；反转只修改引用，不复制节点。</p>
+    <p>用 <code>prev</code> 指向已经反转的前缀头，用 <code>cur</code> 指向尚未处理的后缀头。起初 <code>prev=None</code>、<code>cur=A</code>。每轮先把 <code>cur.next</code> 保存为 <code>nxt</code>，否则改完 <code>cur.next</code>，就找不到剩余链表了。图中的箭头都表示该轮结束后的 <code>next</code>，前缀按新的链表顺序排列。</p>
+    <div class="algorithm-step-grid">
+<figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 230" role="img" aria-labelledby="ds-reverse-1-title ds-reverse-1-desc">
+            <title id="ds-reverse-1-title">第 1 轮后：prev=A，cur=B</title>
+            <desc id="ds-reverse-1-desc">已反转前缀为 A 后接 None；未处理后缀为 B、C、D。所有箭头都表示 next 引用。</desc>
+            <defs><marker id="ds-reverse-1-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <text x="12" y="30">已反转：prev = A</text>
+            <rect class="visual-soft" x="12" y="50" width="36" height="40" rx="7" /><text x="30" y="76" text-anchor="middle">A</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-1-arrow)" d="M48 70 H61" />
+<text x="90" y="76" text-anchor="middle">None</text>
+            <text x="12" y="145">未处理：cur = B</text>
+            <rect class="visual-soft" x="12" y="165" width="36" height="40" rx="7" /><text x="30" y="191" text-anchor="middle">B</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-1-arrow)" d="M48 185 H61" />
+<rect class="visual-soft" x="66" y="165" width="36" height="40" rx="7" /><text x="84" y="191" text-anchor="middle">C</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-1-arrow)" d="M102 185 H115" />
+<rect class="visual-soft" x="120" y="165" width="36" height="40" rx="7" /><text x="138" y="191" text-anchor="middle">D</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-1-arrow)" d="M156 185 H169" />
+<text x="198" y="191" text-anchor="middle">None</text>
+          </svg>
+        </div>
+        <figcaption><strong>第 1 轮：</strong>先保存 <code>nxt=B</code>，再令 <code>A.next=None</code>，最后移动 <code>prev</code> 与 <code>cur</code>。</figcaption>
+      </figure>
+<figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 230" role="img" aria-labelledby="ds-reverse-2-title ds-reverse-2-desc">
+            <title id="ds-reverse-2-title">第 2 轮后：prev=B，cur=C</title>
+            <desc id="ds-reverse-2-desc">已反转前缀为 B、A 后接 None；未处理后缀为 C、D。所有箭头都表示 next 引用。</desc>
+            <defs><marker id="ds-reverse-2-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <text x="12" y="30">已反转：prev = B</text>
+            <rect class="visual-soft" x="12" y="50" width="36" height="40" rx="7" /><text x="30" y="76" text-anchor="middle">B</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-2-arrow)" d="M48 70 H61" />
+<rect class="visual-soft" x="66" y="50" width="36" height="40" rx="7" /><text x="84" y="76" text-anchor="middle">A</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-2-arrow)" d="M102 70 H115" />
+<text x="144" y="76" text-anchor="middle">None</text>
+            <text x="12" y="145">未处理：cur = C</text>
+            <rect class="visual-soft" x="12" y="165" width="36" height="40" rx="7" /><text x="30" y="191" text-anchor="middle">C</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-2-arrow)" d="M48 185 H61" />
+<rect class="visual-soft" x="66" y="165" width="36" height="40" rx="7" /><text x="84" y="191" text-anchor="middle">D</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-2-arrow)" d="M102 185 H115" />
+<text x="144" y="191" text-anchor="middle">None</text>
+          </svg>
+        </div>
+        <figcaption><strong>第 2 轮：</strong>先保存 <code>nxt=C</code>，再令 <code>B.next=A</code>，最后移动 <code>prev</code> 与 <code>cur</code>。</figcaption>
+      </figure>
+<figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 230" role="img" aria-labelledby="ds-reverse-3-title ds-reverse-3-desc">
+            <title id="ds-reverse-3-title">第 3 轮后：prev=C，cur=D</title>
+            <desc id="ds-reverse-3-desc">已反转前缀为 C、B、A 后接 None；未处理后缀为 D。所有箭头都表示 next 引用。</desc>
+            <defs><marker id="ds-reverse-3-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <text x="12" y="30">已反转：prev = C</text>
+            <rect class="visual-soft" x="12" y="50" width="36" height="40" rx="7" /><text x="30" y="76" text-anchor="middle">C</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-3-arrow)" d="M48 70 H61" />
+<rect class="visual-soft" x="66" y="50" width="36" height="40" rx="7" /><text x="84" y="76" text-anchor="middle">B</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-3-arrow)" d="M102 70 H115" />
+<rect class="visual-soft" x="120" y="50" width="36" height="40" rx="7" /><text x="138" y="76" text-anchor="middle">A</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-3-arrow)" d="M156 70 H169" />
+<text x="198" y="76" text-anchor="middle">None</text>
+            <text x="12" y="145">未处理：cur = D</text>
+            <rect class="visual-soft" x="12" y="165" width="36" height="40" rx="7" /><text x="30" y="191" text-anchor="middle">D</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-3-arrow)" d="M48 185 H61" />
+<text x="90" y="191" text-anchor="middle">None</text>
+          </svg>
+        </div>
+        <figcaption><strong>第 3 轮：</strong>先保存 <code>nxt=D</code>，再令 <code>C.next=B</code>，最后移动 <code>prev</code> 与 <code>cur</code>。</figcaption>
+      </figure>
+<figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 230" role="img" aria-labelledby="ds-reverse-4-title ds-reverse-4-desc">
+            <title id="ds-reverse-4-title">第 4 轮后：prev=D，cur=None</title>
+            <desc id="ds-reverse-4-desc">已反转前缀为 D、C、B、A 后接 None；未处理后缀为 空。所有箭头都表示 next 引用。</desc>
+            <defs><marker id="ds-reverse-4-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <text x="12" y="30">已反转：prev = D</text>
+            <rect class="visual-soft" x="12" y="50" width="36" height="40" rx="7" /><text x="30" y="76" text-anchor="middle">D</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-4-arrow)" d="M48 70 H61" />
+<rect class="visual-soft" x="66" y="50" width="36" height="40" rx="7" /><text x="84" y="76" text-anchor="middle">C</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-4-arrow)" d="M102 70 H115" />
+<rect class="visual-soft" x="120" y="50" width="36" height="40" rx="7" /><text x="138" y="76" text-anchor="middle">B</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-4-arrow)" d="M156 70 H169" />
+<rect class="visual-soft" x="174" y="50" width="36" height="40" rx="7" /><text x="192" y="76" text-anchor="middle">A</text>
+<path class="visual-line" fill="none" marker-end="url(#ds-reverse-4-arrow)" d="M210 70 H223" />
+<text x="252" y="76" text-anchor="middle">None</text>
+            <text x="12" y="145">未处理：cur = None</text>
+            <text x="36" y="191" text-anchor="middle">None</text>
+          </svg>
+        </div>
+        <figcaption><strong>第 4 轮：</strong>先保存 <code>nxt=None</code>，再令 <code>D.next=C</code>，最后移动 <code>prev</code> 与 <code>cur</code>。</figcaption>
+      </figure>
     </div>
-    <pre class="algorithm-code"><code class="language-python">def reverse_list(head):
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>四轮中的引用变化；每轮只重连当前节点的 next</caption>
+        <thead><tr><th>轮次</th><th>迭代前 prev / cur</th><th>先保存 nxt</th><th>重连</th><th>迭代后 prev / cur</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>None / A</td><td>B</td><td>A.next=None</td><td>A / B</td></tr>
+          <tr><td>2</td><td>A / B</td><td>C</td><td>B.next=A</td><td>B / C</td></tr>
+          <tr><td>3</td><td>B / C</td><td>D</td><td>C.next=B</td><td>C / D</td></tr>
+          <tr><td>4</td><td>C / D</td><td>None</td><td>D.next=C</td><td>D / None</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>为什么不会丢节点？</strong>每轮开始时，<code>prev</code> 链是已处理部分的逆序，<code>cur</code> 链是未处理部分的原顺序，两部分合起来恰好包含原来的全部节点。先存 <code>nxt</code>，再将当前节点接到前缀前面，就把后缀的一个节点移入前缀。<code>cur=None</code> 时后缀为空，<code>prev</code> 就是完整反转链的新头 D。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="reverse-list">class Node:
+    def __init__(self, value, next=None):
+        self.value = value
+        self.next = next
+
+def reverse_list(head):
     prev, cur = None, head
-    while cur:
+    while cur is not None:
         nxt = cur.next
         cur.next = prev
         prev, cur = cur, nxt
     return prev</code></pre>
+    <p>例如先建立 <code>d=Node("D")</code>、<code>c=Node("C", d)</code>、<code>b=Node("B", c)</code>、<code>a=Node("A", b)</code>，调用 <code>head=reverse_list(a)</code> 后，<code>head is d</code>，沿 next 依次读到 D、C、B、A，且 <code>a.next is None</code>。这会修改原节点；旧变量 a 仍指向 A，但 A 已经成为尾节点。</p>
+    <p><strong>成本与边界：</strong>n 个节点各处理一次，时间 O(n)，只保留三个引用，额外空间 O(1)。空链表返回 <code>None</code>，单节点返回该节点。输入必须是无环单链表；本函数不检测环，也不会保留原来的 next 关系。</p>
+    <h3>什么时候选择链表？</h3>
+    <ul class="algorithm-list">
+      <li><strong>访问与插入：</strong>按索引找第 k 个节点通常要从头走，时间 O(k)，最坏 O(n)。已经拿到前驱节点时，在它后面插入或删除一个节点只需 O(1) 次引用修改；若还要先找前驱，总成本可能是 O(n)。需要频繁随机访问时，数组通常更直接。</li>
+      <li><strong>合并有序链表：</strong>维护两个头指针，每次取值较小的节点接到结果尾部。前提是两条输入链表已按同一规则排序；长度 m、n 的合并时间 O(m+n)。复用节点的迭代写法可用 O(1) 额外空间，但会改变原链；复制节点则需要 O(m+n) 新空间。</li>
+      <li><strong>快慢指针：</strong>一个每次走一步、另一个走两步。在无环链表中可用 O(n) 时间、O(1) 空间找中点；偶数长度时需约定返回前一个还是后一个中点。</li>
+      <li><strong>环检测：</strong>Floyd 快慢指针法比较的是节点身份，不能只比较节点值。若有环，两指针会在环内相遇；若快指针走到 None，则无环。时间 O(n)、额外空间 O(1)，其中 n 表示可达的不同节点数。检测到环后需单独处理，不能当成普通链表继续遍历。</li>
+    </ul>
   </section>
 
-  <section class="algorithm-section">
-    <h2>树</h2>
-    <p>树是程序员最重要的数据结构之一。二叉树遍历、BST、堆、Trie 都很常见。</p>
+  <section class="algorithm-section" aria-labelledby="tree-heading">
+    <h2 id="tree-heading">树：先确定要支持哪种操作</h2>
+    <p>树用父子关系组织层次。二叉树每个节点至多有两个孩子，但它不一定有序，也不一定平衡。以下结构解决的问题不同，不能只因为“都是树”就互相替代。</p>
     <div class="algorithm-table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>内容</th>
-            <th>用途</th>
-          </tr>
-        </thead>
+        <thead><tr><th>结构或操作</th><th>关键动作与用途</th><th>成本、前提与局限</th></tr></thead>
         <tbody>
-          <tr>
-            <td>二叉树遍历</td>
-            <td>递归、迭代、层序遍历基础</td>
-          </tr>
-          <tr>
-            <td>BST</td>
-            <td>有序数据查找与维护</td>
-          </tr>
-          <tr>
-            <td>堆</td>
-            <td>优先队列、Top K、任务调度</td>
-          </tr>
-          <tr>
-            <td>Trie</td>
-            <td>前缀匹配、搜索提示、词典</td>
-          </tr>
+          <tr><td>先序 / 中序 / 后序遍历</td><td>先序按根→左→右处理，适合复制层次；中序按左→根→右处理；后序按左→右→根处理，适合先汇总孩子再计算父节点。</td><td>访问 n 个节点都是 O(n) 时间，递归栈 O(h)，h 是树高。中序只有在二叉搜索树上才保证得到有序序列；很深的树可能需要显式栈。</td></tr>
+          <tr><td>二叉搜索树（Binary Search Tree，BST）</td><td>按约定让左子树键较小、右子树键较大；查找时比较键，只进入一侧。适合维护有序集合和范围查询。</td><td>查找、插入、删除为 O(h)；平衡时 h=O(log n)，退化成链时可到 O(n)。重复键要有一致存储规则；普通 BST 不自动保持平衡。</td></tr>
+          <tr><td>二叉堆（heap）</td><td>以数组存完全二叉树，最小堆让父节点不大于孩子；插入向上调整，弹出最小值后向下调整。用于优先队列、任务调度和 Top K。</td><td>堆顶查询 O(1)，插入和弹出 O(log n)，自底向上建堆 O(n)。只保证堆顶最小，不保证整个数组有序；找任意键最坏 O(n)。</td></tr>
+          <tr><td>字典树（Trie）</td><td>沿字符逐层走，把公共前缀共用一条路径。用于前缀判断、词典和搜索提示。</td><td>若每层的孩子查询为 O(1)，插入和精确查找长度 L 的键需 O(L)。列出提示还要付出遍历和输出结果的成本；节点与孩子表可能占较大空间，不是按键数量统一算 O(log n)。</td></tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <section class="algorithm-section">
-    <h2>图</h2>
-    <p>图用于描述关系网络，常见于推荐、社交、地图、依赖管理和工作流。</p>
-    <div class="algorithm-visual" aria-label="图的广度优先搜索层级示意图">
-      <svg viewBox="0 0 760 230" role="img">
-        <circle class="visual-accent" cx="110" cy="116" r="28" />
-        <circle class="visual-blue" cx="260" cy="62" r="28" />
-        <circle class="visual-blue" cx="260" cy="170" r="28" />
-        <circle class="visual-soft" cx="430" cy="62" r="28" />
-        <circle class="visual-soft" cx="430" cy="170" r="28" />
-        <circle class="visual-soft" cx="600" cy="116" r="28" />
-        <path class="visual-line" d="M138 106 L232 72 M138 126 L232 160 M288 62 H402 M288 170 H402 M458 74 L572 106 M458 158 L572 126" />
-        <text x="110" y="122" text-anchor="middle" fill="#fff">0</text>
-        <text x="260" y="68" text-anchor="middle" fill="#fff">1</text>
-        <text x="260" y="176" text-anchor="middle" fill="#fff">1</text>
-        <text x="430" y="68" text-anchor="middle">2</text>
-        <text x="430" y="176" text-anchor="middle">2</text>
-        <text x="600" y="122" text-anchor="middle">3</text>
-        <text x="380" y="214" text-anchor="middle">BFS 按层推进，天然适合无权最短路</text>
-      </svg>
+  <section class="algorithm-section" aria-labelledby="bfs-heading">
+    <h2 id="bfs-heading">图的广度优先搜索：先入队，就先标记</h2>
+    <p>图用顶点和边表示关系。广度优先搜索（Breadth-First Search，BFS）从起点出发，用先进先出的队列安排访问：先处理近的一层，再处理更远的一层。下面是无权无向图，既有环 A–B–D–C–A，也有 B、C 共享的邻居 D。</p>
+    <p>邻接表固定为 <code>A:[B,C]</code>、<code>B:[A,D]</code>、<code>C:[A,D]</code>、<code>D:[B,C,E]</code>、<code>E:[D]</code>。列表中的邻居顺序决定同一层的访问次序。初始化时 <code>queue=[A]</code>、<code>seen={A}</code>、<code>order=[]</code>；队列左侧是队头。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 350" role="img" aria-labelledby="ds-bfs-graph-title ds-bfs-graph-desc">
+            <title id="ds-bfs-graph-title">A 到 E 的无向图与从 A 出发的距离</title>
+            <desc id="ds-bfs-graph-desc">边为 A-B、A-C、B-D、C-D、D-E。A 距离为零，B 和 C 为一，D 为二，E 为三。节点内的字母是身份，旁边的数字才是距离。</desc>
+            <path class="visual-line" fill="none" d="M145 62 L91 112 M175 62 L229 112 M91 148 L145 198 M229 148 L175 198 M160 237 V278" />
+            <circle class="visual-accent" cx="160" cy="45" r="22" />
+            <circle class="visual-blue" cx="75" cy="130" r="22" />
+            <circle class="visual-blue" cx="245" cy="130" r="22" />
+            <circle class="visual-soft" cx="160" cy="215" r="22" />
+            <circle class="visual-soft" cx="160" cy="300" r="22" />
+            <text class="visual-text-inverse" x="160" y="51" text-anchor="middle">A</text>
+            <text class="visual-text-inverse" x="75" y="136" text-anchor="middle">B</text>
+            <text class="visual-text-inverse" x="245" y="136" text-anchor="middle">C</text>
+            <text x="160" y="221" text-anchor="middle">D</text>
+            <text x="160" y="306" text-anchor="middle">E</text>
+            <text x="205" y="51">距离 0</text>
+            <text x="160" y="136" text-anchor="middle">距离 1</text>
+            <text x="205" y="221">距离 2</text>
+            <text x="205" y="306">距离 3</text>
+          </svg>
+        </div>
+        <figcaption><strong>先分清身份与距离：</strong>字母 A–E 标识顶点；距离是从 A 出发最少经过的边数。边没有箭头，两个方向都能走。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 350" role="img" aria-labelledby="ds-bfs-queue-title ds-bfs-queue-desc">
+            <title id="ds-bfs-queue-title">每轮处理后，队列如何变化</title>
+            <desc id="ds-bfs-queue-desc">处理 A 后 B、C 入队；处理 B 后 C、D 等待；处理 C 后只有 D，D 不重复入队；处理 D 后只有 E；处理 E 后队列为空。每行左侧为队头。</desc>
+            <text x="12" y="28">处理完谁</text><text x="193" y="28">队头 → 队尾</text>
+            <text x="12" y="78">1. A</text><rect class="visual-blue" x="190" y="50" width="42" height="42" rx="6" /><rect class="visual-blue" x="248" y="50" width="42" height="42" rx="6" /><text class="visual-text-inverse" x="211" y="78" text-anchor="middle">B</text><text class="visual-text-inverse" x="269" y="78" text-anchor="middle">C</text>
+            <text x="12" y="136">2. B</text><rect class="visual-blue" x="190" y="108" width="42" height="42" rx="6" /><rect class="visual-soft" x="248" y="108" width="42" height="42" rx="6" /><text class="visual-text-inverse" x="211" y="136" text-anchor="middle">C</text><text x="269" y="136" text-anchor="middle">D</text>
+            <text x="12" y="194">3. C（跳过 D）</text><rect class="visual-soft" x="190" y="166" width="42" height="42" rx="6" /><text x="211" y="194" text-anchor="middle">D</text>
+            <text x="12" y="252">4. D</text><rect class="visual-soft" x="190" y="224" width="42" height="42" rx="6" /><text x="211" y="252" text-anchor="middle">E</text>
+            <text x="12" y="310">5. E</text><text x="190" y="310">空队列 []</text>
+          </svg>
+        </div>
+        <figcaption><strong>每个顶点最多入队一次：</strong>D 在处理 B 时已经入队并加入 seen，所以处理 C 时跳过 D。seen 既包括处理过的顶点，也包括正在排队的顶点。</figcaption>
+      </figure>
     </div>
-    <ul class="algorithm-list">
-      <li><strong>BFS / DFS：</strong>搜索与遍历。</li>
-      <li><strong>Dijkstra / Floyd：</strong>最短路径。</li>
-      <li><strong>拓扑排序：</strong>依赖管理。</li>
-      <li><strong>并查集：</strong>连通性与判环。</li>
-    </ul>
-    <pre class="algorithm-code"><code class="language-python">from collections import deque
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>先出队记录 node，再按邻接顺序检查邻居；seen 中的字母仅为集合的展示顺序</caption>
+        <thead><tr><th>出队 node</th><th>本轮检查</th><th>处理后 queue</th><th>处理后 seen</th><th>处理后 order</th></tr></thead>
+        <tbody>
+          <tr><td>A</td><td>B、C 首次发现：各自先标记，再入队</td><td>[B,C]</td><td>{A,B,C}</td><td>[A]</td></tr>
+          <tr><td>B</td><td>A 已标记；D 首次发现并入队</td><td>[C,D]</td><td>{A,B,C,D}</td><td>[A,B]</td></tr>
+          <tr><td>C</td><td>A、D 均已标记；D 不再次入队</td><td>[D]</td><td>{A,B,C,D}</td><td>[A,B,C]</td></tr>
+          <tr><td>D</td><td>B、C 已标记；E 首次发现并入队</td><td>[E]</td><td>{A,B,C,D,E}</td><td>[A,B,C,D]</td></tr>
+          <tr><td>E</td><td>D 已标记，无新顶点</td><td>[]</td><td>{A,B,C,D,E}</td><td>[A,B,C,D,E]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>为什么按层走？</strong>队列先进先出；距离为 k 的节点会在新发现的距离为 k+1 的节点之前出队。首次发现一个邻居时，如果有更短的路线，它就会在更早的层被发现。因此无权图的首次发现层数就是最短距离。这里 A=0，B/C=1，D=2，E=3。入队时立刻加入 <code>seen</code>，使环和共享邻居都不会造成重复排队。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="bfs">from collections import deque
 
 def bfs(graph, start):
-    seen = {start}
-    queue = deque([start])
-    order = []
-
+    if start not in graph:
+        raise ValueError("start must be a vertex")
+    seen, queue, order = {start}, deque([start]), []
     while queue:
         node = queue.popleft()
         order.append(node)
@@ -115,6 +229,22 @@ def bfs(graph, start):
                 seen.add(nxt)
                 queue.append(nxt)
     return order</code></pre>
+    <p>将上面的邻接表写成字典后，<code>bfs(graph, "A")</code> 返回 <code>["A", "B", "C", "D", "E"]</code>。返回值只是遍历顺序，并不包含距离或最短路径；需要距离时，可在首次入队时记录 <code>dist[nxt]=dist[node]+1</code>，需要还原路径时再记录前驱。</p>
+    <p><strong>成本与边界：</strong>采用邻接表，且集合查询平均为 O(1) 时，每个可达顶点入队一次、每条可达邻接项检查一次，时间 O(V+E)，额外空间 O(V)（包括返回顺序）。这里 V、E 指从起点可达的顶点和边；无向边在邻接表中出现两次，不影响数量级。若改用含 N 个顶点的邻接矩阵，每次扫描 N 个候选邻居，遍历 V 个可达顶点耗时 O(VN)，最坏 O(N²)。</p>
+    <p>前提是邻接表为每个顶点都提供键，包括没有邻居的顶点；顶点可以用作集合元素。函数只访问起点可达的部分，不修改图。孤立起点返回 <code>[start]</code>；起点不存在（包括空图）抛出 <code>ValueError</code>。有向图也可使用这段代码，但只能沿列出的出边前进。</p>
+    <h3>图算法怎么选？</h3>
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead><tr><th>工具</th><th>问题与关键动作</th><th>成本与使用条件</th></tr></thead>
+        <tbody>
+          <tr><td>BFS / 深度优先搜索（Depth-First Search，DFS）</td><td>BFS 用队列逐层探索，适合无权最短距离；DFS 用递归或显式栈先走深再回退，适合可达性、连通分量和搜索路径。</td><td>邻接表加访问标记时都为 O(V+E) 时间、O(V) 额外空间。遍历全图要从尚未访问的顶点继续启动；DFS 首次找到的路径不保证最短。</td></tr>
+          <tr><td>Dijkstra 单源最短路</td><td>每次取当前距离最小的候选顶点，尝试用它改进邻居的距离（松弛）。适合道路耗时等带权距离。</td><td>要求边权非负。邻接表配二叉堆、每个顶点维护堆位置时为 O((V+E) log V) 时间；常见允许重复条目的堆写法为 O((V+E) log(V+E)) 上界。不能直接用于含负权边的图。</td></tr>
+          <tr><td>Floyd–Warshall 全点对最短路</td><td>依次允许一个顶点充当中转点，更新每一对起终点的距离。适合顶点较少、需要多次查询任意两点距离的图。</td><td>距离矩阵与三重循环为 O(V³) 时间、O(V²) 空间。可有负权边，但若路径可经过负权环，就没有有限最短距离；不能把矩阵结果当作正常最短路使用。</td></tr>
+          <tr><td>拓扑排序</td><td>反复取出入度为 0 的顶点，并降低其后继入度；给任务依赖安排先后顺序。</td><td>Kahn 算法采用邻接表为 O(V+E) 时间、O(V) 额外空间。完整顺序存在的前提是有向无环图（Directed Acyclic Graph，DAG）；输出不足 V 个顶点表示有环。</td></tr>
+          <tr><td>并查集（Disjoint Set Union，DSU）</td><td>用代表元标识集合，find 查询代表元，union 合并集合；适合动态增加连接、查询无向连通性和判定新增边是否成环。</td><td>初始化需 O(V) 时间；路径压缩配按秩或按大小合并后，m 次操作为 O(m α(V)) 摊还时间，空间 O(V)，α 是增长极慢的反阿克曼函数。基础并查集不支持任意删边，也不能求一般最短路或判断有向可达性。</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
   <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>
