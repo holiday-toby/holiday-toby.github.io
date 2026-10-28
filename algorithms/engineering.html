@@ -7,109 +7,256 @@ title: 工程算法
   <header class="algorithm-hero compact">
     <p class="algorithm-kicker">Algorithm 04</p>
     <h1>工程算法</h1>
-    <p>工程里最常用的算法，往往直接服务于性能、稳定性、容量和扩展性。</p>
+    <p>从三个具体问题开始：缓存满了删谁，扩容后哪些键搬家，一个名字是否值得去真实存储里查。先跟着状态变化走，再看省下的成本和必须接受的限制。</p>
   </header>
 
-  <section class="algorithm-section">
-    <h2>缓存算法</h2>
-    <div class="algorithm-visual" aria-label="LRU 缓存淘汰示意图">
-      <svg viewBox="0 0 760 190" role="img">
-        <rect class="visual-soft" x="90" y="70" width="96" height="50" rx="10" />
-        <rect class="visual-soft" x="212" y="70" width="96" height="50" rx="10" />
-        <rect class="visual-soft" x="334" y="70" width="96" height="50" rx="10" />
-        <rect class="visual-accent" x="456" y="70" width="96" height="50" rx="10" />
-        <rect class="visual-blue" x="578" y="70" width="96" height="50" rx="10" />
-        <path class="visual-line" d="M186 95 H212 M308 95 H334 M430 95 H456 M552 95 H578" />
-        <text x="138" y="101" text-anchor="middle">旧</text>
-        <text x="260" y="101" text-anchor="middle">B</text>
-        <text x="382" y="101" text-anchor="middle">C</text>
-        <text x="504" y="101" text-anchor="middle" fill="#fff">A</text>
-        <text x="626" y="101" text-anchor="middle" fill="#fff">新</text>
-        <text x="382" y="152" text-anchor="middle">访问 A 后移到队尾；容量满时淘汰最久未使用的旧节点</text>
-      </svg>
+  <section class="algorithm-section" id="lru">
+    <h2>LRU：容量满了，淘汰最久没有使用的条目</h2>
+    <p>缓存是为了重复读取时少做一次慢操作，但内存有限。LRU（Least Recently Used，最近最少使用）只记录“上次使用的先后顺序”：访问或更新过的键放到最近端，超出容量时从最久端淘汰。</p>
+    <p>输入：容量固定为 3，依次写入 A=1、B=2、C=3，再执行下面的操作。所有图都约定<strong>左端最久未用，右端最近使用</strong>；颜色只是辅助，图中同时写明动作。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 176" role="img" aria-labelledby="eng-lru-1-title eng-lru-1-desc">
+            <title id="eng-lru-1-title">① put A、B、C</title>
+            <desc id="eng-lru-1-desc">依次 put A=1、B=2、C=3，容量恰好用满；顺序为 A、B、C。</desc>
+            <text x="16" y="30">① put A、B、C</text>
+            <text x="16" y="55">最久未用</text><text x="304" y="55" text-anchor="end">最近使用</text>
+            <rect class="visual-soft" x="16" y="68" width="92" height="54" rx="8" /><text x="62" y="101" text-anchor="middle">A=1</text><rect class="visual-soft" x="114" y="68" width="92" height="54" rx="8" /><text x="160" y="101" text-anchor="middle">B=2</text><rect class="visual-soft" x="212" y="68" width="92" height="54" rx="8" /><text x="258" y="101" text-anchor="middle">C=3</text>
+            <path class="visual-line" d="M24 143 H296" />
+            <text x="160" y="169" text-anchor="middle">容量 3：已用 3</text>
+          </svg>
+        </div>
+        <figcaption>依次 put A=1、B=2、C=3，容量恰好用满；顺序为 A、B、C。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 176" role="img" aria-labelledby="eng-lru-2-title eng-lru-2-desc">
+            <title id="eng-lru-2-title">② get A → 1</title>
+            <desc id="eng-lru-2-desc">命中 A，返回 1，把 A 移到右端；B 变成最久未使用的条目。</desc>
+            <text x="16" y="30">② get A → 1</text>
+            <text x="16" y="55">最久未用</text><text x="304" y="55" text-anchor="end">最近使用</text>
+            <rect class="visual-soft" x="16" y="68" width="92" height="54" rx="8" /><text x="62" y="101" text-anchor="middle">B=2</text><rect class="visual-soft" x="114" y="68" width="92" height="54" rx="8" /><text x="160" y="101" text-anchor="middle">C=3</text><rect class="visual-blue" x="212" y="68" width="92" height="54" rx="8" /><text class="visual-text-inverse" x="258" y="101" text-anchor="middle">A=1</text>
+            <path class="visual-line" d="M24 143 H296" />
+            <text x="160" y="169" text-anchor="middle">命中：移动 A 到右端</text>
+          </svg>
+        </div>
+        <figcaption>命中 A，返回 1，把 A 移到右端；B 变成最久未使用的条目。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 176" role="img" aria-labelledby="eng-lru-3-title eng-lru-3-desc">
+            <title id="eng-lru-3-title">③ put D=4</title>
+            <desc id="eng-lru-3-desc">新增 D 后超过容量，淘汰最左端 B；留下 C、A、D。</desc>
+            <text x="16" y="30">③ put D=4</text>
+            <text x="16" y="55">最久未用</text><text x="304" y="55" text-anchor="end">最近使用</text>
+            <rect class="visual-soft" x="16" y="68" width="92" height="54" rx="8" /><text x="62" y="101" text-anchor="middle">C=3</text><rect class="visual-soft" x="114" y="68" width="92" height="54" rx="8" /><text x="160" y="101" text-anchor="middle">A=1</text><rect class="visual-blue" x="212" y="68" width="92" height="54" rx="8" /><text class="visual-text-inverse" x="258" y="101" text-anchor="middle">D=4</text>
+            <path class="visual-line" d="M24 143 H296" />
+            <text x="160" y="169" text-anchor="middle">新增：淘汰 B</text>
+          </svg>
+        </div>
+        <figcaption>新增 D 后超过容量，淘汰最左端 B；留下 C、A、D。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 176" role="img" aria-labelledby="eng-lru-4-title eng-lru-4-desc">
+            <title id="eng-lru-4-title">④ get B → 未命中</title>
+            <desc id="eng-lru-4-desc">B 已被淘汰；get B 返回默认值，C、A、D 的顺序不变。</desc>
+            <text x="16" y="30">④ get B → 未命中</text>
+            <text x="16" y="55">最久未用</text><text x="304" y="55" text-anchor="end">最近使用</text>
+            <rect class="visual-soft" x="16" y="68" width="92" height="54" rx="8" /><text x="62" y="101" text-anchor="middle">C=3</text><rect class="visual-soft" x="114" y="68" width="92" height="54" rx="8" /><text x="160" y="101" text-anchor="middle">A=1</text><rect class="visual-soft" x="212" y="68" width="92" height="54" rx="8" /><text x="258" y="101" text-anchor="middle">D=4</text>
+            <path class="visual-line" d="M24 143 H296" />
+            <text x="160" y="169" text-anchor="middle">未命中：顺序不变</text>
+          </svg>
+        </div>
+        <figcaption>B 已被淘汰；get B 返回默认值，C、A、D 的顺序不变。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 176" role="img" aria-labelledby="eng-lru-5-title eng-lru-5-desc">
+            <title id="eng-lru-5-title">⑤ put C=30</title>
+            <desc id="eng-lru-5-desc">C 已存在，更新值为 30 并移到右端；没有新增条目，也不淘汰其他键。</desc>
+            <text x="16" y="30">⑤ put C=30</text>
+            <text x="16" y="55">最久未用</text><text x="304" y="55" text-anchor="end">最近使用</text>
+            <rect class="visual-soft" x="16" y="68" width="92" height="54" rx="8" /><text x="62" y="101" text-anchor="middle">A=1</text><rect class="visual-soft" x="114" y="68" width="92" height="54" rx="8" /><text x="160" y="101" text-anchor="middle">D=4</text><rect class="visual-blue" x="212" y="68" width="92" height="54" rx="8" /><text class="visual-text-inverse" x="258" y="101" text-anchor="middle">C=30</text>
+            <path class="visual-line" d="M24 143 H296" />
+            <text x="160" y="169" text-anchor="middle">更新：C 的值与顺序改变</text>
+          </svg>
+        </div>
+        <figcaption>C 已存在，更新值为 30 并移到右端；没有新增条目，也不淘汰其他键。</figcaption>
+      </figure>
     </div>
-    <ul class="algorithm-list">
-      <li><strong>LRU：</strong>淘汰最近最少使用的数据，适合本地缓存和热点缓存。</li>
-      <li><strong>LFU：</strong>淘汰访问频率最低的数据，适合稳定热点场景。</li>
-    </ul>
-    <pre class="algorithm-code"><code class="language-python">from collections import OrderedDict
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead><tr><th>操作</th><th>返回 / 淘汰</th><th>操作后的键顺序（左 → 右）</th></tr></thead>
+        <tbody>
+          <tr><td>put A=1、B=2、C=3</td><td>无淘汰</td><td>A, B, C</td></tr>
+          <tr><td>get A</td><td>返回 1</td><td>B, C, A</td></tr>
+          <tr><td>put D=4</td><td>淘汰 B</td><td>C, A, D</td></tr>
+          <tr><td>get B</td><td>未命中</td><td>C, A, D</td></tr>
+          <tr><td>put C=30</td><td>更新已有键</td><td>A, D, C</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>为什么这样维护就够了？</strong>每次命中或写入都把这个键移到右端，其余键的相对顺序不变，所以最左端始终是最久没被使用的键。未命中没有访问到缓存条目，顺序也不应改变。这里把写入已有键也算一次使用。</p>
+    <p>Python 的 OrderedDict（有序字典）既能按键查值，也能移动条目。<code>move_to_end</code> 默认移到右端；<code>popitem(last=False)</code> 删除左端条目。可以对照 <a href="https://docs.python.org/3/library/collections.html#ordereddict-objects">Python 官方文档</a>阅读这两个操作。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="lru">from collections import OrderedDict
 
 class LRUCache:
     def __init__(self, capacity):
+        if capacity &lt;= 0:
+            raise ValueError("capacity must be positive")
         self.capacity = capacity
         self.data = OrderedDict()
 
-    def get(self, key):
+    def get(self, key, default=None):
         if key not in self.data:
-            return None
+            return default
         self.data.move_to_end(key)
         return self.data[key]
 
     def put(self, key, value):
-        if key in self.data:
-            self.data.move_to_end(key)
         self.data[key] = value
+        self.data.move_to_end(key)
         if len(self.data) &gt; self.capacity:
             self.data.popitem(last=False)</code></pre>
+    <pre class="algorithm-code"><code class="language-python">cache = LRUCache(3)
+for key, value in [("A", 1), ("B", 2), ("C", 3)]:
+    cache.put(key, value)
+print(cache.get("A"))        # 1
+cache.put("D", 4)            # 淘汰 B
+print(cache.get("B"))        # None（默认未命中值）
+cache.put("C", 30)
+print(list(cache.data.items()))
+# [('A', 1), ('D', 4), ('C', 30)]
+
+missing = object()          # 独立哨兵：区别“缺失”和“值是 None”
+cache.put("E", None)
+print(cache.get("E", missing) is None)     # True，确实缓存了 None
+print(cache.get("Z", missing) is missing) # True，键不存在</code></pre>
+    <p><strong>成本与边界：</strong>容量前提是正整数，键必须可哈希；代码拒绝非正容量。哈希表负责查找，双向顺序结构负责移动和删除，在键哈希/比较成本视为常数、哈希分布正常时，get 和 put 通常为 O(1)，保存的条目及顺序信息占 O(capacity) 空间。容量 1 也适用；此示例没有过期时间、并发同步或按字节限制。</p>
+    <p class="algorithm-note"><strong>与 LFU 的区别：</strong>LFU（Least Frequently Used，最不经常使用）优先淘汰访问次数最低的键。若频次相同，还要约定按最近使用时间等规则打破平局；历史热点也可能需要频次衰减。LRU 看近期先后，LFU 看次数。上面只实现了 LRU，不能靠这段代码得到 LFU。</p>
   </section>
 
-  <section class="algorithm-section">
-    <h2>字符串算法</h2>
+  <section class="algorithm-section" id="consistent-hashing">
+    <h2>一致性哈希：新增节点，只改变一段归属</h2>
+    <p>假设多个缓存节点共同保存数据。直接用“哈希值除以节点数的余数”路由时，节点数变化可能让大量键重新分配。一致性哈希把键和节点放到同一位置空间，给每个键找沿环向前遇到的第一个节点。</p>
+    <p>输入：教学空间为 <code>[0,100)</code>，沿数值增加方向顺时针。初始节点为 A=20、B=50、C=80，键的位置为 10、30、45、60、90。<strong>查找第一个位置不小于键位置的节点；没有时绕回第一个节点。</strong>这里的位置视为已算好的哈希结果，不把单词直接当作数值。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 310" role="img" aria-labelledby="eng-ring-before-title eng-ring-before-desc">
+            <title id="eng-ring-before-title">新增节点前的一致性哈希环</title>
+            <desc id="eng-ring-before-desc">位置从顶端 0 开始沿顺时针增加。A 在 20，B 在 50，C 在 80。键 10 与 90 归 A，30 与 45 归 B，60 归 C。</desc>
+            <defs><marker id="eng-ring-before-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#155799" /></marker></defs>
+            <circle cx="160" cy="145" r="95" fill="none" stroke="#b9d3df" stroke-width="4" />
+
+            <path d="M164 50 A95 95 0 0 1 207 62" fill="none" stroke="#155799" stroke-width="3" marker-end="url(#eng-ring-before-arrow)" />
+            <text x="160" y="28" text-anchor="middle">0 / 100</text>
+            <text x="160" y="137" text-anchor="middle">顺时针增加</text><text x="160" y="164" text-anchor="middle">[0,100)</text>
+            <circle class="visual-blue" cx="250.4" cy="115.6" r="15" /><text class="visual-text-inverse" x="250.4" y="121.6" text-anchor="middle">A</text><circle class="visual-blue" cx="160.0" cy="240.0" r="15" /><text class="visual-text-inverse" x="160.0" y="246.0" text-anchor="middle">B</text><circle class="visual-blue" cx="69.6" cy="115.6" r="15" /><text class="visual-text-inverse" x="69.6" y="121.6" text-anchor="middle">C</text><circle cx="215.8" cy="68.1" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="226" y="51" text-anchor="middle">k10</text><circle cx="250.4" cy="174.4" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="289" y="180" text-anchor="middle">k30</text><circle cx="189.4" cy="235.4" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="205" y="265" text-anchor="middle">k45</text><circle cx="104.2" cy="221.9" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="83" y="249" text-anchor="middle">k60</text><circle cx="104.2" cy="68.1" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="91" y="51" text-anchor="middle">k90</text>
+            <text x="285" y="122" text-anchor="middle">20</text><text x="35" y="122" text-anchor="middle">80</text><text x="160" y="284" text-anchor="middle">50</text>
+          </svg>
+        </div>
+        <figcaption>① 原有 A=20、B=50、C=80。实心圆是节点，空心小圆是键的位置（k10 表示位置 10 的键）。k90 越过 100 后绕回 A。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 310" role="img" aria-labelledby="eng-ring-after-title eng-ring-after-desc">
+            <title id="eng-ring-after-title">新增 D=35 后的一致性哈希环</title>
+            <desc id="eng-ring-after-desc">位置从顶端 0 开始沿顺时针增加。A 在 20，B 在 50，C 在 80。新增 D 在 35，突出区间 (20,35]；键 30 从 B 迁至 D，其他四个示例键归属不变。</desc>
+            <defs><marker id="eng-ring-after-arrow" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0 0 L6 3 L0 6 Z" fill="#155799" /></marker></defs>
+            <circle cx="160" cy="145" r="95" fill="none" stroke="#b9d3df" stroke-width="4" />
+            <path d="M250.4 115.6 A95 95 0 0 1 236.9 200.8" fill="none" stroke="#159957" stroke-width="9" />
+            <path d="M164 50 A95 95 0 0 1 207 62" fill="none" stroke="#155799" stroke-width="3" marker-end="url(#eng-ring-after-arrow)" />
+            <text x="160" y="28" text-anchor="middle">0 / 100</text>
+            <text x="160" y="137" text-anchor="middle">顺时针增加</text><text x="160" y="164" text-anchor="middle">[0,100)</text>
+            <circle class="visual-blue" cx="250.4" cy="115.6" r="15" /><text class="visual-text-inverse" x="250.4" y="121.6" text-anchor="middle">A</text><circle class="visual-blue" cx="160.0" cy="240.0" r="15" /><text class="visual-text-inverse" x="160.0" y="246.0" text-anchor="middle">B</text><circle class="visual-blue" cx="69.6" cy="115.6" r="15" /><text class="visual-text-inverse" x="69.6" y="121.6" text-anchor="middle">C</text><circle class="visual-accent" cx="236.9" cy="200.8" r="15" /><text class="visual-text-inverse" x="236.9" y="206.8" text-anchor="middle">D</text><circle cx="215.8" cy="68.1" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="226" y="51" text-anchor="middle">k10</text><circle cx="250.4" cy="174.4" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="289" y="180" text-anchor="middle">k30</text><circle cx="189.4" cy="235.4" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="205" y="265" text-anchor="middle">k45</text><circle cx="104.2" cy="221.9" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="83" y="249" text-anchor="middle">k60</text><circle cx="104.2" cy="68.1" r="5" fill="#fff" stroke="#18314d" stroke-width="2" /><text x="91" y="51" text-anchor="middle">k90</text>
+            <text x="285" y="122" text-anchor="middle">20</text><text x="35" y="122" text-anchor="middle">80</text><text x="160" y="284" text-anchor="middle">50</text><text x="278" y="219" text-anchor="middle">35</text>
+          </svg>
+        </div>
+        <figcaption>② 加入 D=35。粗绿色弧是迁移区间 (20,35]；示例里只有 k30 位于其中，因此改由 D 负责。</figcaption>
+      </figure>
+    </div>
     <div class="algorithm-table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>算法</th>
-            <th>用途</th>
-          </tr>
-        </thead>
+        <thead><tr><th>键位置</th><th>加入 D=35 前</th><th>加入 D=35 后</th><th>沿环查找的理由</th></tr></thead>
         <tbody>
-          <tr>
-            <td>KMP</td>
-            <td>字符串匹配</td>
-          </tr>
-          <tr>
-            <td>Trie</td>
-            <td>搜索提示、前缀查询</td>
-          </tr>
-          <tr>
-            <td>AC 自动机</td>
-            <td>敏感词、多模式匹配</td>
-          </tr>
-          <tr>
-            <td>Rabin-Karp</td>
-            <td>文本检索、滚动哈希</td>
-          </tr>
+          <tr><td>10</td><td>A=20</td><td>A=20</td><td>第一个不小于 10 的节点仍是 20</td></tr>
+          <tr><td>30</td><td>B=50</td><td>D=35（迁移）</td><td>35 成为第一个不小于 30 的节点</td></tr>
+          <tr><td>45</td><td>B=50</td><td>B=50</td><td>35 小于 45，继续前进到 50</td></tr>
+          <tr><td>60</td><td>C=80</td><td>C=80</td><td>第一个不小于 60 的节点仍是 80</td></tr>
+          <tr><td>90</td><td>A=20</td><td>A=20</td><td>没有节点位置 ≥90，绕回 20</td></tr>
         </tbody>
       </table>
     </div>
+    <p><strong>为什么只迁移这一段？</strong>D 插入 A 和 B 之间，只有位置在 <code>(20,35]</code> 的键会比以前更早遇到 D；其他位置遇到的第一个节点没变。左端不含 20，因为该位置仍归 A；右端包含 35，因为相等也归 D。示例中只有 30 落在这段，45 仍归 B，90 仍绕回 A。这描述的是目标归属，真正把数据搬到新节点还要由系统执行迁移。</p>
+    <p><strong>成本与边界：</strong>若有 V 个排好序的节点位置，二分找后继节点需 O(log V)，位置表占 O(V) 空间；计算键哈希还需要读取键本身。用虚拟节点（一个真实节点占据环上的多个位置）通常能改善分布，但不保证每个节点负载相等，热点键仍需单独处理。一致性哈希负责路由，本身不提供数据复制或故障恢复。</p>
+    <p class="algorithm-note"><strong>区分 Redis Cluster：</strong>Redis Cluster 使用 16384 个哈希槽，把槽分给节点；扩容时迁移槽及其数据。它不能直接作为这里的一致性哈希环实例。<a href="https://redis.io/docs/latest/operate/oss_and_stack/management/scaling/#redis-cluster-data-sharding">Redis 官方分片说明</a>明确区分了这两种方式。</p>
   </section>
 
-  <section class="algorithm-section">
-    <h2>分布式与海量数据</h2>
-    <div class="algorithm-visual" aria-label="一致性哈希环示意图">
-      <svg viewBox="0 0 760 260" role="img">
-        <circle cx="380" cy="130" r="88" fill="none" stroke="#b9d3df" stroke-width="8" />
-        <circle class="visual-accent" cx="380" cy="42" r="24" />
-        <circle class="visual-blue" cx="468" cy="130" r="24" />
-        <circle class="visual-accent" cx="380" cy="218" r="24" />
-        <circle class="visual-blue" cx="292" cy="130" r="24" />
-        <circle class="visual-soft" cx="440" cy="76" r="18" />
-        <circle class="visual-soft" cx="330" cy="198" r="18" />
-        <text x="380" y="48" text-anchor="middle" fill="#fff">N1</text>
-        <text x="468" y="136" text-anchor="middle" fill="#fff">N2</text>
-        <text x="380" y="224" text-anchor="middle" fill="#fff">N3</text>
-        <text x="292" y="136" text-anchor="middle" fill="#fff">N4</text>
-        <text x="440" y="82" text-anchor="middle">K</text>
-        <text x="330" y="204" text-anchor="middle">K</text>
-        <text x="380" y="248" text-anchor="middle">键落到环上，顺时针找到负责节点</text>
-      </svg>
+  <section class="algorithm-section" id="bloom-filter">
+    <h2>布隆过滤器：先排除肯定没见过的名字</h2>
+    <p>如果查询不存在的名字也会访问慢存储，可以先用一个很小的位数组筛一遍。Bloom filter（布隆过滤器）不保存原文，而是用若干哈希函数把每个名字映射到几个下标，插入时把对应的位设为 1。</p>
+    <p>输入：8 位数组，下标从 0 开始；使用两个简化哈希结果。初始全为 0。这里只插入 cat，两个位置是 1 和 5；dog 也得到 1 和 5，fox 得到 2 和 5。这些是为说明碰撞而指定的教学值。</p>
+    <figure class="algorithm-figure">
+      <div class="algorithm-visual">
+        <svg viewBox="0 0 320 184" role="img" aria-labelledby="eng-bloom-title eng-bloom-desc">
+          <title id="eng-bloom-title">插入 cat 后的八位布隆过滤器</title>
+          <desc id="eng-bloom-desc">下标从 0 到 7，只有下标 1 和 5 为 1；其余六个位为 0。插入 cat 后位数组为 [0,1,0,0,0,1,0,0]。</desc>
+          <text x="12" y="28">插入 cat：设置位 1、5</text>
+          <text x="12" y="57">下标</text>
+          <text x="29" y="83" text-anchor="middle">0</text><rect class="visual-soft" x="12" y="95" width="34" height="36" rx="3" /><text x="29" y="120" text-anchor="middle">0</text>
+          <text x="66" y="83" text-anchor="middle">1</text><rect class="visual-blue" x="49" y="95" width="34" height="36" rx="3" /><text class="visual-text-inverse" x="66" y="120" text-anchor="middle">1</text>
+          <text x="103" y="83" text-anchor="middle">2</text><rect class="visual-soft" x="86" y="95" width="34" height="36" rx="3" /><text x="103" y="120" text-anchor="middle">0</text>
+          <text x="140" y="83" text-anchor="middle">3</text><rect class="visual-soft" x="123" y="95" width="34" height="36" rx="3" /><text x="140" y="120" text-anchor="middle">0</text>
+          <text x="177" y="83" text-anchor="middle">4</text><rect class="visual-soft" x="160" y="95" width="34" height="36" rx="3" /><text x="177" y="120" text-anchor="middle">0</text>
+          <text x="214" y="83" text-anchor="middle">5</text><rect class="visual-blue" x="197" y="95" width="34" height="36" rx="3" /><text class="visual-text-inverse" x="214" y="120" text-anchor="middle">1</text>
+          <text x="251" y="83" text-anchor="middle">6</text><rect class="visual-soft" x="234" y="95" width="34" height="36" rx="3" /><text x="251" y="120" text-anchor="middle">0</text>
+          <text x="288" y="83" text-anchor="middle">7</text><rect class="visual-soft" x="271" y="95" width="34" height="36" rx="3" /><text x="288" y="120" text-anchor="middle">0</text>
+          <text x="160" y="163" text-anchor="middle">仅 1、5 为 1，其余为 0</text>
+        </svg>
+      </div>
+      <figcaption>① 位数组从 [0,0,0,0,0,0,0,0] 变成 [0,1,0,0,0,1,0,0]。同一个位可以由多个名字共同设置，数组不记录是谁设的。</figcaption>
+    </figure>
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead><tr><th>查询</th><th>检查下标</th><th>读到的位</th><th>结论与下一步</th></tr></thead>
+        <tbody>
+          <tr><td>cat</td><td>1、5</td><td>1、1</td><td>可能存在；查真实存储确认。本例确实插入过。</td></tr>
+          <tr><td>dog</td><td>1、5</td><td>1、1</td><td>可能存在；查真实存储后发现未插入，是假阳性。</td></tr>
+          <tr><td>fox</td><td>2、5</td><td>0、1</td><td>位 2 为 0，肯定没有插入过，可以排除。</td></tr>
+        </tbody>
+      </table>
     </div>
-    <ul class="algorithm-list">
-      <li><strong>布隆过滤器：</strong>防缓存穿透、海量去重，有误判无漏判。</li>
-      <li><strong>一致性哈希：</strong>分布式缓存、Redis Cluster、CDN 的核心思想。</li>
-      <li><strong>B+ 树：</strong>数据库索引的核心结构。</li>
-    </ul>
+    <p><strong>为什么正负结论不同？</strong>插入名字必定把它对应的所有位设为 1，所以只要遇到一个 0，就能排除“已插入”。但看到全 1 时，这些位可能由别的名字设置，例如 dog 与 cat 碰巧用了同样的下标。这叫假阳性（没插入却被报告为可能存在）。</p>
+    <p><strong>成本与边界：</strong>用 m 位、k 个哈希位置，每次插入或查询检查 O(k) 个位，空间为 O(m) 位；哈希计算还取决于名字长度。位数组相对插入量越小、越来越多位被占满，误判通常越多，k 也需随参数选择。它适合做快速预筛，不能独自完成要求准确的去重。</p>
+    <p class="algorithm-note"><strong>“不会漏掉已插入项”有前提：</strong>这是只插入的标准布隆过滤器，插入与查询使用相同参数和哈希函数，状态未损坏且已包含需要查询的数据。不能为了删除 cat 随意把位 1 或 5 清零，因为其他名字也可能依赖这两位。需要删除时应选用专门支持删除的结构。过滤器报告“可能存在”后仍要查真实存储。</p>
+  </section>
+
+  <section class="algorithm-section" id="strings">
+    <h2>字符串：选算法前，先看模式有几个</h2>
+    <p>模式是要找的字符串，文本是被搜索的内容。例如在 <code>ababac</code> 中找 <code>abac</code>，与在同一段文本中同时找一万条词语，是不同的任务。下面用 n 表示文本长度、m 表示单个模式长度、L 表示所有模式长度之和、z 表示实际输出的匹配数。</p>
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead><tr><th>算法与问题</th><th>关键动作 / 小例子</th><th>成本的条件与限制</th></tr></thead>
+        <tbody>
+          <tr><td><strong>KMP</strong>（Knuth–Morris–Pratt）：找一个固定模式的出现位置。</td><td>预先记录模式前缀中“同时也是后缀”的长度。搜 abac 时，前缀 aba 后本该匹配 c 却读到 b，可以把已匹配长度从 3 回退到 1，再比较 b；文本指针不用退回开头。</td><td>按字符访问和比较为 O(1) 时，预处理 O(m)、扫描 O(n)、辅助空间 O(m)。适合单模式精确匹配；分词、模糊匹配不是它直接解决的问题。</td></tr>
+          <tr><td><strong>Trie</strong>（字典树）：找以某个前缀开头的词。</td><td>每条边代表一个字符。cat 与 car 共享 c → a，再分到 t 或 r；查询 ca 就先按字符走到 a，再枚举其后代。</td><td>子边查找为 O(1) 时，长度 q 的前缀定位 O(q)，枚举结果还要付出遍历和输出成本；存储随已建的字符路径总量增长。它按前缀查找，不能直接高效搜索单词中间的任意子串。</td></tr>
+          <tr><td><strong>AC 自动机</strong>（Aho–Corasick）：一次扫描查找多个固定模式。</td><td>先把模式建成 Trie，再加失败链接。当前路径走不通时，失败链接找到仍可能继续匹配的后缀状态；例如匹配 she 时，也可能输出作为后缀的 he。</td><td>在固定字符表或可常数时间完成转移的实现中，构建常写作 O(L)，扫描并报告结果为 O(n+z)。字符表、转移表方式影响构建时间和空间；匹配输出极多时 z 本身就很大，修改词库也可能需要重建链接。</td></tr>
+          <tr><td><strong>Rabin–Karp</strong>（拉宾–卡普）：用窗口哈希筛选匹配位置。</td><td>长度 m 的窗口每次右移，移除旧字符贡献并加入新字符；窗口哈希与模式哈希相等时，再核对原文，避免把碰撞当匹配。</td><td>滚动更新和字符运算为常数成本、碰撞较少时，预处理与扫描通常接近 O(n+m)；核对候选需要额外时间，最坏可达 O(nm)。哈希相等不保证原文相等。</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>选择练习：只有一个关键词，先看 KMP；需要从 ca 补全单词，先看 Trie；大量固定词同时检索，先看 AC；希望用窗口指纹先筛候选，再看 Rabin–Karp。先核对任务条件，再比较实现成本。</p>
+  </section>
+
+  <section class="algorithm-section" id="b-plus-tree">
+    <h2>B+ 树：让一次磁盘读取带来更多导航信息</h2>
+    <p>数据库索引往往装不进内存，而磁盘按页读写。B+ 树让一个内部节点保存多个分隔键和多个孩子指针，一次读页便能决定下一层去哪；数据记录或记录指针放在叶子，叶子之间通常按顺序相连。</p>
+    <p>例如分隔键 20、40 把查找分成“小于 20”“20 到 40 之间”“不小于 40”三个方向（具体端点规则由实现约定）。查范围 [22,35] 时，先定位第一个不小于 22 的叶子位置，再顺着叶子往后读，到超过 35 时停止，无需每次从根重新查找。</p>
+    <p><strong>为什么常用？</strong>每个节点能容纳很多孩子，树的高度较低，点查通常只需读少量层级；叶子的有序连接便于范围扫描。因此 B+ 树是许多数据库索引的常见结构。</p>
+    <p><strong>成本与边界：</strong>在页式外存模型下，设有 N 条记录、有效分支数约为 b，一次点查通常需 O(log<sub>b</sub> N) 次页访问；范围查还要读取覆盖结果的叶子页并输出记录，不能把全部结果当常数成本。索引空间随 N 增长，插入和删除可能触发节点分裂、合并和页写入。真实成本还受缓存、页大小、键大小及索引是否覆盖所需字段影响；并非所有数据库索引都用 B+ 树。</p>
   </section>
 
   <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>
