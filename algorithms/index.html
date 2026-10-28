@@ -72,8 +72,8 @@ title: 程序员算法地图
             <desc id="map-dp-desc">从上往下：状态递推与重复子问题，候选工具是动态规划 DP；使用前检查定义状态与初值、确定依赖顺序。中间的工具框可打开对应教程。</desc>
             <defs><marker id="map-dp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
             <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
-            <text x="140" y="30" text-anchor="middle">状态递推</text>
-            <text x="140" y="52" text-anchor="middle">重复子问题</text>
+            <text x="140" y="28" text-anchor="middle">状态递推</text>
+            <text x="140" y="54" text-anchor="middle">重复子问题</text>
             <path class="visual-line" fill="none" marker-end="url(#map-dp-arrow)" d="M140 69 V90" />
             <a href="{{ site.baseurl }}/algorithms/thinking.html#dp-heading" aria-label="打开动态规划 DP教程：状态递推与重复子问题" tabindex="0">
               <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
@@ -85,7 +85,7 @@ title: 程序员算法地图
             <text x="140" y="224" text-anchor="middle">确定依赖顺序</text>
           </svg>
         </div>
-        <figcaption><strong>03 · 状态递推与重复子问题：</strong>每次走 1 或 2 阶，求到第 5 阶的方案数。令 <code>f(i)</code> 表示到第 i 阶的走法，<code>f(0)=1</code>，按 <code>f(i)=f(i−1)+f(i−2)</code> 复用子问题，得到 8；计数还需证明不重不漏。</figcaption>
+        <figcaption><strong>03 · 状态递推与重复子问题：</strong>每次走 1 或 2 阶，求到第 5 阶的方案数。令 <code>f(i)</code> 表示到第 i 阶的走法，<code>f(0)=1</code>、<code>f(1)=1</code>；当 <code>i≥2</code> 时，按 <code>f(i)=f(i−1)+f(i−2)</code> 复用子问题，得到 8；计数还需证明不重不漏。</figcaption>
       </figure>
       <figure class="algorithm-figure algorithm-step-card">
         <div class="algorithm-visual">
@@ -94,8 +94,8 @@ title: 程序员算法地图
             <desc id="map-lru-desc">从上往下：缓存容量与访问局部性，候选工具是LRU 缓存；使用前检查容量为正整数、近期访问有参考性。中间的工具框可打开对应教程。</desc>
             <defs><marker id="map-lru-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
             <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
-            <text x="140" y="30" text-anchor="middle">缓存容量</text>
-            <text x="140" y="52" text-anchor="middle">访问局部性</text>
+            <text x="140" y="28" text-anchor="middle">缓存容量</text>
+            <text x="140" y="54" text-anchor="middle">访问局部性</text>
             <path class="visual-line" fill="none" marker-end="url(#map-lru-arrow)" d="M140 69 V90" />
             <a href="{{ site.baseurl }}/algorithms/engineering.html" aria-label="打开LRU 缓存教程：缓存容量与访问局部性" tabindex="0">
               <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
