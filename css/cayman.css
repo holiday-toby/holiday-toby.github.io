@@ -814,6 +814,7 @@ a:hover { text-decoration: underline; }
 .algorithm-page {
   display: grid;
   gap: 1.25rem;
+  min-width: 0;
 }
 
 .algorithm-hero,
@@ -954,14 +955,30 @@ a:hover { text-decoration: underline; }
   font-weight: 600;
 }
 
+.algorithm-page .algorithm-figure {
+  margin: 0;
+  min-width: 0;
+}
+
+.algorithm-page .algorithm-step-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.algorithm-page .algorithm-step-card {
+  min-width: 0;
+}
+
 .algorithm-visual {
   overflow: hidden;
+  padding: .75rem;
   border: 1px solid #dce6f0;
   border-radius: 0.45rem;
   background: linear-gradient(135deg, #f7fbfb, #ffffff);
 }
 
-.algorithm-visual svg {
+.algorithm-page .algorithm-visual svg {
   display: block;
   width: 100%;
   height: auto;
@@ -987,14 +1004,21 @@ a:hover { text-decoration: underline; }
   stroke-width: 2;
 }
 
-.algorithm-visual text {
-  fill: #155799;
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  font-weight: 700;
+.algorithm-page .algorithm-visual text {
+  fill: #18314d;
+  font-family: inherit;
+  font-size: 18px;
+  font-weight: 600;
 }
 
+.algorithm-page .algorithm-visual .visual-text-inverse { fill: #fff; }
+.algorithm-page .algorithm-visual .visual-text-muted { fill: #536c84; }
+.algorithm-page .algorithm-figure figcaption { margin-top: .65rem; line-height: 1.6; }
+.algorithm-page .algorithm-note { padding: .85rem 1rem; background: #f3f6fa; border-left: 3px solid #155799; }
+
 .algorithm-code {
+  min-width: 0;
+  max-width: 100%;
   overflow: auto;
   margin: 0;
   padding: 1rem;
@@ -1006,6 +1030,8 @@ a:hover { text-decoration: underline; }
   line-height: 1.55;
 }
 
+.algorithm-page .algorithm-animation img { display: block; width: 100%; height: auto; }
+
 .algorithm-code code {
   padding: 0;
   background: transparent;
@@ -1014,6 +1040,8 @@ a:hover { text-decoration: underline; }
 }
 
 @media screen and (max-width: 42em) {
+  .algorithm-page .algorithm-step-grid { grid-template-columns: 1fr; }
+
   .home-dashboard {
     grid-template-columns: 1fr;
   }
