@@ -961,7 +961,7 @@ GIF 维持比例，允许点击打开完整尺寸；在手机上有独立的静�
 
 通过键盘检查总览专题入口和图中链接；每页返回地图的链接可用。仅在发现新问题或改动后重跑受影响的验证，避免无关全站测试。
 
-- [ ] **Step 6: 按验收证据结束实施并记录状态**
+- [x] **Step 6: 按验收证据结束实施并记录状态**
 
 ```bash
 git diff --check
@@ -997,7 +997,7 @@ git status --short
 
 ## 执行结果（2026-10-28）
 
-- 工作分支：`codex/algorithm-lessons`，工作区：`/Users/duanhao.ling/.codex/worktrees/algorithm-lessons/holiday-toby.github.io`。源码验证版本为 `d983741`；后续本次提交仅更新执行记录。
+- 工作分支：`codex/algorithm-lessons`，工作区：`/Users/duanhao.ling/.codex/worktrees/algorithm-lessons/holiday-toby.github.io`。首轮完整验证版本为 `d983741`，最终产品修订为 `2dce11d`（仅加深图示颜色）；补验和全分支审阅结论见下方。
 - Task 1–8 均已实现并完成独立的需求/质量复核。复核提出的快排平均情形前提、Top K 释义、股票 DP 转移、总览 DP 初值、首次 LRU 释义和总览图标签间距均已修正并经过限定范围复核。
 - 代码：`python3 tools/algorithms/check_examples.py` 的 10 个必需示例全部通过；补充探针执行了全部 13 个展示代码块（含归并、区间选择及 LRU 使用示例），固定轨迹与输出相符。
 - 动图：重新生成并解码 76 帧，分区/递归断言通过；仓库成品与新渲染逐帧像素及时长相同，1120×820、29.3 秒、末帧停留 4 秒。
@@ -1010,3 +1010,14 @@ git status --short
 - 证据：截图、14 组图形测量与 12 个键盘入口记录位于 `/tmp/algorithm-review/`；技术报告在本计划的 SDD 临时工作目录 `task-9-report.md`。关键截图包含 `basic-desktop-binary.png`、`structures-mobile-bfs.png`、`thinking-desktop-dp.png`、`engineering-mobile-ring.png`、`ai-desktop-attention.png`、`overview-desktop-map.png`、`path-mobile-cache.png`。
 - 明确未验证：当前浏览器控制接口不支持模拟系统 `prefers-reduced-motion: reduce`，因此没有声称实际偏好切换已通过；替代图、媒体声明、XML 和 HTTP 交付均已检查。独立打开 SVG 时，宿主工具产生 animation 属性错误；用仅有矩形和文字且没有脚本的对照 SVG 复现，属于宿主 SVG 检查问题，成品 SVG 正常显示。
 - 本地预览：`http://127.0.0.1:4000/algorithms/`。发布与分支合并在最终审阅后单独选择。
+
+
+### 最终全分支审阅与补验
+
+- 独立全分支审阅没有发现算法错误，发现绿色节点白字对比度不足。最终修订 `2dce11d` 仅增加两条算法页限定的 CSS 规则：绿色填充 `#117a46`，语义连线 `#536c84`，装饰边框维持原色。
+- 从真实手机浏览器的 computed style 读取前景/背景后计算，绿色节点白字对比度为 5.3900:1；已查看 DP 最终标签、BFS 关系线和二分排除标记。修改后的 Jekyll 构建、七页渲染检查与素材检查通过。
+- 限定范围复核确认 P2/P3 两项均已解决、没有新增问题，结论为 `Ready to integrate: Yes`。
+- 在 `2dce11d` 再次运行文章验证器、渲染页面检查和补充集成脚本，全部通过：10 个必需示例、全部 13 个展示代码块、GIF 76 帧等价、7 页及 2 素材 HTTP 校验。分支差异与工作区检查无错误。
+- 代表性手机宽表和代码块已实际横向滚动：表格 scrollLeft=115（内容439/容器324），代码块 scrollLeft=59（内容381/容器322）；页面仍未横向溢出。没有把它记成逐一手动拖动所有容器。
+- 唯一尚未模拟的浏览器偏好检查仍是系统“减少动态效果”；最终交付继续明确披露该验证限制。
+- 全分支审阅、修正报告、限定复核和技术报告的交付副本保存在 `/tmp/algorithm-review/reports/`；该计划的临时 SDD 目录在完成后清理，功能分支和宿主管理的工作区保留供选择集成方式。
