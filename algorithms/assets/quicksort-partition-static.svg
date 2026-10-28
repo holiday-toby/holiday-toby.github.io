@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 870" role="img" aria-labelledby="quicksort-static-title quicksort-static-desc">
+  <title id="quicksort-static-title">快速排序：分区、递归、拼接</title>
+  <desc id="quicksort-static-desc">输入 5、2、3、1、4，选中间位置的 3 为基准。扫描得到小于区 2、1，等于区 3，大于区 5、4。左侧以 1 为基准，返回 1、2；右侧以 4 为基准，返回 4、5。最后拼接为 1、2、3、4、5。分区复制到新列表，输入不变。</desc>
+  <style>
+    text { font-family: system-ui, sans-serif; font-size: 18px; font-weight: 600; fill: #18314d; }
+    .visual-soft { fill: #eaf4f4; stroke: #b9d3df; stroke-width: 2; }
+    .visual-blue { fill: #155799; }
+    .visual-text-inverse { fill: #fff; }
+    .arrow { fill: none; stroke: #536c84; stroke-width: 2; }
+    .panel { fill: #f7fbfb; stroke: #b9d3df; }
+  </style>
+  <defs><marker id="quicksort-static-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+  <rect width="320" height="870" rx="12" fill="#fff" />
+  <rect class="panel" x="5" y="8" width="310" height="162" rx="10" />
+  <text x="160" y="38" text-anchor="middle">① 原始输入</text>
+  <text x="160" y="67" text-anchor="middle">中间位置的基准 = 3</text>
+  <rect class="visual-soft" x="27" y="87" width="46" height="40" rx="6" />
+  <text x="50" y="114" text-anchor="middle">5</text>
+  <rect class="visual-soft" x="82" y="87" width="46" height="40" rx="6" />
+  <text x="105" y="114" text-anchor="middle">2</text>
+  <rect class="visual-blue" x="137" y="87" width="46" height="40" rx="6" />
+  <text class="visual-text-inverse" x="160" y="114" text-anchor="middle">3</text>
+  <rect class="visual-soft" x="192" y="87" width="46" height="40" rx="6" />
+  <text x="215" y="114" text-anchor="middle">1</text>
+  <rect class="visual-soft" x="247" y="87" width="46" height="40" rx="6" />
+  <text x="270" y="114" text-anchor="middle">4</text>
+  <text x="160" y="153" text-anchor="middle">依次读取 → 复制到新列表</text>
+  <path class="arrow" marker-end="url(#quicksort-static-arrow)" d="M160 176 L160 202" />
+  <rect class="panel" x="5" y="210" width="310" height="230" rx="10" />
+  <text x="160" y="239" text-anchor="middle">② 三个分区</text>
+  <text x="27" y="282">小于 3</text>
+  <rect class="visual-soft" x="162" y="255" width="46" height="40" rx="6" />
+  <text x="185" y="282" text-anchor="middle">2</text>
+  <rect class="visual-soft" x="217" y="255" width="46" height="40" rx="6" />
+  <text x="240" y="282" text-anchor="middle">1</text>
+  <text x="27" y="336">等于 3</text>
+  <rect class="visual-blue" x="162" y="309" width="46" height="40" rx="6" />
+  <text class="visual-text-inverse" x="185" y="336" text-anchor="middle">3</text>
+  <text x="27" y="390">大于 3</text>
+  <rect class="visual-soft" x="162" y="363" width="46" height="40" rx="6" />
+  <text x="185" y="390" text-anchor="middle">5</text>
+  <rect class="visual-soft" x="217" y="363" width="46" height="40" rx="6" />
+  <text x="240" y="390" text-anchor="middle">4</text>
+  <text x="160" y="426" text-anchor="middle">两侧内部仍未有序</text>
+  <path class="arrow" marker-end="url(#quicksort-static-arrow)" d="M160 446 L160 472" />
+  <rect class="panel" x="5" y="480" width="310" height="214" rx="10" />
+  <text x="160" y="510" text-anchor="middle">③ 两侧递归返回</text>
+  <text x="27" y="546">左：基准 1</text>
+  <rect class="visual-soft" x="162" y="520" width="46" height="40" rx="6" />
+  <text x="185" y="547" text-anchor="middle">1</text>
+  <rect class="visual-soft" x="217" y="520" width="46" height="40" rx="6" />
+  <text x="240" y="547" text-anchor="middle">2</text>
+  <text x="27" y="604">右：基准 4</text>
+  <rect class="visual-soft" x="162" y="578" width="46" height="40" rx="6" />
+  <text x="185" y="605" text-anchor="middle">4</text>
+  <rect class="visual-soft" x="217" y="578" width="46" height="40" rx="6" />
+  <text x="240" y="605" text-anchor="middle">5</text>
+  <text x="160" y="651" text-anchor="middle">空列表、单元素直接返回</text>
+  <text x="160" y="678" text-anchor="middle">现在左右两侧各自有序</text>
+  <path class="arrow" marker-end="url(#quicksort-static-arrow)" d="M160 700 L160 726" />
+  <rect class="panel" x="5" y="734" width="310" height="128" rx="10" />
+  <text x="160" y="763" text-anchor="middle">④ 左侧 + 等于区 + 右侧</text>
+  <rect class="visual-soft" x="27" y="778" width="46" height="40" rx="6" />
+  <text x="50" y="805" text-anchor="middle">1</text>
+  <rect class="visual-soft" x="82" y="778" width="46" height="40" rx="6" />
+  <text x="105" y="805" text-anchor="middle">2</text>
+  <rect class="visual-blue" x="137" y="778" width="46" height="40" rx="6" />
+  <text class="visual-text-inverse" x="160" y="805" text-anchor="middle">3</text>
+  <rect class="visual-soft" x="192" y="778" width="46" height="40" rx="6" />
+  <text x="215" y="805" text-anchor="middle">4</text>
+  <rect class="visual-soft" x="247" y="778" width="46" height="40" rx="6" />
+  <text x="270" y="805" text-anchor="middle">5</text>
+  <text x="160" y="845" text-anchor="middle">最终结果：从小到大</text>
+</svg>

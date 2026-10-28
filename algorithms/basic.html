@@ -6,61 +6,194 @@ title: 基础算法
 <article class="algorithm-page">
   <header class="algorithm-hero compact">
     <p class="algorithm-kicker">Algorithm 01</p>
-    <h1>基础算法</h1>
-    <p>排序、二分、哈希、双指针、栈与队列，是程序员解决问题时最先调用的工具箱。</p>
+    <h1>基础算法：从一组数的变化开始</h1>
+    <p>先看程序正在处理哪一段数据，再看它怎样缩小问题。这一页用排序和二分查找练习这种观察方式，最后认识去重、窗口、栈和队列的用途。</p>
   </header>
 
-  <section class="algorithm-section">
-    <h2>排序</h2>
-    <p>重点掌握快排、归并、堆排序，以及稳定排序和非稳定排序的差异。</p>
-    <div class="algorithm-visual" aria-label="快速排序分区示意图">
-      <svg viewBox="0 0 760 210" role="img">
-        <rect class="visual-soft" x="70" y="74" width="70" height="48" rx="8" />
-        <rect class="visual-soft" x="150" y="74" width="70" height="48" rx="8" />
-        <rect class="visual-accent" x="230" y="74" width="70" height="48" rx="8" />
-        <rect class="visual-soft" x="310" y="74" width="70" height="48" rx="8" />
-        <rect class="visual-soft" x="390" y="74" width="70" height="48" rx="8" />
-        <rect class="visual-soft" x="470" y="74" width="70" height="48" rx="8" />
-        <rect class="visual-soft" x="550" y="74" width="70" height="48" rx="8" />
-        <text x="105" y="104" text-anchor="middle">3</text>
-        <text x="185" y="104" text-anchor="middle">1</text>
-        <text x="265" y="104" text-anchor="middle" fill="#fff">5</text>
-        <text x="345" y="104" text-anchor="middle">8</text>
-        <text x="425" y="104" text-anchor="middle">6</text>
-        <text x="505" y="104" text-anchor="middle">2</text>
-        <text x="585" y="104" text-anchor="middle">7</text>
-        <path class="visual-line" d="M265 130 C225 178 145 178 105 130" />
-        <path class="visual-line" d="M265 130 C340 178 520 178 585 130" />
-        <text x="155" y="184" text-anchor="middle">小于 pivot</text>
-        <text x="475" y="184" text-anchor="middle">大于 pivot</text>
-        <text x="265" y="44" text-anchor="middle">pivot</text>
-      </svg>
-    </div>
-    <ul class="algorithm-list">
-      <li><strong>快速排序：</strong>平均 O(n log n)，工程里常见，核心是分区。</li>
-      <li><strong>归并排序：</strong>稳定，适合链表排序和外部排序。</li>
-      <li><strong>堆排序：</strong>适合 Top K 和优先级场景。</li>
-    </ul>
-    <pre class="algorithm-code"><code class="language-python">def quick_sort(nums):
+  <section class="algorithm-section" aria-labelledby="basic-sort">
+    <h2 id="basic-sort">快速排序：先分组，再分别排好</h2>
+    <p>问题：把 <code>[5, 2, 3, 1, 4]</code> 从小到大排列。快速排序每次选一个<strong>基准值（pivot）</strong>，把元素分成小于、等于、大于基准的三组，再用同样的方法排序两侧。本例选择<strong>中间位置</strong>的元素：下标从 0 开始，<code>5 // 2 = 2</code>，所以第一个基准是 3；它不是先计算出来的中位数。</p>
+    <figure class="algorithm-figure algorithm-animation">
+      <a href="{{ site.baseurl }}/algorithms/assets/quicksort-partition.gif" aria-label="打开完整尺寸的快速排序动图">
+        <picture>
+          <source media="(prefers-reduced-motion: reduce)" srcset="{{ site.baseurl }}/algorithms/assets/quicksort-partition-static.svg">
+          <img src="{{ site.baseurl }}/algorithms/assets/quicksort-partition.gif" width="1120" height="820" loading="lazy" alt="快速排序把 5、2、3、1、4 按基准 3 分区，递归排序左右列表后拼接为 1、2、3、4、5。">
+        </picture>
+      </a>
+      <figcaption>约 29 秒循环演示。先按基准分区，再递归排序左右列表，最后拼接；下面的文字步骤可停下来阅读。系统开启“减少动态效果”时显示静态过程图，也可以<a href="{{ site.baseurl }}/algorithms/assets/quicksort-partition-static.svg">直接打开静态图</a>。</figcaption>
+    </figure>
+    <ol class="algorithm-steps">
+      <li><strong>扫描一次，分成三组。</strong>依次读取 5、2、3、1、4，按与 3 的比较结果加入新列表，得到小于区 <code>[2, 1]</code>、等于区 <code>[3]</code>、大于区 <code>[5, 4]</code>。动图中的移动表示<strong>复制到新列表</strong>，原输入不变。此时两侧仍然没有排好序。</li>
+      <li><strong>递归处理两侧。</strong>递归就是让函数用相同方法处理更小的输入。左侧 <code>[2, 1]</code> 的中间位置是下标 1，基准为 1；分出 <code>[]</code>、<code>[1]</code>、<code>[2]</code>，返回 <code>[1, 2]</code>。右侧 <code>[5, 4]</code> 的基准为 4；分出 <code>[]</code>、<code>[4]</code>、<code>[5]</code>，返回 <code>[4, 5]</code>。空列表和单元素列表直接返回副本，不再分区。</li>
+      <li><strong>按顺序拼接。</strong>已经排好的左侧 <code>[1, 2]</code>、等于区 <code>[3]</code>、已经排好的右侧 <code>[4, 5]</code> 连接起来，才得到完整结果 <code>[1, 2, 3, 4, 5]</code>。</li>
+    </ol>
+    <p><strong>为什么拼接后有序？</strong>分区保证左侧每个值都小于基准，右侧每个值都大于基准；递归又保证这两组内部有序。因此按“左侧 + 等于区 + 右侧”拼接，不会出现前面的数比后面的大。等于区不需要继续排序，也避免重复值在递归中反复参与比较。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="quicksort">def quick_sort(nums):
     if len(nums) &lt;= 1:
-        return nums
-
+        return nums[:]
     pivot = nums[len(nums) // 2]
-    left = [x for x in nums if x &lt; pivot]
-    middle = [x for x in nums if x == pivot]
-    right = [x for x in nums if x &gt; pivot]
-    return quick_sort(left) + middle + quick_sort(right)</code></pre>
+    less, equal, greater = [], [], []
+    for value in nums:
+        if value &lt; pivot:
+            less.append(value)
+        elif value &gt; pivot:
+            greater.append(value)
+        else:
+            equal.append(value)
+    return quick_sort(less) + equal + quick_sort(greater)</code></pre>
+    <p>调用 <code>quick_sort([5, 2, 3, 1, 4])</code> 返回 <code>[1, 2, 3, 4, 5]</code>。输入应支持一致的大小比较；空列表返回 <code>[]</code>，单元素返回同样内容的新列表。</p>
+    <p class="algorithm-note"><strong>成本按这份代码计算：</strong>每次分区扫描当前列表一次。平均时间为 O(n log n)，连续出现极不平衡分区时，最坏为 O(n²)。父调用会保留自己的分区列表，所以平均峰值辅助空间为 O(n)，退化时可达 O(n²)；其中递归栈平均 O(log n)、最坏 O(n)。这是便于理解的<strong>新列表版本</strong>，不要套用经典原地分区版本的空间或稳定性结论。</p>
+    <h3>同样是排序，解决方式可以不同</h3>
+    <ul class="algorithm-list">
+      <li><strong>归并排序：</strong>把输入分成两半，分别排好后，反复取两侧当前较小的元素合并。时间 O(n log n)；常见数组实现需要 O(n) 辅助空间。相等元素<strong>先取左侧</strong>，才能保留它们原来的先后顺序，这叫稳定排序。例如按分数排序时，同分学生仍按原来的报名顺序排列。链表合并可以调整链接，大文件排序则需要把分段读写成本一起考虑。</li>
+      <li><strong>完整堆排序：</strong>先组织成最大值在顶部的二叉堆，再不断取出最大值放到数组末尾，并修复剩余堆。用于把全部 n 个元素排好，时间 O(n log n)；常见迭代式原地实现的辅助空间 O(1)，通常不稳定。</li>
+      <li><strong>用大小为 k 的堆找 Top-K：</strong>若只要最大的 k 个值，可以维护一个大小不超过 k 的小顶堆，堆顶是当前入选者中最小的值；新值更大才替换它。n 个值的处理时间 O(n log k)，辅助空间 O(k)，这里假设 1 ≤ k ≤ n；k = 1 时可直接线性扫描。堆内的 k 个值还没有整体排好，若要有序输出，另需 O(k log k)。</li>
+    </ul>
   </section>
 
-  <section class="algorithm-section">
-    <h2>二分查找</h2>
-    <p>二分不仅用于找元素，也用于找边界和“二分答案”。</p>
-    <ul class="algorithm-list">
-      <li>普通二分：在有序数组中查找目标值。</li>
-      <li>左边界 / 右边界：处理重复元素和范围查询。</li>
-      <li>二分答案：把最优解问题转成可判定问题。</li>
-    </ul>
-    <pre class="algorithm-code"><code class="language-python">def lower_bound(nums, target):
+  <section class="algorithm-section" aria-labelledby="basic-binary">
+    <h2 id="basic-binary">二分查找：找第一个不小于目标的位置</h2>
+    <p>输入必须<strong>已经从小到大排好</strong>。在 <code>[2, 4, 4, 7, 9]</code> 中找目标 4，如果只在遇到第一个 4 时停下，可能返回第二个 4。下面的<strong>左边界查找（lower bound）</strong>继续向左缩小范围，返回第一个 <code>≥ target</code> 的位置。</p>
+    <p>我们始终维护<strong>左闭右开区间 <code>[left, right)</code></strong>：包括 left，不包括 right。初始为 <code>[0, 5)</code>，所以 right 可以等于数组长度 5，它并不是一个可读取的元素下标。图中的数字下面一行是下标；划线表示已排除，深色表示本轮的中点 mid。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 210" role="img" aria-labelledby="basic-bound-1-title basic-bound-1-desc">
+            <title id="basic-bound-1-title">① 从整个数组开始</title>
+            <desc id="basic-bound-1-desc">[left, right) = [0, 5)，4 ≥ 4 → right = 2。划线表示已经排除的位置；深色数字是本轮检查的中点。</desc>
+            <text x="160" y="26" text-anchor="middle">① 从整个数组开始</text>
+            <text x="160" y="54" text-anchor="middle">[left, right) = [0, 5)</text>
+            <rect class="visual-soft" x="15" y="70" width="54" height="42" rx="7" />
+<text x="42" y="98" text-anchor="middle">2</text>
+<text x="42" y="137" text-anchor="middle">0</text>
+<rect class="visual-soft" x="73" y="70" width="54" height="42" rx="7" />
+<text x="100" y="98" text-anchor="middle">4</text>
+<text x="100" y="137" text-anchor="middle">1</text>
+<rect class="visual-blue" x="131" y="70" width="54" height="42" rx="7" />
+<text class="visual-text-inverse" x="158" y="98" text-anchor="middle">4</text>
+<text x="158" y="137" text-anchor="middle">2</text>
+<rect class="visual-soft" x="189" y="70" width="54" height="42" rx="7" />
+<text x="216" y="98" text-anchor="middle">7</text>
+<text x="216" y="137" text-anchor="middle">3</text>
+<rect class="visual-soft" x="247" y="70" width="54" height="42" rx="7" />
+<text x="274" y="98" text-anchor="middle">9</text>
+<text x="274" y="137" text-anchor="middle">4</text>
+            <text x="160" y="168" text-anchor="middle">4 ≥ 4 → right = 2</text>
+            <text x="160" y="196" text-anchor="middle">深色 = mid；下行 = 下标</text>
+          </svg>
+        </div>
+        <figcaption>mid = (0 + 5) // 2 = 2。下标 2 的值虽然等于目标，但左边还可能有 4，所以把 right 移到 2，继续寻找更早的位置。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 210" role="img" aria-labelledby="basic-bound-2-title basic-bound-2-desc">
+            <title id="basic-bound-2-title">② 继续向左找边界</title>
+            <desc id="basic-bound-2-desc">[left, right) = [0, 2)，4 ≥ 4 → right = 1。划线表示已经排除的位置；深色数字是本轮检查的中点。</desc>
+            <text x="160" y="26" text-anchor="middle">② 继续向左找边界</text>
+            <text x="160" y="54" text-anchor="middle">[left, right) = [0, 2)</text>
+            <rect class="visual-soft" x="15" y="70" width="54" height="42" rx="7" />
+<text x="42" y="98" text-anchor="middle">2</text>
+<text x="42" y="137" text-anchor="middle">0</text>
+<rect class="visual-blue" x="73" y="70" width="54" height="42" rx="7" />
+<text class="visual-text-inverse" x="100" y="98" text-anchor="middle">4</text>
+<text x="100" y="137" text-anchor="middle">1</text>
+<rect class="visual-soft" x="131" y="70" width="54" height="42" rx="7" />
+<text x="158" y="98" text-anchor="middle">4</text>
+<text x="158" y="137" text-anchor="middle">2</text>
+<path class="visual-line" d="M139 106 L177 76" />
+<rect class="visual-soft" x="189" y="70" width="54" height="42" rx="7" />
+<text x="216" y="98" text-anchor="middle">7</text>
+<text x="216" y="137" text-anchor="middle">3</text>
+<path class="visual-line" d="M197 106 L235 76" />
+<rect class="visual-soft" x="247" y="70" width="54" height="42" rx="7" />
+<text x="274" y="98" text-anchor="middle">9</text>
+<text x="274" y="137" text-anchor="middle">4</text>
+<path class="visual-line" d="M255 106 L293 76" />
+            <text x="160" y="168" text-anchor="middle">4 ≥ 4 → right = 1</text>
+            <text x="160" y="196" text-anchor="middle">深色 = mid；下行 = 下标</text>
+          </svg>
+        </div>
+        <figcaption>mid = (0 + 2) // 2 = 1。下标 1 仍然等于目标；把 right 移到 1。区间外被划去的位置不再检查。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 210" role="img" aria-labelledby="basic-bound-3-title basic-bound-3-desc">
+            <title id="basic-bound-3-title">③ 排除小于目标的值</title>
+            <desc id="basic-bound-3-desc">[left, right) = [0, 1)，2 ＜ 4 → left = 1。划线表示已经排除的位置；深色数字是本轮检查的中点。</desc>
+            <text x="160" y="26" text-anchor="middle">③ 排除小于目标的值</text>
+            <text x="160" y="54" text-anchor="middle">[left, right) = [0, 1)</text>
+            <rect class="visual-blue" x="15" y="70" width="54" height="42" rx="7" />
+<text class="visual-text-inverse" x="42" y="98" text-anchor="middle">2</text>
+<text x="42" y="137" text-anchor="middle">0</text>
+<rect class="visual-soft" x="73" y="70" width="54" height="42" rx="7" />
+<text x="100" y="98" text-anchor="middle">4</text>
+<text x="100" y="137" text-anchor="middle">1</text>
+<path class="visual-line" d="M81 106 L119 76" />
+<rect class="visual-soft" x="131" y="70" width="54" height="42" rx="7" />
+<text x="158" y="98" text-anchor="middle">4</text>
+<text x="158" y="137" text-anchor="middle">2</text>
+<path class="visual-line" d="M139 106 L177 76" />
+<rect class="visual-soft" x="189" y="70" width="54" height="42" rx="7" />
+<text x="216" y="98" text-anchor="middle">7</text>
+<text x="216" y="137" text-anchor="middle">3</text>
+<path class="visual-line" d="M197 106 L235 76" />
+<rect class="visual-soft" x="247" y="70" width="54" height="42" rx="7" />
+<text x="274" y="98" text-anchor="middle">9</text>
+<text x="274" y="137" text-anchor="middle">4</text>
+<path class="visual-line" d="M255 106 L293 76" />
+            <text x="160" y="168" text-anchor="middle">2 ＜ 4 → left = 1</text>
+            <text x="160" y="196" text-anchor="middle">深色 = mid；下行 = 下标</text>
+          </svg>
+        </div>
+        <figcaption>mid = (0 + 1) // 2 = 0。值 2 小于 4，它以及更左的位置都不可能是答案，因此 left = mid + 1。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 210" role="img" aria-labelledby="basic-bound-4-title basic-bound-4-desc">
+            <title id="basic-bound-4-title">④ 区间为空，返回边界</title>
+            <desc id="basic-bound-4-desc">left 与 right 都为 1，区间为空；返回下标 1，指向第一个不小于 4 的元素。</desc>
+            <text x="160" y="26" text-anchor="middle">④ 区间为空，返回边界</text>
+            <text x="160" y="54" text-anchor="middle">[left, right) = [1, 1)</text>
+            <rect class="visual-soft" x="15" y="70" width="54" height="42" rx="7" />
+<text x="42" y="98" text-anchor="middle">2</text>
+<text x="42" y="137" text-anchor="middle">0</text>
+<path class="visual-line" d="M23 106 L61 76" />
+<rect class="visual-soft" x="73" y="70" width="54" height="42" rx="7" />
+<text x="100" y="98" text-anchor="middle">4</text>
+<text x="100" y="137" text-anchor="middle">1</text>
+<rect class="visual-soft" x="131" y="70" width="54" height="42" rx="7" />
+<text x="158" y="98" text-anchor="middle">4</text>
+<text x="158" y="137" text-anchor="middle">2</text>
+<path class="visual-line" d="M139 106 L177 76" />
+<rect class="visual-soft" x="189" y="70" width="54" height="42" rx="7" />
+<text x="216" y="98" text-anchor="middle">7</text>
+<text x="216" y="137" text-anchor="middle">3</text>
+<path class="visual-line" d="M197 106 L235 76" />
+<rect class="visual-soft" x="247" y="70" width="54" height="42" rx="7" />
+<text x="274" y="98" text-anchor="middle">9</text>
+<text x="274" y="137" text-anchor="middle">4</text>
+<path class="visual-line" d="M255 106 L293 76" />
+            <text x="160" y="168" text-anchor="middle">left = right = 1</text>
+            <text x="160" y="196" text-anchor="middle">返回位置 1（第二个元素）</text>
+          </svg>
+        </div>
+        <figcaption>left 与 right 相遇，停止循环。返回 1，它是第一个值不小于 4 的下标；返回值是位置，不是元素 4。</figcaption>
+      </figure>
+    </div>
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>同一过程的状态表：先计算 mid，再更新边界</caption>
+        <thead><tr><th>轮次</th><th>[left, right)</th><th>mid / nums[mid]</th><th>比较与动作</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>[0, 5)</td><td>2 / 4</td><td>4 ≥ 4，right = 2</td></tr>
+          <tr><td>2</td><td>[0, 2)</td><td>1 / 4</td><td>4 ≥ 4，right = 1</td></tr>
+          <tr><td>3</td><td>[0, 1)</td><td>0 / 2</td><td>2 &lt; 4，left = 1</td></tr>
+          <tr><td>结束</td><td>[1, 1)</td><td>不再读取元素</td><td>返回下标 1</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>为什么可以排除一半？</strong>若 <code>nums[mid] &lt; target</code>，由于数组有序，mid 及其左侧都小于目标，答案只能在 mid 的右边，所以令 <code>left = mid + 1</code>。否则 mid 可能就是答案，或答案还在更左边；令 <code>right = mid</code>，保留它作为候选边界。整个过程中，left 左侧的值都小于目标，right 及其右侧的值都不小于目标。两者相遇时，边界就唯一确定了。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="lower-bound">def lower_bound(nums, target):
     left, right = 0, len(nums)
     while left &lt; right:
         mid = (left + right) // 2
@@ -69,20 +202,27 @@ title: 基础算法
         else:
             right = mid
     return left</code></pre>
+    <p>调用 <code>lower_bound([2, 4, 4, 7, 9], 4)</code> 返回 <code>1</code>。每轮区间约减半，时间 O(log n)，额外空间 O(1)。这份实现返回的是<strong>插入位置</strong>，不保证该处一定等于目标：查找 5 返回 3（指向 7），查找 10 返回 n = 5（应插到末尾，不能读取 <code>nums[5]</code>）；空数组返回 0。需要判断是否真的找到时，先确认 <code>pos &lt; len(nums)</code>，再检查 <code>nums[pos] == target</code>。</p>
+    <h3>二分还可以找什么？</h3>
+    <ul class="algorithm-list">
+      <li><strong>普通二分：</strong>在有序数组中找任意一个等于目标的元素。比较中点后缩小范围，相等就返回；O(log n) 时间、迭代版 O(1) 额外空间。重复值存在时，它不保证返回最左或最右那个。</li>
+      <li><strong>左右边界：</strong>左边界找第一个 ≥ 目标的位置；右侧插入边界找第一个 &gt; 目标的位置。把两者相减可统计目标出现次数。例如两个 4 的范围为 <code>[1, 3)</code>，共 2 个，最右相等下标是 2。每次边界查找 O(log n)，有序输入仍是前提。</li>
+      <li><strong>二分答案：</strong>如“按顺序运送一批包裹，D 天内送完需要的最小载重”，在可能的载重范围上二分，每次模拟能否按时完成。关键前提是<strong>可行性随载重单调变化</strong>：某载重能完成，更大的也能完成。若答案候选范围大小为 R、一次判定扫描 n 个包裹，总时间 O(n log R)；没有这种单调关系，就不能照搬二分。</li>
+    </ul>
   </section>
 
-  <section class="algorithm-section">
-    <h2>哈希、双指针、栈队列</h2>
-    <p>这些算法模式在工程代码里非常高频，尤其适合处理去重、窗口、匹配、调度和遍历。</p>
-    <div class="algorithm-pill-grid">
-      <span>HashMap</span>
-      <span>HashSet</span>
-      <span>滑动窗口</span>
-      <span>快慢指针</span>
-      <span>单调栈</span>
-      <span>BFS 队列</span>
-    </div>
+  <section class="algorithm-section" aria-labelledby="basic-patterns">
+    <h2 id="basic-patterns">从用途认识哈希、指针、栈和队列</h2>
+    <p>选工具时先说清楚“保存什么信息、下一步做什么”。下面每个小例子都能手算；它们的使用条件比记住名称更重要。</p>
+    <ul class="algorithm-list">
+      <li><strong>哈希映射（HashMap）与哈希集合（HashSet）：</strong>处理 <code>["猫", "狗", "猫"]</code>，集合只记录“见过谁”，结果为猫、狗；映射保存“键 → 值”，可以计数得到猫 2 次、狗 1 次。元素或键需要可散列。查询、插入平均 O(1) 依赖散列分布与冲突处理，不是无条件保证；冲突严重时单次可能退化到 O(n)。遍历 n 个值计数平均 O(n)，存储成本随不同键的数量增长。</li>
+      <li><strong>滑动窗口：</strong>在字符串 <code>"abca"</code> 中找最长无重复连续片段，右端加入字符，同时维护字符计数；最后一个 a 造成重复，就从左端移出第一个 a，窗口变成 <code>"bca"</code>。窗口条件必须能随加入、移出而更新，并能判断何时收缩；若每个元素最多进出一次且更新平均 O(1)，总时间 O(n)，空间随窗口内的不同元素数增长。求“和不超过某值的最长子数组”时，常见直接收缩法需要非负数，遇到负数不能直接套用。</li>
+      <li><strong>快慢指针：</strong>用于链表判环时，slow 每次沿 next 走一步，fast 走两步；若有环，快指针会在环内追上慢指针。若 fast 或它的下一节点为空，就到达结尾，说明无环。判断比较的是同一个节点，而不是节点里的值。在可达节点数为 n 时，时间 O(n)、额外空间 O(1)；每次走两步之前都要检查空节点。</li>
+      <li><strong>单调栈：</strong>找每个值右侧第一个更大值，可以把“还没找到答案”的下标放进栈，栈内对应的值保持单调。新值到来时，不断弹出比它小的栈顶，并把它们的答案设为新值，最后把新值的下标入栈。对 <code>[2, 1, 3]</code>，3 先解决 1，再解决 2，结果为 <code>[3, 3, 无]</code>。找严格更大时，相等不能当成答案。每个下标各入栈、出栈至多一次，总时间 O(n)、额外空间 O(n)。</li>
+      <li><strong>队列与广度优先搜索（BFS）：</strong>队列按<strong>先进先出（FIFO）</strong>取元素。若 A 的邻居是 B、C，先取出 A，再把 B、C 加到队尾，就会先处理这两个一跳邻居，再处理更远的节点；这是 BFS 按层扩展的原因。一般图需要在入队时标记已访问，避免重复入队。使用两端队列可让每次入队、出队为 O(1)；从 Python 列表头部删除元素会搬移其余元素，单次为 O(n)。图遍历成本取决于可达顶点 V 和边 E，使用邻接表时为 O(V + E)，访问记录及队列需要 O(V) 空间；最少边数等于最短路只适用于无权或等权图。</li>
+    </ul>
+    <p class="algorithm-note"><strong>动手检查：</strong>把快排输入改成 <code>[3, 3, 1]</code>，先写出三组；把二分目标改成 5，确认返回的是 7 所在的位置；再用 <code>[2, 1, 3]</code> 逐步写下单调栈的入栈和弹栈。能说清“哪些值已经排除、哪些值仍待处理”，比只背复杂度更接近掌握。</p>
   </section>
 
-  <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>
+  <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a> · <a href="{{ site.baseurl }}/algorithms/data-structures.html">下一步：数据结构</a></p>
 </article>
