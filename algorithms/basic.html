@@ -42,7 +42,7 @@ title: 基础算法
             equal.append(value)
     return quick_sort(less) + equal + quick_sort(greater)</code></pre>
     <p>调用 <code>quick_sort([5, 2, 3, 1, 4])</code> 返回 <code>[1, 2, 3, 4, 5]</code>。输入应支持一致的大小比较；空列表返回 <code>[]</code>，单元素返回同样内容的新列表。</p>
-    <p class="algorithm-note"><strong>成本按这份代码计算：</strong>每次分区扫描当前列表一次。平均时间为 O(n log n)，连续出现极不平衡分区时，最坏为 O(n²)。父调用会保留自己的分区列表，所以平均峰值辅助空间为 O(n)，退化时可达 O(n²)；其中递归栈平均 O(log n)、最坏 O(n)。这是便于理解的<strong>新列表版本</strong>，不要套用经典原地分区版本的空间或稳定性结论。</p>
+    <p class="algorithm-note"><strong>成本按这份代码计算：</strong>每次分区扫描当前列表一次。平均时间为 O(n log n)（通常假设输入顺序随机），连续出现极不平衡分区时，最坏为 O(n²)。父调用会保留自己的分区列表，所以平均峰值辅助空间为 O(n)，退化时可达 O(n²)；其中递归栈平均 O(log n)、最坏 O(n)。这是便于理解的<strong>新列表版本</strong>，不要套用经典原地分区版本的空间或稳定性结论。</p>
     <h3>同样是排序，解决方式可以不同</h3>
     <ul class="algorithm-list">
       <li><strong>归并排序：</strong>把输入分成两半，分别排好后，反复取两侧当前较小的元素合并。时间 O(n log n)；常见数组实现需要 O(n) 辅助空间。相等元素<strong>先取左侧</strong>，才能保留它们原来的先后顺序，这叫稳定排序。例如按分数排序时，同分学生仍按原来的报名顺序排列。链表合并可以调整链接，大文件排序则需要把分段读写成本一起考虑。</li>
