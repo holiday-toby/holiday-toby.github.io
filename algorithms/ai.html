@@ -6,70 +6,286 @@ title: AI 时代算法
 <article class="algorithm-page">
   <header class="algorithm-hero compact">
     <p class="algorithm-kicker">Algorithm 05</p>
-    <h1>AI 时代算法</h1>
-    <p>AI 工程师不只需要会调用模型，也需要理解检索、表示学习和基础机器学习算法。</p>
+    <h1>AI 时代算法：从相似度到信息聚合</h1>
+    <p>先用四个向量找出最相似的两篇文档，再用两个样本计算预测误差，最后手算一次 Attention。每一步都能把输入、运算和输出对上。</p>
   </header>
 
-  <section class="algorithm-section">
-    <h2>向量检索</h2>
-    <p>向量检索是 RAG、AI 搜索、推荐系统的重要基础。</p>
-    <div class="algorithm-visual" aria-label="向量检索从问题到相似文档的流程图">
-      <svg viewBox="0 0 760 220" role="img">
-        <rect class="visual-soft" x="70" y="78" width="118" height="54" rx="10" />
-        <rect class="visual-accent" x="245" y="78" width="118" height="54" rx="10" />
-        <circle class="visual-blue" cx="455" cy="105" r="44" />
-        <rect class="visual-soft" x="590" y="48" width="110" height="42" rx="8" />
-        <rect class="visual-soft" x="590" y="106" width="110" height="42" rx="8" />
-        <rect class="visual-soft" x="590" y="164" width="110" height="42" rx="8" />
-        <path class="visual-line" d="M188 105 H245 M363 105 H411 M499 88 L590 70 M501 105 H590 M499 122 L590 185" />
-        <text x="129" y="111" text-anchor="middle">问题</text>
-        <text x="304" y="111" text-anchor="middle" fill="#fff">Embedding</text>
-        <text x="455" y="111" text-anchor="middle" fill="#fff">ANN</text>
-        <text x="645" y="75" text-anchor="middle">文档 A</text>
-        <text x="645" y="133" text-anchor="middle">文档 B</text>
-        <text x="645" y="191" text-anchor="middle">文档 C</text>
-        <text x="380" y="34" text-anchor="middle">把语义变成向量，再找最近邻</text>
-      </svg>
+  <section class="algorithm-section" id="vector-search">
+    <h2>向量检索：怎样找到“最像”的文档？</h2>
+    <p>假设搜索系统已经把问题和文档变成一串数。这样的数列叫向量；Embedding（嵌入表示）是把文本、图片等对象映射到向量的过程或所得表示。表示模型决定哪些差异会被保留，检索算法再按指定度量比较这些向量。下面直接给定二维向量，便于手算；真实文本的向量通常维数更高，每一维也未必对应一个能命名的语义。</p>
+    <p>查询是 <code>q=(1,0)</code>，文档是 <code>A=(1,0)</code>、<code>B=(1,1)</code>、<code>C=(0,1)</code>、<code>D=(-1,0)</code>。任务是返回余弦相似度最高的两篇文档，也就是 Top-K 中 <code>K=2</code> 的情形。余弦比较方向：点积先衡量对齐程度，再除以两个向量的长度，去掉长度的影响。</p>
+    <p><strong>计算规则：</strong><code>cos(q,x) = (q·x) / (‖q‖ × ‖x‖)</code>。其中 <code>q·x</code> 是对应分量相乘后求和，<code>‖x‖</code> 是各分量平方和的平方根。这里 <code>‖q‖=1</code>。</p>
+
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 236" role="img" aria-labelledby="ai-vectors-title ai-vectors-desc">
+            <title id="ai-vectors-title">第一步：观察查询与文档的方向</title>
+            <desc id="ai-vectors-desc">原点出发的四个向量。A 和查询 q 都向右，B 向右上，C 向上，D 向左。</desc>
+            <defs><marker id="ai-vectors-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <path class="visual-line" d="M30 156 H292 M160 204 V30" />
+            <path d="M160 156 H250 M160 156 L250 66 M160 156 V66 M160 156 H70" fill="none" stroke="#155799" stroke-width="3" marker-end="url(#ai-vectors-arrow)" />
+            <circle cx="160" cy="156" r="4" class="visual-accent" />
+            <text x="254" y="48" text-anchor="middle">B</text>
+            <text x="160" y="48" text-anchor="middle">C</text>
+            <text x="68" y="187" text-anchor="middle">D</text>
+            <text x="252" y="187" text-anchor="middle">A = q</text>
+            <text x="142" y="185" text-anchor="middle">0</text>
+            <text x="160" y="225" text-anchor="middle">方向一致，得分更高</text>
+          </svg>
+        </div>
+        <figcaption>① A 与 q 重合；B 夹角为 45°；C 与 q 垂直；D 与 q 反向。坐标仅用于这组教学输入。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 236" role="img" aria-labelledby="ai-scores-title ai-scores-desc">
+            <title id="ai-scores-title">第二步：逐篇计算余弦分数</title>
+            <desc id="ai-scores-desc">A 得分 1，B 得分约 0.7071，C 得分 0，D 得分负 1。所有文档都参加计算。</desc>
+            <rect x="20" y="15" width="280" height="38" rx="6" class="visual-soft" />
+            <text x="70" y="40" text-anchor="middle">文档</text><text x="216" y="40" text-anchor="middle">余弦分数</text>
+            <path class="visual-line" d="M20 94 H300 M20 136 H300 M20 178 H300 M20 220 H300" />
+            <text x="70" y="82" text-anchor="middle">A</text><text x="216" y="82" text-anchor="middle">1.0000</text>
+            <text x="70" y="124" text-anchor="middle">B</text><text x="216" y="124" text-anchor="middle">0.7071</text>
+            <text x="70" y="166" text-anchor="middle">C</text><text x="216" y="166" text-anchor="middle">0.0000</text>
+            <text x="70" y="208" text-anchor="middle">D</text><text x="216" y="208" text-anchor="middle">−1.0000</text>
+          </svg>
+        </div>
+        <figcaption>② 逐一打分叫精确扫描。分数越高，表示在当前向量表示与余弦度量下越相似。</figcaption>
+      </figure>
     </div>
-    <ul class="algorithm-list">
-      <li><strong>Embedding：</strong>把文本、图片、用户行为表示成向量。</li>
-      <li><strong>ANN：</strong>近似最近邻检索，用速度换取可接受的召回。</li>
-      <li><strong>HNSW / FAISS：</strong>工程中常见的向量检索方案。</li>
-    </ul>
-    <pre class="algorithm-code"><code class="language-python">import math
+
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead><tr><th>文档向量 x</th><th>点积 q·x</th><th>长度 ‖x‖</th><th>相除后的结果</th></tr></thead>
+        <tbody>
+          <tr><td>A=(1,0)</td><td>1×1 + 0×0 = 1</td><td>√(1²+0²) = 1</td><td>1/(1×1) = 1</td></tr>
+          <tr><td>B=(1,1)</td><td>1×1 + 0×1 = 1</td><td>√(1²+1²) = √2</td><td>1/√2 ≈ 0.7071</td></tr>
+          <tr><td>C=(0,1)</td><td>1×0 + 0×1 = 0</td><td>1</td><td>0/(1×1) = 0</td></tr>
+          <tr><td>D=(-1,0)</td><td>1×(-1) + 0×0 = −1</td><td>1</td><td>−1/(1×1) = −1</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 236" role="img" aria-labelledby="ai-topk-title ai-topk-desc">
+            <title id="ai-topk-title">第三步：分数降序排列并取前两项</title>
+            <desc id="ai-topk-desc">排名依次为 A、B、C、D。排名第一的 A 和第二的 B 被选入 Top-2。</desc>
+            <rect x="20" y="18" width="280" height="42" rx="6" class="visual-accent" />
+            <rect x="20" y="72" width="280" height="42" rx="6" class="visual-blue" />
+            <rect x="20" y="126" width="280" height="42" rx="6" class="visual-soft" />
+            <rect x="20" y="180" width="280" height="42" rx="6" class="visual-soft" />
+            <text x="160" y="45" text-anchor="middle" class="visual-text-inverse">1. A · 1.0000 · 入选</text>
+            <text x="160" y="99" text-anchor="middle" class="visual-text-inverse">2. B · 0.7071 · 入选</text>
+            <text x="160" y="153" text-anchor="middle">3. C · 0.0000</text>
+            <text x="160" y="207" text-anchor="middle">4. D · −1.0000</text>
+          </svg>
+        </div>
+        <figcaption>③ 返回有序结果 <code>[(1.0, "A"), (0.7071…, "B")]</code>。文档 ID 与分数一起保留，方便取回原文。</figcaption>
+      </figure>
+      <div class="algorithm-step-card">
+        <h3>从精确结果衡量近似检索</h3>
+        <p>ANN（近似最近邻检索）通过少查一些候选或压缩表示来节省时间、内存，但可能漏掉精确结果。先保留精确扫描作为比较基线，才能知道省下的成本换来了多少遗漏。</p>
+        <p>以精确 Top-2 集合 <code>{A,B}</code> 为标准，若近似检索返回 <code>{A,C}</code>，交集只有 A，<code>recall@2 = |{A,B}∩{A,C}|/2 = 1/2 = 0.5</code>。若返回 <code>{A,B}</code>，recall@2 就是 1。这里比较集合是否找全，并不衡量返回顺序。</p>
+        <p>增大候选搜索范围往往会提高召回，也增加查询耗时。应在真实查询集上同时测召回、延迟与内存，不能只看一次查询是否命中。</p>
+      </div>
+    </div>
+
+    <h3>为什么精确扫描能给出 Top-K？</h3>
+    <p>每篇文档都按同一个公式得到分数，因此没有候选被跳过；再按分数从高到低排序，前 K 项就是这个度量下的精确结果。同分时按字符串文档 ID 升序，保证重复运行顺序一致。相似度是表示与度量的产物，<strong>不是事实正确率</strong>；检索到的文档仍可能过时、错误或与真正需求不符。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="cosine-search">import math
 
 def cosine_similarity(a, b):
-    dot = sum(x * y for x, y in zip(a, b))
-    norm_a = math.sqrt(sum(x * x for x in a))
-    norm_b = math.sqrt(sum(y * y for y in b))
-    return dot / (norm_a * norm_b)
+    if not a or len(a) != len(b):
+        raise ValueError("vectors must have the same positive dimension")
+    norm_a = math.sqrt(sum(x*x for x in a))
+    norm_b = math.sqrt(sum(x*x for x in b))
+    if norm_a == 0 or norm_b == 0:
+        raise ValueError("zero vectors have no cosine similarity")
+    return sum(x*y for x,y in zip(a,b)) / (norm_a*norm_b)
 
 def search(query_vec, docs, top_k=3):
-    scored = [
-        (cosine_similarity(query_vec, doc_vec), doc_id)
-        for doc_id, doc_vec in docs.items()
-    ]
-    return sorted(scored, reverse=True)[:top_k]</code></pre>
+    if top_k &lt; 0:
+        raise ValueError("top_k must be nonnegative")
+    cosine_similarity(query_vec, query_vec)
+    scored = [(cosine_similarity(query_vec, vector), doc_id)
+              for doc_id,vector in docs.items()]
+    return sorted(scored, key=lambda row: (-row[0],row[1]))[:top_k]
+
+docs = {"A": [1,0], "B": [1,1], "C": [0,1], "D": [-1,0]}
+print([(round(score, 4), doc_id)
+       for score, doc_id in search([1,0], docs, 2)])
+# [(1.0, 'A'), (0.7071, 'B')]</code></pre>
+    <ul class="algorithm-list">
+      <li><strong>成本：</strong>N 篇文档、每篇 d 维，全量打分 O(Nd)，完整排序 O(N log N)，总时间 O(Nd + N log N)，分数列表与排序结果占 O(N) 辅助空间；这里不含输入文档的存储。只取少量结果时可以换用堆，当前示例为了清晰保留完整排序。</li>
+      <li><strong>输入前提：</strong>向量分量为有限实数，文档 ID 为字符串，<code>top_k</code> 为非负整数。教学代码检查空向量、维数不符和零向量并抛出 <code>ValueError</code>；不额外验证类型或非有限数，也不处理极端数值导致的浮点溢出。</li>
+      <li><strong>边界：</strong>零向量没有方向，不能计算余弦；负 K 抛出 <code>ValueError</code>。K=0 返回空列表，K&gt;N 返回全部文档，空文档集合返回空列表。即使 K=0，本实现仍先验证并计算所有文档分数。</li>
+    </ul>
+
+    <h3>表示、索引方法、检索库分别负责什么？</h3>
+    <ul class="algorithm-list">
+      <li><strong>Embedding 是表示：</strong>把内容转换为可比较的数。模型和预处理应相互兼容；换一种表示，近邻也可能改变。</li>
+      <li><strong>HNSW 是索引方法：</strong>构建分层近邻图，查询时沿图探索候选。它属于 ANN 方法，图连接数与搜索范围等参数影响构建成本、内存、延迟和召回，不能保证每次找到精确 Top-K。</li>
+      <li><strong>Faiss 是检索库：</strong>它提供多种向量索引，包括精确扫描与 HNSW 等方法。选择 Faiss 之后还要选择具体索引与距离度量；它与 HNSW 不在同一分类层级。参见 <a href="https://faiss.ai/">Faiss 官方文档</a>与<a href="https://github.com/facebookresearch/faiss/wiki/Faiss-indexes">索引对照表</a>。</li>
+    </ul>
   </section>
 
-  <section class="algorithm-section">
-    <h2>机器学习基础</h2>
-    <p>至少理解线性回归、决策树、XGBoost、KMeans 这些经典模型的目标和适用场景。</p>
-    <pre class="algorithm-code"><code class="language-python">def predict_linear(x, weight, bias):
-    return weight * x + bias
+  <section class="algorithm-section" id="prediction-loss">
+    <h2>机器学习：先分清预测、损失和训练</h2>
+    <p>线性回归用 <code>ŷ = w×x + b</code> 拟合数值关系。x 是输入特征，ŷ 是预测值，w 和 b 是模型参数。给定参数计算 ŷ 叫预测；拿预测与真实标签 y 比较得到的误差指标叫损失；利用数据反复调整参数以降低目标才是训练。下面只实现前两件事。</p>
+    <p>固定两个样本 <code>(x,y)=(1,3),(2,5)</code>。均方误差 MSE（Mean Squared Error）把每个预测误差平方后取平均：<code>MSE = Σ(ŷ−y)² / 样本数</code>。平方让正负误差不会抵消，较大的误差也会受到更重的惩罚。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 302" role="img" aria-labelledby="ai-loss-title ai-loss-desc">
+            <title id="ai-loss-title">参数固定时的预测与损失计算</title>
+            <desc id="ai-loss-desc">输入 x 为 1、2，经 w 为 2、b 为 1 的模型得到 3、5，与标签一致，两个平方误差都为零，均方误差为零。图中没有参数更新步骤。</desc>
+            <defs><marker id="ai-loss-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <rect x="40" y="12" width="240" height="42" rx="6" class="visual-soft" /><text x="160" y="39" text-anchor="middle">输入 x：1，2</text>
+            <path d="M160 57 V78" stroke="#155799" stroke-width="2" marker-end="url(#ai-loss-arrow)" />
+            <rect x="40" y="86" width="240" height="42" rx="6" class="visual-blue" /><text x="160" y="113" text-anchor="middle" class="visual-text-inverse">w=2，b=1</text>
+            <path d="M160 131 V152" stroke="#155799" stroke-width="2" marker-end="url(#ai-loss-arrow)" />
+            <rect x="40" y="160" width="240" height="42" rx="6" class="visual-soft" /><text x="160" y="187" text-anchor="middle">预测 ŷ：3，5</text>
+            <path d="M160 205 V226" stroke="#155799" stroke-width="2" marker-end="url(#ai-loss-arrow)" />
+            <rect x="20" y="234" width="280" height="54" rx="6" class="visual-accent" /><text x="160" y="257" text-anchor="middle" class="visual-text-inverse">与标签 3，5 比较</text><text x="160" y="280" text-anchor="middle" class="visual-text-inverse">MSE = (0²+0²)/2 = 0</text>
+          </svg>
+        </div>
+        <figcaption>固定参数 → 预测 → 对照标签 → 汇总损失。要训练模型，还需选择优化方法并更新参数。</figcaption>
+      </figure>
+      <div class="algorithm-step-card">
+        <h3>换一组参数，损失会怎样？</h3>
+        <p><code>w=2,b=1</code> 时，预测分别为 <code>2×1+1=3</code> 和 <code>2×2+1=5</code>。两个误差都是 0，MSE=0。</p>
+        <p><code>w=1,b=0</code> 时，预测变成 1 和 2。相对标签 3 和 5，误差是 −2 和 −3，平方后为 4 和 9，所以 <code>MSE=(4+9)/2=6.5</code>。</p>
+        <p>这说明第一组参数更贴合这两个样本，却不能保证对没见过的数据也表现好。判断泛化能力还需独立验证数据；实际训练可能另加正则化，限制模型过度迎合样本。</p>
+      </div>
+    </div>
+    <pre class="algorithm-code"><code class="language-python" data-example="linear-loss">def predict_linear(x, weight, bias):
+    return weight*x + bias
 
 def mse_loss(samples, weight, bias):
-    errors = [
-        (predict_linear(x, weight, bias) - y) ** 2
-        for x, y in samples
-    ]
-    return sum(errors) / len(errors)</code></pre>
+    if not samples:
+        raise ValueError("samples must not be empty")
+    return sum((predict_linear(x,weight,bias)-y)**2 for x,y in samples) / len(samples)
+
+samples = [(1,3), (2,5)]
+print(mse_loss(samples, 2, 1))  # 0.0
+print(mse_loss(samples, 1, 0))  # 6.5</code></pre>
+    <p>这里每次单变量预测耗时 O(1)；m 个样本的损失计算耗时 O(m)，生成器只保留累计值，辅助空间 O(1)。输入是有限实数样本与参数；空样本列表抛出 <code>ValueError</code>，代码没有训练循环。多特征模型、参数优化和验证会带来额外成本。</p>
+
+    <h3>几种经典模型在解决什么问题？</h3>
+    <div class="algorithm-table-wrap">
+      <table>
+        <thead><tr><th>模型</th><th>输入 → 输出</th><th>关键动作与目标</th><th>成本条件与限制</th></tr></thead>
+        <tbody>
+          <tr><td>线性回归</td><td>数值特征 → 连续数值，如面积 → 价格</td><td>加权求和并加偏置；训练时通常降低平方误差</td><td>预测随特征数增长；训练成本还取决于样本数与求解方法。线性形式难以直接表达复杂非线性关系，易受异常值影响。</td></tr>
+          <tr><td>决策树</td><td>特征 → 类别或数值，如年龄、消费 → 是否流失</td><td>用“某特征是否超过阈值”逐层划分，叶子给预测；选划分以减少节点内的混杂或误差</td><td>预测沿一条根到叶路径，随树深增长；训练取决于样本、特征与候选阈值。树过深容易过拟合，小数据变化也可能改变分支。</td></tr>
+          <tr><td>XGBoost（梯度提升树）</td><td>表格特征 → 多棵树合成的预测</td><td>逐轮新增树，利用损失的梯度等信息修正当前目标；目标包含拟合损失与复杂度约束</td><td>成本随样本、特征、树数、树深与分裂实现变化；预测需要遍历多棵树。需调学习率等参数，也不能代替防止数据泄漏与独立验证。</td></tr>
+          <tr><td>KMeans（K 均值聚类）</td><td>数值向量与指定簇数 k → 簇分配与 k 个中心</td><td>交替将点分配给最近中心、用簇内均值更新中心，降低簇内平方距离和</td><td>朴素每轮逐点比较 k 个中心，成本随样本数、维数、k 和迭代次数增长。需先选 k，受尺度与初始化影响，通常收敛到局部解，簇也不自动等于真实类别。</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <section class="algorithm-section">
-    <h2>Transformer 基础</h2>
-    <p>现代大模型的核心离不开 Attention、Self-Attention、Embedding 和位置编码。</p>
-    <blockquote>不用一开始推公式，但要知道信息如何被表示、检索、聚合和生成。</blockquote>
+  <section class="algorithm-section" id="attention">
+    <h2>Attention：用查询决定怎样汇总信息</h2>
+    <p>Attention（注意力机制）先用查询 Q 与键 K 计算匹配分数，再把分数变成权重，最后按权重汇总值 V。<strong>K 负责打分，V 提供被汇总的内容</strong>。检索通常选择若干结果；这里保留每个值的贡献并混合成一个新向量。</p>
+    <p>只计算一个查询：<code>q=[1,0]</code>，两个键 <code>k₁=[1,0]</code>、<code>k₂=[0,1]</code>，对应的值为 <code>v₁=[2,0]</code>、<code>v₂=[0,2]</code>。键和查询的维数 <code>d_k=2</code>。这是缩放点积注意力的一次教学计算，输入向量直接给定。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 250" role="img" aria-labelledby="ai-qkv-title ai-qkv-desc">
+            <title id="ai-qkv-title">第一步：区分查询、键和值</title>
+            <desc id="ai-qkv-desc">查询为 1、0。左列键一为 1、0，键二为 0、1，用于打分。右列值一为 2、0，值二为 0、2，用于后续加权；相同编号的键和值成对。</desc>
+            <rect x="70" y="12" width="180" height="42" rx="6" class="visual-accent" /><text x="160" y="39" text-anchor="middle" class="visual-text-inverse">q = [1,0]</text>
+            <text x="85" y="91" text-anchor="middle">K：用于打分</text><text x="235" y="91" text-anchor="middle">V：用于汇总</text>
+            <rect x="15" y="108" width="140" height="50" rx="6" class="visual-soft" /><rect x="165" y="108" width="140" height="50" rx="6" class="visual-soft" />
+            <rect x="15" y="178" width="140" height="50" rx="6" class="visual-soft" /><rect x="165" y="178" width="140" height="50" rx="6" class="visual-soft" />
+            <text x="85" y="139" text-anchor="middle">k₁ = [1,0]</text><text x="235" y="139" text-anchor="middle">v₁ = [2,0]</text>
+            <text x="85" y="209" text-anchor="middle">k₂ = [0,1]</text><text x="235" y="209" text-anchor="middle">v₂ = [0,2]</text>
+          </svg>
+        </div>
+        <figcaption>① 每个键都对应一个值。键的维数要与 q 相同；值的维数可以另选，但所有值必须同维。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 250" role="img" aria-labelledby="ai-logits-title ai-logits-desc">
+            <title id="ai-logits-title">第二步：点积后除以键维数的平方根</title>
+            <desc id="ai-logits-desc">q 与键一的点积为 1，与键二的点积为 0。除以根号 2 后，缩放分数为约 0.7071 和 0。</desc>
+            <defs><marker id="ai-logits-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <rect x="20" y="18" width="280" height="62" rx="6" class="visual-soft" /><text x="160" y="44" text-anchor="middle">q·k₁ = 1</text><text x="160" y="68" text-anchor="middle">q·k₂ = 0</text>
+            <path d="M160 84 V115" stroke="#155799" stroke-width="2" marker-end="url(#ai-logits-arrow)" />
+            <text x="160" y="144" text-anchor="middle">每项除以 √2</text>
+            <path d="M160 157 V182" stroke="#155799" stroke-width="2" marker-end="url(#ai-logits-arrow)" />
+            <rect x="20" y="190" width="280" height="42" rx="6" class="visual-blue" /><text x="160" y="217" text-anchor="middle" class="visual-text-inverse">分数 [0.7071, 0]</text>
+          </svg>
+        </div>
+        <figcaption>② 缩放分数也叫 logits。除以 √d_k 可控制高维点积的尺度；这里未按向量长度归一化，因此不是余弦相似度。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 250" role="img" aria-labelledby="ai-softmax-title ai-softmax-desc">
+            <title id="ai-softmax-title">第三步：softmax 将分数转为权重</title>
+            <desc id="ai-softmax-desc">分数减去最大值后为 0 和负 0.7071，指数为 1 和约 0.4931，归一化后的权重约 0.6698 和 0.3302，和为 1。</desc>
+            <text x="160" y="34" text-anchor="middle">减最大值： [0, −0.7071]</text>
+            <text x="160" y="72" text-anchor="middle">取指数： [1, 0.4931]</text>
+            <text x="160" y="110" text-anchor="middle">除以总和： 1.4931</text>
+            <rect x="20" y="135" width="280" height="42" rx="6" class="visual-accent" /><text x="160" y="162" text-anchor="middle" class="visual-text-inverse">α₁ ≈ 0.6698</text>
+            <rect x="20" y="190" width="280" height="42" rx="6" class="visual-blue" /><text x="160" y="217" text-anchor="middle" class="visual-text-inverse">α₂ ≈ 0.3302</text>
+          </svg>
+        </div>
+        <figcaption>③ softmax 取指数后除以指数总和，得到正数且总和为 1 的权重。数值显示四位小数，计算过程保留完整精度。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 250" role="img" aria-labelledby="ai-weighted-title ai-weighted-desc">
+            <title id="ai-weighted-title">第四步：按权重相加两个值向量</title>
+            <desc id="ai-weighted-desc">第一个权重乘值一，结果约为 1.3395、0；第二个权重乘值二，结果约为 0、0.6605。逐分量相加，输出约 1.3395、0.6605。</desc>
+            <defs><marker id="ai-weighted-arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7 Z" fill="#155799" /></marker></defs>
+            <text x="160" y="31" text-anchor="middle">α₁ × v₁ ≈ [1.3395, 0]</text>
+            <text x="160" y="73" text-anchor="middle">α₂ × v₂ ≈ [0, 0.6605]</text>
+            <path d="M160 89 V117" stroke="#155799" stroke-width="2" marker-end="url(#ai-weighted-arrow)" />
+            <text x="160" y="148" text-anchor="middle">逐分量相加</text>
+            <path d="M160 162 V185" stroke="#155799" stroke-width="2" marker-end="url(#ai-weighted-arrow)" />
+            <rect x="10" y="195" width="300" height="42" rx="6" class="visual-accent" /><text x="160" y="222" text-anchor="middle" class="visual-text-inverse">输出 ≈ [1.3395, 0.6605]</text>
+          </svg>
+        </div>
+        <figcaption>④ 相加的是 V，不是 K。输出更偏向 v₁，因为 k₁ 与当前查询的点积更高；v₂ 仍有非零贡献。</figcaption>
+      </figure>
+    </div>
+
+    <h3>为什么这些权重能用于混合？</h3>
+    <p>令缩放分数为 s₁=1/√2、s₂=0。权重公式是 <code>αᵢ=exp(sᵢ)/(exp(s₁)+exp(s₂))</code>，得到 <code>α₁≈0.66976155</code>、<code>α₂≈0.33023845</code>。两项都是正数且相加为 1，因此输出是两个值的加权平均：<code>α₁[2,0]+α₂[0,2]=[2α₁,2α₂]≈[1.3395,0.6605]</code>。</p>
+    <p>代码先让每个分数减去最大分数。因为分子与分母的每项都相当于乘上同一个正数，这不改变归一化结果，却能避免直接对很大的正分数取指数。本例中指数项变成 <code>exp(0)=1</code> 与 <code>exp(−1/√2)≈0.4931</code>。不要用图上已四舍五入的权重重新计算，再期望最后一位小数完全相同。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="attention">import math
+
+def attention(query, keys, values):
+    if not query or not keys or len(keys) != len(values):
+        raise ValueError("one value is required for each key")
+    dk, dv = len(query), len(values[0])
+    if dv == 0 or any(len(key) != dk for key in keys) or any(len(value) != dv for value in values):
+        raise ValueError("inconsistent vector dimensions")
+    logits = [sum(q*k for q,k in zip(query,key))/math.sqrt(dk) for key in keys]
+    peak = max(logits)
+    exps = [math.exp(score-peak) for score in logits]
+    total = sum(exps)
+    weights = [value/total for value in exps]
+    output = [sum(weight*value[j] for weight,value in zip(weights,values)) for j in range(dv)]
+    return weights, output
+
+weights, output = attention([1,0], [[1,0],[0,1]], [[2,0],[0,2]])
+print([round(value, 4) for value in weights])  # [0.6698, 0.3302]
+print([round(value, 4) for value in output])   # [1.3395, 0.6605]</code></pre>
+    <ul class="algorithm-list">
+      <li><strong>输入与边界：</strong>所有分量是有限实数。查询、键列表和值向量都不能为空；键值数量相同，键与查询同维，所有值同维。违反这些形状约束抛出 <code>ValueError</code>。示例不额外检查非有限输入，也不保证极端数值下点积不溢出。</li>
+      <li><strong>成本：</strong>n 个键、键维数 d_k、值维数 d_v 时，单查询打分和加权共需 O(n d_k + n d_v) 时间，分数、权重与输出占 O(n + d_v) 辅助空间；不含已有 Q/K/V 的存储。</li>
+      <li><strong>适用范围：</strong>本函数只做一次单查询、单头、无掩码的前向计算。它没有学习投影、反向传播、优化器或完整模型训练步骤，不能据此推算完整 Transformer 的训练成本。</li>
+    </ul>
+
+    <h3>从这一次计算走到 Transformer</h3>
+    <p>真实模型里的 Q、K、V 通常由输入表示分别乘以学习到的投影矩阵得到，训练会调整这些矩阵。Self-Attention（自注意力）的三者来自同一序列，让每个位置根据其他位置的信息更新表示；不同投影使“用来匹配的特征”和“要传递的内容”可以不同。位置表示补充顺序信息，否则仅靠这种点积与加权，模型无法区分位置顺序。</p>
+    <p>完整 Transformer 还组合多头注意力、前馈网络、残差连接与归一化等结构；需要自回归生成时还会用因果掩码限制可见位置。注意力权重只描述当前计算中对各个值的混合比例，不能直接作为严格的因果解释。缩放点积、投影与位置表示的原始说明可见 <a href="https://papers.neurips.cc/paper/2017/file/3f5ee243547dee91fbd053c1c4a845aa-Paper.pdf">《Attention Is All You Need》§3.2、§3.5</a>。</p>
+    <p class="algorithm-note"><strong>自测：</strong>把两个值对调，保持查询和键不变。权重会变吗？输出会变成什么？答案是权重不变，输出约为 <code>[0.6605,1.3395]</code>：匹配由 K 决定，汇总内容由 V 决定。</p>
   </section>
 
   <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>
