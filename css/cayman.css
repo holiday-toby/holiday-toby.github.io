@@ -994,6 +994,10 @@ a:hover { text-decoration: underline; }
   fill: #159957;
 }
 
+/* Keep algorithm result labels and semantic connections readable. */
+.algorithm-page .algorithm-visual .visual-accent { fill: #117a46; }
+.algorithm-page .algorithm-visual .visual-line { stroke: #536c84; }
+
 .algorithm-visual .visual-blue {
   fill: #155799;
 }
