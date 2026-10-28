@@ -6,188 +6,222 @@ title: 程序员算法地图
 <article class="algorithm-page">
   <header class="algorithm-hero">
     <p class="algorithm-kicker">Algorithm</p>
-    <h1>程序员常用算法地图</h1>
-    <p>
-      程序员常用算法可以按「必须掌握」「高频面试」「实际工程」三个层次来理解。
-      很多人一上来就刷题，其实更重要的是建立算法体系。
-    </p>
+    <h1>程序员算法地图：从问题找到候选工具</h1>
+    <p>先说明输入是什么、想得到什么，再检查算法能否使用。这张地图用具体问题连接六篇入门教程；每篇从一份小输入开始，跟随状态变化，最后核对代码、成本和边界。</p>
   </header>
 
-  <section class="algorithm-link-grid" aria-label="算法文章入口">
-    <a href="{{ site.baseurl }}/algorithms/basic.html">
-      <span>01</span>
-      <strong>基础算法</strong>
-      <small>排序、二分、哈希、双指针、栈与队列</small>
-    </a>
-    <a href="{{ site.baseurl }}/algorithms/data-structures.html">
-      <span>02</span>
-      <strong>数据结构</strong>
-      <small>链表、树、堆、图，算法的地基</small>
-    </a>
-    <a href="{{ site.baseurl }}/algorithms/thinking.html">
-      <span>03</span>
-      <strong>算法思想</strong>
-      <small>递归、分治、动态规划、贪心、回溯</small>
-    </a>
-    <a href="{{ site.baseurl }}/algorithms/engineering.html">
-      <span>04</span>
-      <strong>工程算法</strong>
-      <small>缓存、字符串、布隆过滤器、一致性哈希</small>
-    </a>
-    <a href="{{ site.baseurl }}/algorithms/ai.html">
-      <span>05</span>
-      <strong>AI 时代算法</strong>
-      <small>向量检索、机器学习基础、Transformer</small>
-    </a>
-    <a href="{{ site.baseurl }}/algorithms/learning-path.html">
-      <span>06</span>
-      <strong>学习路线</strong>
-      <small>按阶段和方向拆解学习优先级</small>
-    </a>
-  </section>
+  <nav class="algorithm-link-grid" aria-label="算法专题入口">
+    <a href="{{ site.baseurl }}/algorithms/basic.html"><span>01</span><strong>基础算法</strong><small>排序、二分与基础模式</small></a>
+    <a href="{{ site.baseurl }}/algorithms/data-structures.html"><span>02</span><strong>数据结构</strong><small>链表指针、树与图遍历</small></a>
+    <a href="{{ site.baseurl }}/algorithms/thinking.html"><span>03</span><strong>算法思想</strong><small>分治、状态递推、选择与撤销</small></a>
+    <a href="{{ site.baseurl }}/algorithms/engineering.html"><span>04</span><strong>工程算法</strong><small>缓存、字符串、判重与路由</small></a>
+    <a href="{{ site.baseurl }}/algorithms/ai.html"><span>05</span><strong>AI 时代算法</strong><small>向量打分、检索与注意力</small></a>
+    <a href="{{ site.baseurl }}/algorithms/learning-path.html"><span>06</span><strong>学习路线</strong><small>先修关系与掌握检查点</small></a>
+  </nav>
 
-  <section class="algorithm-section">
-    <h2>算法地图总览</h2>
-    <div class="algorithm-visual" aria-label="从基础到工程再到 AI 的算法学习路径图">
-      <svg viewBox="0 0 760 220" role="img">
-        <path class="visual-line" d="M96 110 H664" />
-        <circle class="visual-accent" cx="96" cy="110" r="38" />
-        <circle class="visual-blue" cx="238" cy="110" r="38" />
-        <circle class="visual-accent" cx="380" cy="110" r="38" />
-        <circle class="visual-blue" cx="522" cy="110" r="38" />
-        <circle class="visual-accent" cx="664" cy="110" r="38" />
-        <text x="96" y="116" text-anchor="middle" fill="#fff">基础</text>
-        <text x="238" y="116" text-anchor="middle" fill="#fff">结构</text>
-        <text x="380" y="116" text-anchor="middle" fill="#fff">思想</text>
-        <text x="522" y="116" text-anchor="middle" fill="#fff">工程</text>
-        <text x="664" y="116" text-anchor="middle" fill="#fff">AI</text>
-        <text x="380" y="42" text-anchor="middle">先会表达问题，再优化解决方式</text>
-        <text x="380" y="184" text-anchor="middle">数组、树、图、DP、缓存、检索共同构成算法工具箱</text>
-      </svg>
+  <section class="algorithm-section" aria-labelledby="map-heading">
+    <h2 id="map-heading">问题特征 → 候选工具 → 检查前提</h2>
+    <p>每张卡从上往下读：浅色框是问题特征，带链接的蓝色框是候选工具，底部列出需要检查的前提。箭头表示推理顺序，不保证条件自动成立；同一个问题可以同时需要排序、图、缓存等多种工具。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 280 246" role="group" aria-labelledby="map-binary-title" aria-describedby="map-binary-desc" style="max-width: 20rem; margin: 0 auto;">
+            <title id="map-binary-title">01 · 有序范围边界 → 二分查找 → 检查前提</title>
+            <desc id="map-binary-desc">从上往下：有序范围边界，候选工具是二分查找；使用前检查升序输入、明确左边界。中间的工具框可打开对应教程。</desc>
+            <defs><marker id="map-binary-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
+            <text x="140" y="41" text-anchor="middle">有序范围边界</text>
+            <path class="visual-line" fill="none" marker-end="url(#map-binary-arrow)" d="M140 69 V90" />
+            <a href="{{ site.baseurl }}/algorithms/basic.html#basic-binary" aria-label="打开二分查找教程：有序范围边界" tabindex="0">
+              <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
+              <text class="visual-text-inverse" x="140" y="126" text-anchor="middle">二分查找 ↗</text>
+            </a>
+            <path class="visual-line" fill="none" marker-end="url(#map-binary-arrow)" d="M140 147 V168" />
+            <rect class="visual-soft" x="20" y="176" width="240" height="60" rx="7" />
+            <text x="140" y="200" text-anchor="middle">升序输入</text>
+            <text x="140" y="224" text-anchor="middle">明确左边界</text>
+          </svg>
+        </div>
+        <figcaption><strong>01 · 有序范围边界：</strong>在 <code>[2,4,4,7,9]</code> 中找第一个不小于 4 的位置，结果是下标 1。先确认数组升序，再选择左边界查找；未排序时不能直接二分。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 280 246" role="group" aria-labelledby="map-bfs-title" aria-describedby="map-bfs-desc" style="max-width: 20rem; margin: 0 auto;">
+            <title id="map-bfs-title">02 · 关系与最少边数 → 图 / BFS → 检查前提</title>
+            <desc id="map-bfs-desc">从上往下：关系与最少边数，候选工具是图 / BFS；使用前检查无权关系图、目标是最少边数。中间的工具框可打开对应教程。</desc>
+            <defs><marker id="map-bfs-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
+            <text x="140" y="41" text-anchor="middle">关系与最少边数</text>
+            <path class="visual-line" fill="none" marker-end="url(#map-bfs-arrow)" d="M140 69 V90" />
+            <a href="{{ site.baseurl }}/algorithms/data-structures.html#bfs-heading" aria-label="打开图 / BFS教程：关系与最少边数" tabindex="0">
+              <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
+              <text class="visual-text-inverse" x="140" y="126" text-anchor="middle">图 / BFS ↗</text>
+            </a>
+            <path class="visual-line" fill="none" marker-end="url(#map-bfs-arrow)" d="M140 147 V168" />
+            <rect class="visual-soft" x="20" y="176" width="240" height="60" rx="7" />
+            <text x="140" y="200" text-anchor="middle">无权关系图</text>
+            <text x="140" y="224" text-anchor="middle">目标：最少边数</text>
+          </svg>
+        </div>
+        <figcaption><strong>02 · 关系与最少边数：</strong>在 A–B、A–C、B–D、C–D、D–E 的关系图中，从 A 到 E 至少走 3 条边。广度优先搜索（BFS）按层探索；若目标改为最短耗时且边权不同，就要重新选择最短路工具。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 280 246" role="group" aria-labelledby="map-dp-title" aria-describedby="map-dp-desc" style="max-width: 20rem; margin: 0 auto;">
+            <title id="map-dp-title">03 · 状态递推与重复子问题 → 动态规划 DP → 检查前提</title>
+            <desc id="map-dp-desc">从上往下：状态递推与重复子问题，候选工具是动态规划 DP；使用前检查定义状态与初值、确定依赖顺序。中间的工具框可打开对应教程。</desc>
+            <defs><marker id="map-dp-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
+            <text x="140" y="30" text-anchor="middle">状态递推</text>
+            <text x="140" y="52" text-anchor="middle">重复子问题</text>
+            <path class="visual-line" fill="none" marker-end="url(#map-dp-arrow)" d="M140 69 V90" />
+            <a href="{{ site.baseurl }}/algorithms/thinking.html#dp-heading" aria-label="打开动态规划 DP教程：状态递推与重复子问题" tabindex="0">
+              <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
+              <text class="visual-text-inverse" x="140" y="126" text-anchor="middle">动态规划 DP ↗</text>
+            </a>
+            <path class="visual-line" fill="none" marker-end="url(#map-dp-arrow)" d="M140 147 V168" />
+            <rect class="visual-soft" x="20" y="176" width="240" height="60" rx="7" />
+            <text x="140" y="200" text-anchor="middle">定义状态与初值</text>
+            <text x="140" y="224" text-anchor="middle">确定依赖顺序</text>
+          </svg>
+        </div>
+        <figcaption><strong>03 · 状态递推与重复子问题：</strong>每次走 1 或 2 阶，求到第 5 阶的方案数。令 <code>f(i)</code> 表示到第 i 阶的走法，<code>f(0)=1</code>，按 <code>f(i)=f(i−1)+f(i−2)</code> 复用子问题，得到 8；计数还需证明不重不漏。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 280 246" role="group" aria-labelledby="map-lru-title" aria-describedby="map-lru-desc" style="max-width: 20rem; margin: 0 auto;">
+            <title id="map-lru-title">04 · 缓存容量与访问局部性 → LRU 缓存 → 检查前提</title>
+            <desc id="map-lru-desc">从上往下：缓存容量与访问局部性，候选工具是LRU 缓存；使用前检查容量为正整数、近期访问有参考性。中间的工具框可打开对应教程。</desc>
+            <defs><marker id="map-lru-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
+            <text x="140" y="30" text-anchor="middle">缓存容量</text>
+            <text x="140" y="52" text-anchor="middle">访问局部性</text>
+            <path class="visual-line" fill="none" marker-end="url(#map-lru-arrow)" d="M140 69 V90" />
+            <a href="{{ site.baseurl }}/algorithms/engineering.html" aria-label="打开LRU 缓存教程：缓存容量与访问局部性" tabindex="0">
+              <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
+              <text class="visual-text-inverse" x="140" y="126" text-anchor="middle">LRU 缓存 ↗</text>
+            </a>
+            <path class="visual-line" fill="none" marker-end="url(#map-lru-arrow)" d="M140 147 V168" />
+            <rect class="visual-soft" x="20" y="176" width="240" height="60" rx="7" />
+            <text x="140" y="200" text-anchor="middle">容量为正整数</text>
+            <text x="140" y="224" text-anchor="middle">近期访问有参考性</text>
+          </svg>
+        </div>
+        <figcaption><strong>04 · 缓存容量与访问局部性：</strong>容量为 3，依次放入 A、B、C，再访问 A、放入 D，最近最少使用（LRU）策略淘汰 B。它假设近期用过的条目可能再用；一次性顺序扫描等负载仍需实测命中率。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 280 246" role="group" aria-labelledby="map-vector-title" aria-describedby="map-vector-desc" style="max-width: 20rem; margin: 0 auto;">
+            <title id="map-vector-title">05 · 语义近邻 → 向量检索 → 检查前提</title>
+            <desc id="map-vector-desc">从上往下：语义近邻，候选工具是向量检索；使用前检查兼容的向量表示、同维非零向量。中间的工具框可打开对应教程。</desc>
+            <defs><marker id="map-vector-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
+            <text x="140" y="41" text-anchor="middle">语义近邻</text>
+            <path class="visual-line" fill="none" marker-end="url(#map-vector-arrow)" d="M140 69 V90" />
+            <a href="{{ site.baseurl }}/algorithms/ai.html" aria-label="打开向量检索教程：语义近邻" tabindex="0">
+              <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
+              <text class="visual-text-inverse" x="140" y="126" text-anchor="middle">向量检索 ↗</text>
+            </a>
+            <path class="visual-line" fill="none" marker-end="url(#map-vector-arrow)" d="M140 147 V168" />
+            <rect class="visual-soft" x="20" y="176" width="240" height="60" rx="7" />
+            <text x="140" y="200" text-anchor="middle">兼容的向量表示</text>
+            <text x="140" y="224" text-anchor="middle">同维非零向量</text>
+          </svg>
+        </div>
+        <figcaption><strong>05 · 语义近邻：</strong>给定查询 <code>q=(1,0)</code> 和 A=(1,0)、B=(1,1)、C=(0,1)、D=(−1,0)，按余弦相似度取 Top-2 得到 A、B。先检查表示与度量是否适合任务；高分不代表内容真实。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 280 246" role="group" aria-labelledby="map-learning-title" aria-describedby="map-learning-desc" style="max-width: 20rem; margin: 0 auto;">
+            <title id="map-learning-title">06 · 尚缺先修知识 → 学习路线 → 检查前提</title>
+            <desc id="map-learning-desc">从上往下：尚缺先修知识，候选工具是学习路线；使用前检查先定位知识缺口、用练习检查掌握。中间的工具框可打开对应教程。</desc>
+            <defs><marker id="map-learning-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0 L10 5 L0 10 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="20" y="10" width="240" height="56" rx="7" />
+            <text x="140" y="41" text-anchor="middle">尚缺先修知识</text>
+            <path class="visual-line" fill="none" marker-end="url(#map-learning-arrow)" d="M140 69 V90" />
+            <a href="{{ site.baseurl }}/algorithms/learning-path.html" aria-label="打开学习路线教程：尚缺先修知识" tabindex="0">
+              <rect class="visual-blue" x="20" y="97" width="240" height="46" rx="7" />
+              <text class="visual-text-inverse" x="140" y="126" text-anchor="middle">学习路线 ↗</text>
+            </a>
+            <path class="visual-line" fill="none" marker-end="url(#map-learning-arrow)" d="M140 147 V168" />
+            <rect class="visual-soft" x="20" y="176" width="240" height="60" rx="7" />
+            <text x="140" y="200" text-anchor="middle">先定位知识缺口</text>
+            <text x="140" y="224" text-anchor="middle">用练习检查掌握</text>
+          </svg>
+        </div>
+        <figcaption><strong>06 · 尚缺先修知识：</strong>如果还说不清队列的先进先出，就先用入队、出队的小练习补基础，再跟随 BFS。路线里的检查点帮助决定下一步，学习顺序也可随当前任务调整。</figcaption>
+      </figure>
     </div>
-    <pre class="algorithm-code"><code class="language-python">def choose_tool(problem):
-    if problem.needs_ordered_search:
-        return "binary search"
-    if problem.needs_fast_lookup:
-        return "hash table"
-    if problem.has_dependencies:
-        return "graph + topological sort"
-    if problem.has_overlapping_subproblems:
-        return "dynamic programming"
-    return "start with brute force, then optimize"</code></pre>
+    <p class="algorithm-note">把候选工具落到真实输入上：例如先从日志中取出某个时间段，再从结果里选出最大的 10 个值。若日志按时间升序，可先用二分定位范围边界；接着用大小为 10 的堆维护 Top-K。两个步骤的前提和成本要分别检查。</p>
   </section>
 
-  <section class="algorithm-section">
-    <h2>一、最核心：基础算法</h2>
-    <p>这些属于程序员的基本功。重点不是背代码，而是理解每种算法适合解决什么问题。</p>
+  <section class="algorithm-section" aria-labelledby="overview-basic">
+    <h2 id="overview-basic">基础算法：要全部排好，还是只找一部分？</h2>
+    <p>把 <code>[5,2,3,1,4]</code> 全部排好，可以观察快速排序怎样分组再递归；只找一个边界、一个最大值或最大的 k 个值，则不必总是完整排序。<a href="{{ site.baseurl }}/algorithms/basic.html">进入基础算法，看快排动图、二分边界与基础模式</a>。</p>
     <div class="algorithm-table-wrap">
       <table>
-        <thead>
-          <tr>
-            <th>算法</th>
-            <th>时间复杂度</th>
-            <th>特点</th>
-          </tr>
-        </thead>
+        <caption>比较 n 个可一致比较的元素；成本对应下列常见实现，平均情况还取决于输入分布</caption>
+        <thead><tr><th>排序</th><th>时间成本与条件</th><th>关键动作与稳定性条件</th></tr></thead>
         <tbody>
-          <tr>
-            <td>冒泡排序</td>
-            <td>O(n²)</td>
-            <td>理解交换思想</td>
-          </tr>
-          <tr>
-            <td>选择排序</td>
-            <td>O(n²)</td>
-            <td>理解最值选择</td>
-          </tr>
-          <tr>
-            <td>插入排序</td>
-            <td>O(n²)</td>
-            <td>小数据很好用</td>
-          </tr>
-          <tr>
-            <td>快速排序</td>
-            <td>O(n log n)</td>
-            <td>最常用</td>
-          </tr>
-          <tr>
-            <td>归并排序</td>
-            <td>O(n log n)</td>
-            <td>稳定排序</td>
-          </tr>
-          <tr>
-            <td>堆排序</td>
-            <td>O(n log n)</td>
-            <td>适合 TopK</td>
-          </tr>
+          <tr><td>冒泡排序</td><td>平均 / 最坏 O(n²)；带“本轮无交换就停止”的版本在已有序时最佳 O(n)。</td><td>相邻逆序就交换；相等时不交换的实现稳定。</td></tr>
+          <tr><td>选择排序</td><td>经典版本最佳 / 平均 / 最坏均为 O(n²)。</td><td>反复选出剩余最小值并交换到前面；经典交换版本通常不稳定。</td></tr>
+          <tr><td>插入排序</td><td>平均 / 最坏 O(n²)；已有序时最佳 O(n)，近乎有序时移动通常较少。</td><td>将当前元素插入有序前缀；只向后移动严格大于它的元素时稳定。</td></tr>
+          <tr><td>快速排序</td><td>平均 O(n log n)；连续极不平衡分区时最坏 O(n²)。本页所链接的三路教学版在全相等输入上只需一轮 O(n) 扫描。</td><td>按基准分区再递归；经典原地交换版通常不稳定。教程的新列表版按输入顺序收集小于、等于、大于三组，保留相等项次序，空间成本也不同。</td></tr>
+          <tr><td>归并排序</td><td>常见自顶向下数组版本最佳 / 平均 / 最坏均为 O(n log n)，辅助空间 O(n)。</td><td>分别排好两半，再合并；相等时先取左侧才能保持稳定。</td></tr>
+          <tr><td>堆排序</td><td>完整排序平均 / 最坏 O(n log n)；常见迭代式原地实现辅助空间 O(1)。</td><td>建堆并反复取堆顶，得到全部有序结果；通常不稳定。</td></tr>
         </tbody>
       </table>
     </div>
-    <p>
-      二分查找、哈希表、双指针、栈与队列也属于必须熟练的基础能力。
-      它们在日志检索、缓存去重、窗口统计、表达式计算、任务调度里都非常常见。
-    </p>
+    <p><strong>稳定</strong>指相同排序键的记录仍保持原来的先后次序，例如同分学生保持报名顺序。这个性质取决于具体实现，不能只靠算法名称判断。新列表快排在平均情况下峰值辅助空间 O(n)，退化时可达 O(n²)，不能套用原地版的空间结论。</p>
+    <p><strong>Top-K 是另一个目标：</strong>若只要 n 个值中最大的 k 个，可用大小为 k 的小顶堆，时间 O(n log k)、空间 O(k)，这里假设 1 ≤ k ≤ n；k=1 可直接 O(n) 扫描。入选的 k 个值还没整体排好，需要有序输出时另加 O(k log k)。这与把全部 n 个值做堆排序不同。</p>
+    <p>其他基础模式也从输入约束开始：哈希表适合按键查找，双指针适合维护特定的区间或两端关系，栈按后进先出安排处理，队列按先进先出安排处理。它们的具体例子与成本条件见基础页。</p>
   </section>
 
-  <section class="algorithm-section">
-    <h2>二、数据结构是算法的基础</h2>
-    <p>
-      很多算法本质上是在选择合适的数据结构。链表、树、堆、图这些结构决定了问题能否被高效表达。
-    </p>
+  <section class="algorithm-section" aria-labelledby="overview-structures">
+    <h2 id="overview-structures">数据结构：需要保留哪种关系？</h2>
+    <p>要把 A→B→C→D 反转，关键是保存尚未处理的后继，再重连 next；要找 A 到 E 的最少边数，关键是用队列按层探索。<a href="{{ site.baseurl }}/algorithms/data-structures.html">进入数据结构，跟随链表引用与 BFS 队列的变化</a>。</p>
     <ul class="algorithm-list">
-      <li><strong>链表：</strong>反转链表、合并链表、快慢指针、环检测。</li>
-      <li><strong>树：</strong>二叉树遍历、BST、AVL/红黑树、Trie。</li>
-      <li><strong>堆：</strong>优先队列、Top K、调度系统、定时任务。</li>
-      <li><strong>图：</strong>BFS、DFS、Dijkstra、Floyd、拓扑排序、并查集。</li>
+      <li><strong>链表：</strong>拿到前驱节点后，插入或删除可只改 O(1) 个引用；先寻找该位置仍可能花 O(n)。反转教学例要求无环单链表，会改变原节点的链接。</li>
+      <li><strong>树与堆：</strong>二叉搜索树（BST）按有序关系缩小查找范围，成本取决于树高；二叉堆只保证堆顶优先，不保证整个数组有序。字典树（Trie）沿字符共享前缀，成本还要考虑字符串长度。</li>
+      <li><strong>图：</strong>BFS 的首次发现层数给出无权图的最少边数；深度优先搜索（DFS）先向深处探索，首次找到的路径不保证最短。带权距离、任务依赖与动态连通性分别还需检查边权、是否有环及允许哪些更新。</li>
     </ul>
   </section>
 
-  <section class="algorithm-section">
-    <h2>三、高频算法思想</h2>
-    <p>真正决定水平的是算法思想：看见问题后，能不能把它转化成熟悉的模型。</p>
-    <div class="algorithm-pill-grid">
-      <span>递归</span>
-      <span>分治</span>
-      <span>动态规划</span>
-      <span>贪心</span>
-      <span>回溯</span>
-      <span>剪枝</span>
-    </div>
-    <p>
-      动态规划尤其值得单独投入时间，它训练的是定义状态、建立状态转移、识别最优子结构的能力。
-    </p>
-  </section>
-
-  <section class="algorithm-section">
-    <h2>四、工程里最实用的算法</h2>
-    <p>
-      实际工作里，缓存淘汰、字符串匹配、分布式路由、海量数据判重，经常比纯刷题更有价值。
-    </p>
+  <section class="algorithm-section" aria-labelledby="overview-thinking">
+    <h2 id="overview-thinking">算法思想：拆分、复用，还是枚举选择？</h2>
+    <p>把 <code>[4,1,3,2]</code> 分半排序后合并、计算爬楼梯走法、选择最多的不重叠区间、生成 <code>[1,2,3]</code> 的排列，看起来都在“分步骤”，但每种步骤的成立理由不同。<a href="{{ site.baseurl }}/algorithms/thinking.html">进入算法思想，对照四种具体过程</a>。</p>
     <ul class="algorithm-list">
-      <li><strong>缓存算法：</strong>LRU、LFU，是 Redis 和本地缓存的高频知识。</li>
-      <li><strong>字符串算法：</strong>KMP、Trie、AC 自动机、Rabin-Karp。</li>
-      <li><strong>布隆过滤器：</strong>节省内存，有误判无漏判，常用于防缓存穿透和去重。</li>
-      <li><strong>一致性哈希：</strong>分布式缓存、Redis Cluster、CDN 的核心思想。</li>
+      <li><strong>分治：</strong>拆成较小的同类问题，递归求解，再合并；要说明递归怎样缩小并终止，以及合并成本。</li>
+      <li><strong>动态规划：</strong>明确定义状态、初始值和转移，按依赖顺序保存并复用子问题答案。重复子问题是复用的线索，还要确认状态包含后续决策所需的信息；DP 可以计数、判断可行性，也可以优化，不能一律只用“最优子结构”解释。</li>
+      <li><strong>贪心：</strong>按规则做选择且不撤销，需要证明当前选择不会妨碍目标。最早结束优先能最大化互不重叠区间的数量；区间有不同收益时，目标改变，原规则就不保证最优。</li>
+      <li><strong>回溯：</strong>选择、递归探索、撤销选择；生成排列时必须恢复路径与使用标记，才能让后续分支从正确状态开始。输出全部结果本身也有成本。</li>
     </ul>
   </section>
 
-  <section class="algorithm-section">
-    <h2>五、AI 时代也要补算法视角</h2>
-    <p>
-      AI 工程不只是在调用模型。向量检索、机器学习基础、Embedding、Attention、Self-Attention
-      都会影响你对 RAG、搜索、推荐和模型应用的理解。
-    </p>
+  <section class="algorithm-section" aria-labelledby="overview-engineering">
+    <h2 id="overview-engineering">工程算法：省下了什么，又接受了什么限制？</h2>
+    <p>缓存满了淘汰谁？节点扩容后哪些键迁移？一个名字是否值得去真实存储里查？<a href="{{ site.baseurl }}/algorithms/engineering.html">进入工程算法，跟随缓存顺序、哈希路由和位数组的变化</a>。</p>
+    <ul class="algorithm-list">
+      <li><strong>缓存淘汰：</strong>LRU 看最近使用的先后，最不经常使用（LFU）看访问次数。哈希表配双向顺序结构可让 LRU 的 get / put 在哈希与比较成本视为常数、分布正常时通常 O(1)；是否适合负载还需看访问局部性与命中率。</li>
+      <li><strong>字符串匹配：</strong>KMP、Trie、AC 自动机、Rabin–Karp 分别利用匹配前缀、共享前缀、多模式状态、窗口哈希等信息。先说明是单模式、多模式还是前缀查询，再计算预处理、扫描与输出成本。</li>
+      <li><strong>布隆过滤器：</strong>只插入的标准版本中，插入与查询参数、哈希函数一致，状态未损坏且已包含待查数据时，出现 0 可排除已插入；全为 1 仍可能是假阳性，需要查真实存储。不能任意清位删除，也不能独自完成准确去重。</li>
+      <li><strong>一致性哈希：</strong>沿环找键的后继节点，增删节点只改变部分键的归属；不保证负载完全均匀，也不提供复制或故障恢复。Redis Cluster 采用 16384 个哈希槽，扩容迁移槽及数据，不能直接当作一致性哈希环的实例。</li>
+    </ul>
   </section>
 
-  <section class="algorithm-section">
-    <h2>六、真正推荐的学习路线</h2>
-    <ol class="algorithm-steps">
-      <li>基础阶段：数组、链表、栈、队列、哈希、二叉树、排序、二分。</li>
-      <li>核心思想：DFS/BFS、递归、回溯、贪心、动态规划。</li>
-      <li>进阶阶段：图、并查集、Trie、堆、线段树、位运算。</li>
-    </ol>
-    <blockquote>
-      算法本质是：优化问题解决方式的能力。
-    </blockquote>
+  <section class="algorithm-section" aria-labelledby="overview-ai">
+    <h2 id="overview-ai">AI 时代算法：先比较表示，再解释结果</h2>
+    <p>对于 <code>q=(1,0)</code>，为什么 A=(1,0) 的余弦分数高于 B=(1,1)？给定参数算出预测，是否就完成了训练？注意力如何把多个值混合成一个输出？<a href="{{ site.baseurl }}/algorithms/ai.html">进入 AI 时代算法，逐项计算相似度、损失与注意力权重</a>。</p>
+    <ul class="algorithm-list">
+      <li><strong>向量检索：</strong>嵌入表示（Embedding）的模型与预处理应兼容；余弦要求同维非零向量。教程对 N 篇 d 维文档精确打分并完整排序，时间 O(Nd + N log N)、辅助空间 O(N)。</li>
+      <li><strong>近似检索：</strong>近似最近邻（ANN）可能漏掉精确 Top-K；HNSW 是其中一种索引方法，Faiss 是提供多种索引的检索库。应以精确结果为基线，同时测召回、延迟与内存。</li>
+      <li><strong>机器学习与注意力：</strong>固定参数的预测和损失计算还不是训练；训练需要更新参数并检验泛化。注意力按分数给值加权，教程只做单查询的教学前向计算，权重不能直接充当严格的因果解释。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="overview-learning">
+    <h2 id="overview-learning">学习路线：用能解释的过程检查掌握</h2>
+    <p>先从数组、引用、栈和队列补齐表示问题的能力，再把排序、二分、遍历与状态递推连起来。每次拿一份小输入，手算状态、运行代码，再解释一个会让算法失效的边界；能做到这些，再增加数据规模或换题目。</p>
+    <p><a href="{{ site.baseurl }}/algorithms/learning-path.html">查看先修关系与掌握检查点</a>，从当前缺口选择起点。学习路线也可以和上面的工具地图来回使用：遇到前提看不懂，就回到对应基础。</p>
   </section>
 </article>
