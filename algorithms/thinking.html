@@ -6,68 +6,308 @@ title: 算法思想
 <article class="algorithm-page">
   <header class="algorithm-hero compact">
     <p class="algorithm-kicker">Algorithm 03</p>
-    <h1>算法思想</h1>
-    <p>算法思想比具体题目更重要。它帮助你把陌生问题转换成熟悉模型。</p>
+    <h1>算法思想：拆问题、记状态、做选择</h1>
+    <p>面对一道新题，先问：能拆成哪些小问题？已经算过什么？一次选择会留下什么状态？下面用具体数字，把分治、动态规划、贪心和回溯各走一遍。</p>
   </header>
 
-  <section class="algorithm-section">
-    <h2>递归与分治</h2>
-    <p>递归关注终止条件和状态传递；分治强调把大问题拆成可合并的小问题。</p>
-    <div class="algorithm-visual" aria-label="分治递归树示意图">
-      <svg viewBox="0 0 760 230" role="img">
-        <circle class="visual-accent" cx="380" cy="46" r="30" />
-        <circle class="visual-blue" cx="250" cy="118" r="28" />
-        <circle class="visual-blue" cx="510" cy="118" r="28" />
-        <circle class="visual-soft" cx="180" cy="188" r="24" />
-        <circle class="visual-soft" cx="320" cy="188" r="24" />
-        <circle class="visual-soft" cx="440" cy="188" r="24" />
-        <circle class="visual-soft" cx="580" cy="188" r="24" />
-        <path class="visual-line" d="M356 64 L274 100 M404 64 L486 100 M232 136 L198 170 M268 136 L302 170 M492 136 L458 170 M528 136 L562 170" />
-        <text x="380" y="52" text-anchor="middle" fill="#fff">问题</text>
-        <text x="250" y="124" text-anchor="middle" fill="#fff">子问题</text>
-        <text x="510" y="124" text-anchor="middle" fill="#fff">子问题</text>
-        <text x="180" y="194" text-anchor="middle">解</text>
-        <text x="320" y="194" text-anchor="middle">解</text>
-        <text x="440" y="194" text-anchor="middle">解</text>
-        <text x="580" y="194" text-anchor="middle">解</text>
-      </svg>
+  <section class="algorithm-section" aria-labelledby="divide-heading">
+    <h2 id="divide-heading">递归与分治：把 [4, 1, 3, 2] 排好</h2>
+    <p><strong>递归（recursion）</strong>是函数调用自己的写法；<strong>分治（divide and conquer）</strong>是把问题拆小、分别求解、再合并的策略。两者经常一起使用，但含义不同：递归遍历一棵树未必需要合并答案；分治也可以用循环自底向上实现。</p>
+    <p>归并排序的任务是返回一个从小到大的新列表。对输入 <code>[4, 1, 3, 2]</code>，先从中间拆开。只有一个元素或没有元素时已经有序，直接返回，这就是<strong>停止条件</strong>。长度至少为 2 时，两边都比原问题小，才会逐步走到停止条件。</p>
+
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 280" role="img" aria-labelledby="merge-split-title merge-split-desc">
+            <title id="merge-split-title">第一步：拆到单元素</title>
+            <desc id="merge-split-desc">四个元素拆为两组，每组继续拆成两个单元素，父调用等待两边排好。</desc>
+            <defs><marker id="merge-split-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-blue" x="60" y="15" width="200" height="44" rx="8" />
+            <text class="visual-text-inverse" x="160" y="43" text-anchor="middle">[4, 1, 3, 2]</text>
+            <path class="visual-line" d="M130 59 L78 104 M190 59 L242 104" fill="none" marker-end="url(#merge-split-arrow)" />
+            <rect class="visual-soft" x="20" y="112" width="116" height="44" rx="8" />
+            <rect class="visual-soft" x="184" y="112" width="116" height="44" rx="8" />
+            <text x="78" y="140" text-anchor="middle">[4, 1]</text><text x="242" y="140" text-anchor="middle">[3, 2]</text>
+            <path class="visual-line" d="M58 156 L35 211 M98 156 L113 211 M222 156 L207 211 M262 156 L285 211" fill="none" marker-end="url(#merge-split-arrow)" />
+            <rect class="visual-soft" x="8" y="220" width="54" height="44" rx="8" /><rect class="visual-soft" x="86" y="220" width="54" height="44" rx="8" />
+            <rect class="visual-soft" x="180" y="220" width="54" height="44" rx="8" /><rect class="visual-soft" x="258" y="220" width="54" height="44" rx="8" />
+            <text x="35" y="248" text-anchor="middle">[4]</text><text x="113" y="248" text-anchor="middle">[1]</text><text x="207" y="248" text-anchor="middle">[3]</text><text x="285" y="248" text-anchor="middle">[2]</text>
+          </svg>
+        </div>
+        <figcaption><strong>① 拆分，暂时等待。</strong>最外层还不能返回；它需要左边和右边的排序结果。实际递归先把左边算完，再处理右边，图中画的是调用关系。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 280" role="img" aria-labelledby="merge-return-title merge-return-desc">
+            <title id="merge-return-title">第二步：向上返回有序结果</title>
+            <desc id="merge-return-desc">单元素合并成一四和二三，再合并成一二三四。</desc>
+            <defs><marker id="merge-return-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="8" y="15" width="54" height="44" rx="8" /><rect class="visual-soft" x="86" y="15" width="54" height="44" rx="8" />
+            <rect class="visual-soft" x="180" y="15" width="54" height="44" rx="8" /><rect class="visual-soft" x="258" y="15" width="54" height="44" rx="8" />
+            <text x="35" y="43" text-anchor="middle">[4]</text><text x="113" y="43" text-anchor="middle">[1]</text><text x="207" y="43" text-anchor="middle">[3]</text><text x="285" y="43" text-anchor="middle">[2]</text>
+            <path class="visual-line" d="M35 59 L65 105 M113 59 L91 105 M207 59 L229 105 M285 59 L255 105" fill="none" marker-end="url(#merge-return-arrow)" />
+            <rect class="visual-blue" x="20" y="114" width="116" height="44" rx="8" /><rect class="visual-blue" x="184" y="114" width="116" height="44" rx="8" />
+            <text class="visual-text-inverse" x="78" y="142" text-anchor="middle">[1, 4]</text><text class="visual-text-inverse" x="242" y="142" text-anchor="middle">[2, 3]</text>
+            <path class="visual-line" d="M78 158 L135 211 M242 158 L185 211" fill="none" marker-end="url(#merge-return-arrow)" />
+            <rect class="visual-accent" x="60" y="220" width="200" height="44" rx="8" />
+            <text class="visual-text-inverse" x="160" y="248" text-anchor="middle">[1, 2, 3, 4]</text>
+          </svg>
+        </div>
+        <figcaption><strong>② 合并，再返回。</strong>每个调用拿到两个有序列表后，反复比较两边尚未取出的第一个元素，把较小者放入新列表。</figcaption>
+      </figure>
     </div>
-    <ul class="algorithm-list">
-      <li><strong>递归：</strong>树遍历、DFS、回溯的基础。</li>
-      <li><strong>分治：</strong>快速排序、归并排序、FFT 的共同思想。</li>
-    </ul>
+
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>最后一次合并：[1, 4] 与 [2, 3]</caption>
+        <thead><tr><th>比较或动作</th><th>取走谁</th><th>已合并的前缀</th></tr></thead>
+        <tbody>
+          <tr><td>1 与 2 比较</td><td>左边的 1</td><td>[1]</td></tr>
+          <tr><td>4 与 2 比较</td><td>右边的 2</td><td>[1, 2]</td></tr>
+          <tr><td>4 与 3 比较</td><td>右边的 3</td><td>[1, 2, 3]</td></tr>
+          <tr><td>右边已空</td><td>接上左边剩余的 4</td><td>[1, 2, 3, 4]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>为什么成立？</strong>两边已经有序，所以所有未取出的元素中，最小者必定在两边的开头。每次取较小的开头，就保持“输出前缀有序，且没有遗漏更小元素”。单元素正确，合并也正确，逐层返回便得到整个列表的正确结果。</p>
+    <pre class="algorithm-code"><code class="language-python">def merge_sort(nums):
+    if len(nums) &lt;= 1:
+        return nums[:]
+    mid = len(nums) // 2
+    left = merge_sort(nums[:mid])
+    right = merge_sort(nums[mid:])
+    merged = []
+    i = j = 0
+    while i &lt; len(left) and j &lt; len(right):
+        if left[i] &lt;= right[j]:
+            merged.append(left[i])
+            i += 1
+        else:
+            merged.append(right[j])
+            j += 1
+    merged.extend(left[i:])
+    merged.extend(right[j:])
+    return merged
+
+print(merge_sort([4, 1, 3, 2]))  # [1, 2, 3, 4]</code></pre>
+    <p><strong>成本与边界：</strong>每层拆分、切片和合并总共处理 O(n) 个元素，约有 log₂n 层，因此时间 O(n log n)。这个列表版本的峰值辅助空间为 O(n)，递归栈深 O(log n)，输入列表不变。空列表返回 <code>[]</code>；重复元素也可处理，比较时优先取左边，相等元素保持原来次序。元素之间必须能比较。</p>
+    <p class="algorithm-note">继续阅读时，可以比较快速排序“先分区，再递归”和归并排序“先递归，再合并”的差别。快速傅里叶变换（FFT）也是分治的应用，用于高效计算离散傅里叶变换；它需要复数与频域等先修知识，这里先不展开。</p>
   </section>
 
-  <section class="algorithm-section">
-    <h2>动态规划</h2>
-    <p>动态规划训练的是状态定义能力：状态、状态转移、最优子结构。</p>
-    <div class="algorithm-pill-grid">
-      <span>爬楼梯</span>
-      <span>背包问题</span>
-      <span>最长递增子序列</span>
-      <span>编辑距离</span>
-      <span>股票买卖</span>
+  <section class="algorithm-section" aria-labelledby="dp-heading">
+    <h2 id="dp-heading">动态规划：到第 5 阶有几种走法？</h2>
+    <p>你每次可以走 1 阶或 2 阶。顺序不同算不同方案，例如到第 3 阶的 <code>1+2</code> 与 <code>2+1</code> 是两种。输入是整数 <code>n ≥ 0</code>，输出是恰好走到第 n 阶的方案数。<strong>动态规划（dynamic programming，DP）</strong>会给子问题命名，再保存并复用答案。</p>
+    <p><strong>状态定义：</strong><code>f(i)</code> 表示到第 i 阶的走法总数。<code>f(0)=1</code>，代表不迈步的一个空方案；<code>f(1)=1</code>。当 i≥2，最后一步只有两种情况：从 i−1 走 1 阶，或从 i−2 走 2 阶。删去最后一步，分别对应 <code>f(i−1)</code> 与 <code>f(i−2)</code> 个方案。这两类由最后一步区分，互不重叠，也没有漏掉合法走法，所以 <code>f(i)=f(i−1)+f(i−2)</code>。</p>
+    <p>直接递归计算会在不同分支重复求 <code>f(3)</code>、<code>f(2)</code> 等相同状态。按 i 从小到大计算，每个状态只求一次。又因为下一格只依赖最近两格，不必保存整张表：用 <code>prev</code> 和 <code>cur</code> 两个滚动变量就够了。</p>
+    <div class="algorithm-step-grid">
+      <div class="algorithm-step-card">
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>从基础状态出发，逐格填到 f(5)</caption>
+        <thead><tr><th>i</th><th>计算依据</th><th>f(i)</th></tr></thead>
+        <tbody>
+          <tr><td>0</td><td>一个空方案</td><td>1</td></tr>
+          <tr><td>1</td><td>只能走 1 阶</td><td>1</td></tr>
+          <tr><td>2</td><td>f(1)+f(0) = 1+1</td><td>2</td></tr>
+          <tr><td>3</td><td>f(2)+f(1) = 2+1</td><td>3</td></tr>
+          <tr><td>4</td><td>f(3)+f(2) = 3+2</td><td>5</td></tr>
+          <tr><td>5</td><td>f(4)+f(3) = 5+3</td><td>8</td></tr>
+        </tbody>
+      </table>
     </div>
-    <pre class="algorithm-code"><code class="language-python">def climb_stairs(n):
-    if n &lt;= 2:
-        return n
-
-    prev, cur = 1, 2
-    for _ in range(3, n + 1):
+      </div>
+    <figure class="algorithm-figure algorithm-step-card">
+      <div class="algorithm-visual">
+        <svg viewBox="0 0 320 450" role="img" aria-labelledby="stairs-roll-title stairs-roll-desc">
+          <title id="stairs-roll-title">滚动变量计算爬楼梯方案数</title>
+          <desc id="stairs-roll-desc">从一一开始，每次旧的 cur 成为 prev，两个旧值之和成为 cur，依次得到一二、二三、三五、五八。</desc>
+          <defs><marker id="stairs-roll-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#536c84" /></marker></defs>
+          <text x="160" y="27" text-anchor="middle">(prev, cur)</text>
+          <rect class="visual-soft" x="55" y="44" width="210" height="46" rx="8" /><text x="160" y="73" text-anchor="middle">初始：(1, 1)</text>
+          <path class="visual-line" d="M160 90 V120" marker-end="url(#stairs-roll-arrow)" />
+          <rect class="visual-soft" x="55" y="128" width="210" height="46" rx="8" /><text x="160" y="157" text-anchor="middle">i = 2：(1, 2)</text>
+          <path class="visual-line" d="M160 174 V204" marker-end="url(#stairs-roll-arrow)" />
+          <rect class="visual-soft" x="55" y="212" width="210" height="46" rx="8" /><text x="160" y="241" text-anchor="middle">i = 3：(2, 3)</text>
+          <path class="visual-line" d="M160 258 V288" marker-end="url(#stairs-roll-arrow)" />
+          <rect class="visual-soft" x="55" y="296" width="210" height="46" rx="8" /><text x="160" y="325" text-anchor="middle">i = 4：(3, 5)</text>
+          <path class="visual-line" d="M160 342 V372" marker-end="url(#stairs-roll-arrow)" />
+          <rect class="visual-accent" x="55" y="380" width="210" height="46" rx="8" /><text class="visual-text-inverse" x="160" y="409" text-anchor="middle">i = 5：(5, 8)</text>
+        </svg>
+      </div>
+      <figcaption><strong>每次都用更新前的两个值。</strong>进入第 i 次循环时，prev 是 f(i−2)，cur 是 f(i−1)；更新后变为 f(i−1)、f(i)。因此走完 i=5 时，cur 就是答案 8。</figcaption>
+    </figure>
+    </div>
+    <pre class="algorithm-code"><code class="language-python" data-example="climb-stairs">def climb_stairs(n):
+    if n &lt; 0:
+        raise ValueError("n must be nonnegative")
+    if n &lt;= 1:
+        return 1
+    prev, cur = 1, 1
+    for i in range(2, n + 1):
         prev, cur = cur, prev + cur
     return cur</code></pre>
+    <p><code>climb_stairs(0)</code>、<code>climb_stairs(1)</code>、<code>climb_stairs(5)</code> 分别返回 <code>1</code>、<code>1</code>、<code>8</code>；负数抛出 <code>ValueError</code>。Python 的同时赋值先算右侧旧值，所以不会误用已经更新的 prev。函数以整数为输入前提。</p>
+    <p><strong>成本与边界：</strong>循环 O(n) 次，辅助空间 O(1)，这里按常见模型把整数加法看作常数时间、空间按变量个数计算。n 很大时答案位数会增长，Python 大整数的加法与存储也会随之增加。返回方案的数量并不等于枚举出所有方案；若要输出每种走法，还需要额外的生成过程与输出空间。</p>
+    <p class="algorithm-note"><strong>DP 不只求“最优”。</strong>爬楼梯是在计数，转移用加法合并互不重叠的方案；最少硬币、最大收益等优化问题常用 min 或 max 选最好答案。“最优子结构”不能代替对计数状态、不重不漏和依赖顺序的说明。</p>
+
+    <h3>其他 DP：先说清一格里记什么</h3>
+    <p>状态不同，表的大小、每格尝试的选择和可压缩方式也不同。先定义状态的含义，再谈复杂度。</p>
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>四种常见状态设计；成本对应表中指定的实现</caption>
+        <thead><tr><th>问题与状态</th><th>转移依赖</th><th>实现成本与边界</th></tr></thead>
+        <tbody>
+          <tr><td><strong>0/1 背包：</strong>dp[i][w] 记前 i 件物品、容量不超过 w 时的最大价值。</td><td>不拿第 i 件，看上一行同容量；拿它，看上一行扣去重量的容量，再加价值，取较大者。</td><td>n 件、整数容量 W：O(nW) 时间、二维表 O(nW) 空间。每件只能拿一次；压为 O(W) 时容量要倒序更新。W 很大时仍可能很慢，这是对容量数值的伪多项式算法。</td></tr>
+          <tr><td><strong>最长递增子序列（LIS）：</strong>dp[i] 记以 nums[i] 结尾的严格递增长度。</td><td>查看所有 j&lt;i 且 nums[j]&lt;nums[i] 的位置，取 dp[j]+1 的最大值；没有就从 1 开始。</td><td>枚举前驱的 DP 是 O(n²) 时间、O(n) 空间。子序列不要求连续，最终取整张表最大值；另有 O(n log n) 方法，状态含义不同。</td></tr>
+          <tr><td><strong>编辑距离：</strong>dp[i][j] 记把第一个字符串前 i 个字符变成第二个前 j 个字符的最少操作数。</td><td>插入看左格、删除看上格、匹配或替换看左上格，比较这些选择。</td><td>长度 m、n，单位代价的插入/删除/替换：O(mn) 时间，整表 O(mn) 空间；只求距离可用滚动行降到 O(min(m,n)) 空间。操作或代价变化时要改转移。</td></tr>
+          <tr><td><strong>股票买卖：</strong>hold[i] / cash[i] 记第 i 天结束时持一股 / 不持股的最大收益。</td><td>持股在“昨天已持有”和“昨天现金买入”中选；现金在“昨天现金”和“昨天卖出”中选。</td><td>可多次交易、最多持一股且无手续费/冷冻期的版本：O(n) 时间、滚动变量 O(1) 空间。限制交易次数需增加状态；手续费和冷冻期也需改转移。</td></tr>
+        </tbody>
+      </table>
+    </div>
   </section>
 
-  <section class="algorithm-section">
-    <h2>贪心与回溯</h2>
-    <p>贪心需要证明局部最优能推导全局最优；回溯本质是暴力搜索加剪枝。</p>
-    <ul class="algorithm-list">
-      <li><strong>贪心：</strong>区间问题、Huffman 编码、部分最小生成树思路。</li>
-      <li><strong>回溯：</strong>全排列、N 皇后、数独。</li>
-    </ul>
-    <pre class="algorithm-code"><code class="language-python">def permutations(nums):
-    ans, path, used = [], [], [False] * len(nums)
+  <section class="algorithm-section" aria-labelledby="greedy-heading">
+    <h2 id="greedy-heading">贪心：先结束的区间先选，为什么可行？</h2>
+    <p><strong>贪心（greedy）</strong>在当前时刻按一个规则做选择，之后不撤销。问题是：从半开区间 <code>[(1,3), (2,4), (3,5), (5,7)]</code> 中，选出尽可能多的互不重叠区间。半开区间 <code>[start, end)</code> 包含开始、不包含结束，所以 <code>(1,3)</code> 与 <code>(3,5)</code> 允许首尾相接。</p>
+    <div class="algorithm-step-grid">
+    <figure class="algorithm-figure algorithm-step-card">
+      <div class="algorithm-visual">
+        <svg viewBox="0 0 320 330" role="img" aria-labelledby="interval-choice-title interval-choice-desc">
+          <title id="interval-choice-title">按结束时间扫描四个区间</title>
+          <desc id="interval-choice-desc">选一到三，跳过与它冲突的二到四，再选三到五和五到七，共三个。</desc>
+          <text x="160" y="28" text-anchor="middle">按结束时间从早到晚</text>
+          <rect class="visual-accent" x="20" y="50" width="280" height="44" rx="8" /><text class="visual-text-inverse" x="160" y="78" text-anchor="middle">选 (1, 3)：首个区间</text>
+          <text x="160" y="121" text-anchor="middle">当前结束 = 3</text>
+          <rect class="visual-soft" x="20" y="142" width="280" height="44" rx="8" /><text x="160" y="170" text-anchor="middle">跳过 (2, 4)：2 &lt; 3</text>
+          <rect class="visual-accent" x="20" y="208" width="280" height="44" rx="8" /><text class="visual-text-inverse" x="160" y="236" text-anchor="middle">选 (3, 5)：3 ≥ 3</text>
+          <rect class="visual-accent" x="20" y="274" width="280" height="44" rx="8" /><text class="visual-text-inverse" x="160" y="302" text-anchor="middle">选 (5, 7)：5 ≥ 5</text>
+        </svg>
+      </div>
+      <figcaption><strong>保留当前已选区间的结束时间。</strong>下一段的开始时间大于等于它，才能加入。结果是 (1,3)、(3,5)、(5,7)，共 3 段；“跳过”与“选中”同时有文字标签。</figcaption>
+    </figure>
+      <div class="algorithm-step-card">
+        <h3>为什么可以一直这样选？</h3>
+    <p><strong>交换直觉：</strong>设某个最多区间的方案第一段是 A，最早结束的可选区间是 G。把 A 换成 G，后面的区间仍然能接上，因为 G 的结束时间不晚于 A；区间数量也没有减少。于是总能找到一个最优方案以 G 开始。在剩下的可兼容区间中重复这一步，就能说明整个策略正确。这里证明的是“最多选几段”，并没有包含不同区间的收益权重。</p>
+      </div>
+    </div>
+    <pre class="algorithm-code"><code class="language-python">def select_intervals(intervals):
+    chosen = []
+    end = None
+    for start, finish in sorted(intervals, key=lambda item: item[1]):
+        if end is None or start &gt;= end:
+            chosen.append((start, finish))
+            end = finish
+    return chosen
 
+print(select_intervals([(1, 3), (2, 4), (3, 5), (5, 7)]))
+# [(1, 3), (3, 5), (5, 7)]</code></pre>
+    <p><strong>成本与边界：</strong>n 段排序 O(n log n)，扫描 O(n)；此 Python 实现创建排序列表和结果列表，空间 O(n)。空输入返回 <code>[]</code>。输入需是满足 start&lt;finish 的有效区间，这段教学代码不额外校验。如果区间有不同价值、目标改为总价值最大，按最早结束时间选就不保证最优，需要重新建模。</p>
+
+    <h3>局部看起来好，不代表总答案好</h3>
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>反例：硬币面额 [1, 3, 4]，不限张数，凑成 6 并让张数最少</caption>
+        <thead><tr><th>策略</th><th>具体选择</th><th>硬币数</th></tr></thead>
+        <tbody>
+          <tr><td>每次拿不超过剩余金额的最大面额</td><td>先拿 4，剩 2；再拿 1、1</td><td>3</td></tr>
+          <tr><td>更好的完整方案</td><td>3+3=6</td><td>2</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p>不存在面额 6，所以 1 张不可能；而 <code>3+3</code> 用 2 张就能做到，因此它最优。这个反例已经推翻“任意面额都能最大优先”的说法。最少硬币可以改用优化 DP：令 dp[a] 为金额 a 所需的最少张数，尝试各个可用面额，再取最小值；不能直接套用爬楼梯的计数加法。</p>
+    <ul class="algorithm-list">
+      <li><strong>Huffman（哈夫曼）编码：</strong>在给定符号频率下构造加权码长最小的二进制前缀码。每次合并两个最小频率节点，堆实现通常 O(k log k) 时间、O(k) 空间，k 是符号数。策略依赖前缀码树的交换与合并性质；不保证对所有压缩格式、字典编码或单个小文件都更省空间。</li>
+      <li><strong>最小生成树：</strong>为无向加权连通图选出连接全部顶点、总边权最小且无环的边集。Kruskal 按边权排序，只接通不同连通分量，借助并查集通常 O(E log E) 时间、O(V+E) 存储。选择安全的依据是割性质；有向图或最短路径目标不能直接套这个策略，图不连通时只能得到最小生成森林。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="backtrack-heading">
+    <h2 id="backtrack-heading">回溯：试一个选择，返回时把现场恢复</h2>
+    <p><strong>回溯（backtracking）</strong>会枚举选择：选择 → 递归探索 → 撤销选择。用互异的 <code>[1, 2, 3]</code> 生成所有排列，每条完整路径必须恰好使用每个输入索引一次。<code>path</code> 是当前前缀，<code>used[i]</code> 表示第 i 个输入位置已经在这条路径中使用；它们都是临时状态，<code>ans</code> 才是保存完整结果的地方。</p>
+    <div class="algorithm-step-grid">
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 300" role="img" aria-labelledby="perm-choose-title perm-choose-desc">
+            <title id="perm-choose-title">第一步：连续选择一二三</title>
+            <desc id="perm-choose-desc">从路径一开始，标记并加入二，再标记并加入三，得到第一个完整排列。</desc>
+            <defs><marker id="perm-choose-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="60" y="12" width="200" height="44" rx="8" /><text x="160" y="40" text-anchor="middle">path = [1]</text>
+            <text x="160" y="88" text-anchor="middle">标记 used[1]，加入 2</text>
+            <path class="visual-line" d="M160 101 V120" marker-end="url(#perm-choose-arrow)" />
+            <rect class="visual-soft" x="60" y="130" width="200" height="44" rx="8" /><text x="160" y="158" text-anchor="middle">[1, 2]</text>
+            <text x="160" y="206" text-anchor="middle">标记 used[2]，加入 3</text>
+            <path class="visual-line" d="M160 219 V238" marker-end="url(#perm-choose-arrow)" />
+            <rect class="visual-accent" x="60" y="248" width="200" height="44" rx="8" /><text class="visual-text-inverse" x="160" y="276" text-anchor="middle">[1, 2, 3]</text>
+          </svg>
+        </div>
+        <figcaption><strong>① 深入一条分支。</strong>起点 [] 先选索引 0 的 1，再选索引 1 的 2、索引 2 的 3。长度达到 3，保存一个完整结果。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 300" role="img" aria-labelledby="perm-undo-three-title perm-undo-three-desc">
+            <title id="perm-undo-three-title">第二步：保存副本，再撤销三</title>
+            <desc id="perm-undo-three-desc">保存一二三的独立副本。递归返回后弹出三，并把索引二的标记恢复为 False，路径变回一二。</desc>
+            <defs><marker id="perm-undo-three-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-accent" x="60" y="12" width="200" height="44" rx="8" /><text class="visual-text-inverse" x="160" y="40" text-anchor="middle">[1, 2, 3]</text>
+            <text x="160" y="89" text-anchor="middle">ans.append(path[:])</text>
+            <text x="160" y="126" text-anchor="middle">递归返回</text>
+            <path class="visual-line" d="M160 139 V165" marker-end="url(#perm-undo-three-arrow)" />
+            <text x="160" y="196" text-anchor="middle">path.pop() → 弹出 3</text>
+            <text x="160" y="229" text-anchor="middle">used[2] = False</text>
+            <rect class="visual-soft" x="60" y="248" width="200" height="44" rx="8" /><text x="160" y="276" text-anchor="middle">path = [1, 2]</text>
+          </svg>
+        </div>
+        <figcaption><strong>② 撤销最后一次选择。</strong><code>path[:]</code> 创建独立列表。若只保存 path 本身，后续 pop 会改动同一对象，已保存的答案也会跟着变。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 340" role="img" aria-labelledby="perm-undo-two-title perm-undo-two-desc">
+            <title id="perm-undo-two-title">第三步：撤销二，再尝试三</title>
+            <desc id="perm-undo-two-desc">一二分支没有其他选择，返回后弹出二、清除 used 索引一，再在路径一处选三，路径成为一三。</desc>
+            <defs><marker id="perm-undo-two-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-soft" x="60" y="12" width="200" height="44" rx="8" /><text x="160" y="40" text-anchor="middle">[1, 2]</text>
+            <text x="160" y="86" text-anchor="middle">path.pop() → 弹出 2</text>
+            <text x="160" y="119" text-anchor="middle">used[1] = False</text>
+            <path class="visual-line" d="M160 132 V153" marker-end="url(#perm-undo-two-arrow)" />
+            <rect class="visual-soft" x="60" y="163" width="200" height="44" rx="8" /><text x="160" y="191" text-anchor="middle">[1]</text>
+            <text x="160" y="253" text-anchor="middle">标记 used[2]，加入 3</text>
+            <path class="visual-line" d="M160 266 V281" marker-end="url(#perm-undo-two-arrow)" />
+            <rect class="visual-blue" x="60" y="291" width="200" height="40" rx="8" /><text class="visual-text-inverse" x="160" y="317" text-anchor="middle">[1, 3]</text>
+          </svg>
+        </div>
+        <figcaption><strong>③ 回到真正的分叉点。</strong>[1,2] 没有更多合法扩展，继续返回到 [1]。2 和 3 的标记都已清除，循环才可以改选 3。</figcaption>
+      </figure>
+      <figure class="algorithm-figure algorithm-step-card">
+        <div class="algorithm-visual">
+          <svg viewBox="0 0 320 340" role="img" aria-labelledby="perm-next-title perm-next-desc">
+            <title id="perm-next-title">第四步：得到第二个排列</title>
+            <desc id="perm-next-desc">在一三后加入尚未使用的二，保存一三二。之后按同样方式撤销，继续枚举其他起点。</desc>
+            <defs><marker id="perm-next-arrow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#536c84" /></marker></defs>
+            <rect class="visual-blue" x="60" y="12" width="200" height="44" rx="8" /><text class="visual-text-inverse" x="160" y="40" text-anchor="middle">[1, 3]</text>
+            <text x="160" y="104" text-anchor="middle">标记 used[1]，加入 2</text>
+            <path class="visual-line" d="M160 118 V151" marker-end="url(#perm-next-arrow)" />
+            <rect class="visual-accent" x="60" y="163" width="200" height="44" rx="8" /><text class="visual-text-inverse" x="160" y="191" text-anchor="middle">[1, 3, 2]</text>
+            <text x="160" y="252" text-anchor="middle">再保存一个副本</text>
+            <text x="160" y="290" text-anchor="middle">之后仍逐层撤销</text>
+          </svg>
+        </div>
+        <figcaption><strong>④ 保存第二个结果。</strong>递归回来后仍需弹出 2 并清除标记，最终退回空路径，再试以 2、3 开头的排列。</figcaption>
+      </figure>
+    </div>
+    <div class="algorithm-table-wrap">
+      <table>
+        <caption>按输入索引从小到大尝试，所有分支最终得到六个排列</caption>
+        <thead><tr><th>第一个选择</th><th>按保存顺序得到的完整路径</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>[1,2,3]， [1,3,2]</td></tr>
+          <tr><td>2</td><td>[2,1,3]， [2,3,1]</td></tr>
+          <tr><td>3</td><td>[3,1,2]， [3,2,1]</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p><strong>为什么不漏、不多？</strong>进入每次 dfs 时，path 中恰好是标为 True 的那些索引，且每个索引只用一次。循环尝试所有尚未使用的索引，因此每个合法排列都有一条路径。一次递归结束后，pop 和清除标记恢复到进入前的状态，下一次尝试才不受上一条分支污染。输入值互异时，不同索引路径也对应不同值排列。</p>
+    <pre class="algorithm-code"><code class="language-python" data-example="permutations">def permutations(nums):
+    ans, path, used = [], [], [False] * len(nums)
     def dfs():
         if len(path) == len(nums):
             ans.append(path[:])
@@ -80,9 +320,27 @@ title: 算法思想
             dfs()
             path.pop()
             used[i] = False
-
     dfs()
     return ans</code></pre>
+    <p><code>permutations([1, 2, 3])</code> 返回 <code>[[1,2,3], [1,3,2], [2,1,3], [2,3,1], [3,1,2], [3,2,1]]</code>。空输入返回 <code>[[]]</code>，因为空序列有一个空排列；输入列表本身不会被修改。此版本要求输入值互异：若输入 <code>[1,1,2]</code>，两个 1 的索引不同，会生成重复的值排列，需要额外去重规则。</p>
+    <p><strong>成本：</strong>互异 n 个元素有 n! 个排列，每次保存都要复制 n 个元素，完整生成并保存的时间与结果空间均为 O(n·n!)；这个版本逐层扫描所有索引的工作也在该时间量级内。除结果外，路径、used 和深度为 n 的递归栈占 O(n) 辅助空间。结果数增长非常快，不能因为写成递归就忽略枚举成本。</p>
+
+    <h3>真正的剪枝，是提前判定这条路不可能成功</h3>
+    <p>这段全排列代码的 <code>if used[i]</code> 只阻止同一输入索引在当前排列里重复使用，执行的是题目本身的合法性约束；它不会省掉任何一个合法排列。别把它描述成已经利用了 N 皇后或数独的特殊约束。回溯负责尝试与撤销，能否有效<strong>剪枝（pruning）</strong>取决于是否有依据提前排除整条失败分支。</p>
+    <ul class="algorithm-list">
+      <li><strong>N 皇后：</strong>在 n×n 棋盘逐行放一个皇后，检查列和两条对角线。若与已有皇后冲突，这个前缀无论怎样补齐都不合法，可在进入下一层前跳过；返回时也要清除列与对角线占用。限制每列最多一个后，搜索规模最坏仍可按 O(n!) 的排列级别估计（候选扫描方式还会带来多项式因子），剪枝收益依输入和搜索顺序而变，不能保证多项式时间。</li>
+      <li><strong>数独：</strong>为空格尝试数字，只保留不违反所在行、列和宫的候选；某空格没有候选即可停止该分支。优先填候选最少的格子常能较早发现矛盾，但仍需撤销并继续搜索。若有 m 个空格，每格最多 9 个候选，朴素搜索上界可按 O(9ᵐ) 的指数规模理解；检查约束和挑选空格另有成本，也可能无解或多解。</li>
+    </ul>
+  </section>
+
+  <section class="algorithm-section" aria-labelledby="thinking-check-heading">
+    <h2 id="thinking-check-heading">用四个问题检查是否理解</h2>
+    <ol class="algorithm-steps">
+      <li>归并排序为什么要等两个子调用都返回？试着手工合并 [1,4] 和 [2,3]，逐次指出比较的是哪两个元素。</li>
+      <li>爬楼梯为什么 f(0) 是 1？如果目标改成“最少走几步”，状态含义与合并答案的操作各要怎么改？</li>
+      <li>按最早结束选区间的交换理由是什么？为什么它不能证明硬币最大面额优先也成立？</li>
+      <li>保存 [1,2,3] 后，分别指出弹出 3 和弹出 2 的位置、要清除的 used 索引，以及何时才能试 [1,3]。</li>
+    </ol>
   </section>
 
   <p><a href="{{ site.baseurl }}/algorithms/">返回算法地图</a></p>
