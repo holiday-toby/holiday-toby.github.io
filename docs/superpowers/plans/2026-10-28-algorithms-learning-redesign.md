@@ -27,7 +27,7 @@
 
 ## 执行基线与文件职责
 
-本计划只整理实施工作，勾选项在执行并获得相应结果后更新。
+本计划记录已批准的实施步骤；勾选项以实际执行结果更新，末尾保存本次验收证据。
 
 当前已存在且用户认可的工作产物：
 
@@ -82,7 +82,7 @@
 
 **Interfaces:** Consumes 现有 `.algorithm-page`、`.algorithm-section`、`.algorithm-visual`、`.algorithm-code`；Produces 本文规定的步骤卡片样式、SVG 文本类以及 CLI `python3 tools/algorithms/check_examples.py [页面参数]`。不带参数时检查全部 5 个代码页。
 
-- [ ] **Step 1: 建立可堆叠的图示容器和明确的文字样式**
+- [x] **Step 1: 建立可堆叠的图示容器和明确的文字样式**
 
 在现有算法样式段添加下列规则，替换原 `.algorithm-visual text` 的强制蓝色 / 15px 规则；深色节点内的字必须显式使用 `.visual-text-inverse`。保持选择器限定在算法区。
 
@@ -116,7 +116,7 @@
 
 每个独立步骤图优先使用约 `320` 宽的 viewBox，以实际显示时文字约 14px 以上为目标；用多张可堆叠的步骤图代替一张横向变长的图。状态表置于现有 `.algorithm-table-wrap`，代码块和宽表可局部横向滚动，页面本身不能溢出。
 
-- [ ] **Step 2: 约定并展示完整图示结构**
+- [x] **Step 2: 约定并展示完整图示结构**
 
 所有 SVG 的 title/desc ID 在同一页面内唯一。非交互过程图使用 `role="img"`；总览的可点击 SVG 使用 `role="group"`，保留独立的 HTML 专题链接。参考此完整小图结构，不将完整讲解挤进 SVG 文本中：
 
@@ -134,7 +134,7 @@
 </figure>
 ```
 
-- [ ] **Step 3: 建立直接验证文章实现的工具**
+- [x] **Step 3: 建立直接验证文章实现的工具**
 
 将以下完整代码保存为 `tools/algorithms/check_examples.py`。它只执行本仓库中按接口表标识的教学代码，不抓取或执行外部网页。用例核对实际算法输出和边界，不做正文快照测试。
 
@@ -334,7 +334,7 @@ if __name__ == "__main__":
     main()
 ```
 
-- [ ] **Step 4: 记录基线并提交共用工作**
+- [x] **Step 4: 记录基线并提交共用工作**
 
 先独立验证提取器确实解码 HTML 比较符号并能执行提取的代码：
 
@@ -366,7 +366,7 @@ git commit -m "Add algorithm lesson styles and example checks"
 
 **Interfaces:** Consumes Task 1 的样式与 `basic` 示例验证；Produces `quicksort`、`lower-bound` 两个代码块、GIF 图片及静态替代图。Liquid 资源路径统一为 `{{ site.baseurl }}/algorithms/assets/文件名`。
 
-- [ ] **Step 1: 写清排序问题、分区过程与 GIF 说明**
+- [x] **Step 1: 写清排序问题、分区过程与 GIF 说明**
 
 固定样例 `[5,2,3,1,4]`。主调用基准为 3：小于区 `[2,1]`、等于区 `[3]`、大于区 `[5,4]`；左侧基准为 1，返回 `[1,2]`；右侧基准为 4，返回 `[4,5]`；最后拼接为 `[1,2,3,4,5]`。解释基准来自中间位置、移动表示复制到新列表、分区完成时两侧仍未有序、空列表与单元素直接返回。
 
@@ -384,7 +384,7 @@ git commit -m "Add algorithm lesson styles and example checks"
 </figure>
 ```
 
-- [ ] **Step 2: 让快排代码与 GIF 的单次扫描分区一致**
+- [x] **Step 2: 让快排代码与 GIF 的单次扫描分区一致**
 
 代码放入 `<code class="language-python" data-example="quicksort">`，HTML 中的比较符号正确转义。
 
@@ -406,7 +406,7 @@ def quick_sort(nums):
 
 复杂度按这份实现标注：平均时间 O(n log n)、最坏 O(n²)；保留父帧分区列表时平均峰值辅助空间 O(n)、退化时可达 O(n²)，其中递归栈平均 O(log n)、最坏 O(n)。这是便于理解的新列表版本，不能套用经典原地分区版的空间或稳定性结论。补充归并排序合并时相等元素先取左侧才能保持稳定；完整堆排序与大小为 k 的堆解决 Top-K 分开解释。
 
-- [ ] **Step 3: 重写二分，用明确区间与重复值演算**
+- [x] **Step 3: 重写二分，用明确区间与重复值演算**
 
 输入 `[2,4,4,7,9]`，目标 4。图与表同步展示 `(left,right,mid)`：`(0,5,2)→right=2`、`(0,2,1)→right=1`、`(0,1,0)→left=1`，最后 `(1,1)` 返回下标 1。每一步标明 `[left,right)`，结束位置不是“必然找到相等元素”，而是第一个 `>= target` 的插入位置。
 
@@ -424,11 +424,11 @@ def lower_bound(nums, target):
     return left
 ```
 
-- [ ] **Step 4: 用具体用途补全其余基础模式**
+- [x] **Step 4: 用具体用途补全其余基础模式**
 
 保留普通二分、左右边界、二分答案；后者说明需要单调的可行性判定。HashMap/HashSet 用去重或计数解释平均 O(1) 依赖散列与冲突处理；滑动窗口说明需要可维护的窗口条件；快慢指针说明链表中两种移动速度；单调栈以寻找下一个更大值为例说明入栈、弹栈；队列解释 FIFO 与 BFS 的关系。每个条目给输入条件、动作、成本或成本取决于什么，不堆叠术语。
 
-- [ ] **Step 5: 验证两个实际代码块与 GIF，提交该页**
+- [x] **Step 5: 验证两个实际代码块与 GIF，提交该页**
 
 ```bash
 python3 tools/algorithms/check_examples.py basic
@@ -446,7 +446,7 @@ git commit -m "Explain basic algorithms with quicksort animation and binary sear
 
 **Interfaces:** Consumes Task 1 的步骤图样式与 `data-structures` 验证；Produces `reverse-list`、`bfs` 两个完整代码块，包含节点定义与含环图的正确遍历说明。
 
-- [ ] **Step 1: 用分步图重写链表反转**
+- [x] **Step 1: 用分步图重写链表反转**
 
 输入 `A→B→C→D→None`。每张图同时显示已反转前缀与未处理后缀，明确箭头方向；逐轮记录：
 
@@ -474,7 +474,7 @@ def reverse_list(head):
     return prev
 ```
 
-- [ ] **Step 2: 用含环与共享邻居的图解释 BFS 的 seen**
+- [x] **Step 2: 用含环与共享邻居的图解释 BFS 的 seen**
 
 固定邻接顺序：`A:[B,C]`、`B:[A,D]`、`C:[A,D]`、`D:[B,C,E]`、`E:[D]`。图中顶点用 A–E，距离层数另作标签，避免节点身份和距离混淆。逐步表展示处理 A/B/C/D/E 后队列分别是 `[B,C]`、`[C,D]`、`[D]`、`[E]`、`[]`；C 不会再次把 D 入队。标记发生在入队时。
 
@@ -497,13 +497,13 @@ def bfs(graph, start):
     return order
 ```
 
-- [ ] **Step 3: 补全链表、树和图的选择条件**
+- [x] **Step 3: 补全链表、树和图的选择条件**
 
 保留合并链表、快慢指针、环检测，说明访问/插入的前提；树的先中后序、BST、堆、Trie 以操作和用途区分。BST 的 O(log n) 要限定平衡情形，退化可到 O(n)；堆顶查询 O(1)、插入/弹出 O(log n)；Trie 查找与键长度有关。
 
 图条目保留 DFS、Dijkstra、Floyd、拓扑排序、并查集：区分无权 BFS、非负边权 Dijkstra、全点对 Floyd；拓扑排序要求 DAG；并查集适合动态合并和连通性，不用于求一般最短路。复杂度写出采用的表示或优化条件，不写没有实现前提的统一成本。
 
-- [ ] **Step 4: 验证节点身份、边界和遍历顺序，提交该页**
+- [x] **Step 4: 验证节点身份、边界和遍历顺序，提交该页**
 
 ```bash
 python3 tools/algorithms/check_examples.py data-structures
@@ -520,11 +520,11 @@ git commit -m "Teach linked list reversal and BFS with explicit state changes"
 
 **Interfaces:** Consumes Task 1 的步骤图样式与 `thinking` 验证；Produces `climb-stairs`、`permutations` 代码块，以及 DP 状态表、回溯过程图和贪心反例。
 
-- [ ] **Step 1: 把抽象递归树换成可计算的分治过程**
+- [x] **Step 1: 把抽象递归树换成可计算的分治过程**
 
 用归并排序的 `[4,1,3,2]` 展示拆成 `[4,1]` / `[3,2]`，再到单元素，返回 `[1,4]` / `[2,3]`，合并为 `[1,2,3,4]`。解释停止条件、每次规模缩小、父调用等待子结果和合并动作。递归与分治分别说明；FFT 只作为进一步阅读的例子，不展开推导。
 
-- [ ] **Step 2: 用爬楼梯解释计数状态、转移和滚动变量**
+- [x] **Step 2: 用爬楼梯解释计数状态、转移和滚动变量**
 
 定义每次走 1 或 2 阶，整数 n≥0，f(0)=1 表示不迈步的空方案。到第 i 阶最后一步来自 i−1 或 i−2，两类方案互不重叠。表为 i=0..5、f(i)=[1,1,2,3,5,8]；画出滚动变量更新 `(1,1)→(1,2)→(2,3)→(3,5)→(5,8)`。这是计数 DP，讲解不只使用“最优子结构”一词。
 
@@ -544,7 +544,7 @@ def climb_stairs(n):
 
 说明时间 O(n)、辅助空间 O(1)。背包、LIS、编辑距离、股票状态用小表说明各自状态在记什么、转移依赖什么；不同实现成本不同，避免把所有 DP 归为同一复杂度。
 
-- [ ] **Step 3: 给回溯画出选择、保存副本和撤销**
+- [x] **Step 3: 给回溯画出选择、保存副本和撤销**
 
 互异输入 `[1,2,3]` 的结果顺序为 `[123,132,213,231,312,321]`。主图放大 `[1]→[1,2]→[1,2,3]`，返回后依次 `path.pop()`、`used[i]=False`，再试 `[1,3]→[1,3,2]`；其余分支用完整小树或结果表呈现。图中不能把“禁止重复使用同一索引”冒充其他问题约束剪枝。
 
@@ -571,11 +571,11 @@ def permutations(nums):
 
 输入互异是此版本的前提，重复数值会产生重复排列；空输入返回 `[[]]`。完整生成并保存结果的时间和结果空间为 O(n·n!)，辅助路径、标记和递归栈为 O(n)。
 
-- [ ] **Step 4: 用能算出的成功例与反例说明贪心**
+- [x] **Step 4: 用能算出的成功例与反例说明贪心**
 
 区间选取使用半开区间 `[(1,3),(2,4),(3,5),(5,7)]`，允许首尾相接，按结束时间选择 `(1,3),(3,5),(5,7)`，解释最早结束为后续留出空间的交换直觉。反例：面额 `[1,3,4]` 凑 6，最大面额优先得到 `4+1+1`，而 `3+3` 更少。Huffman、最小生成树只写适用目标与为什么要证明策略；N 皇后、数独说明约束与剪枝作用。
 
-- [ ] **Step 5: 验证计数边界与回溯输出，提交该页**
+- [x] **Step 5: 验证计数边界与回溯输出，提交该页**
 
 ```bash
 python3 tools/algorithms/check_examples.py thinking
@@ -592,7 +592,7 @@ git commit -m "Explain DP state transitions greedy limits and backtracking undo"
 
 **Interfaces:** Consumes Task 1 的图示样式与 `engineering` 验证；Produces `lru` 代码块、LRU 连续状态图、一致性哈希前后对照及布隆过滤器的具体示例。
 
-- [ ] **Step 1: 将 LRU 图改为真实容量和操作序列**
+- [x] **Step 1: 将 LRU 图改为真实容量和操作序列**
 
 容量固定为 3，左端最久未使用、右端最近使用：
 
@@ -631,19 +631,19 @@ class LRUCache:
 
 说明哈希表与双向顺序结构使操作通常 O(1)，存储 O(capacity)。LFU 说明频次最低优先，同频次需要额外规则，历史热点可能需要衰减；不要暗示此处实现了 LFU。
 
-- [ ] **Step 2: 用前后两张图解释一致性哈希的迁移范围**
+- [x] **Step 2: 用前后两张图解释一致性哈希的迁移范围**
 
 示意空间 `[0,100)` 沿数值增加方向顺时针，节点 A=20、B=50、C=80。键的初始归属为 10→A、30→B、45→B、60→C、90→A。新增 D=35 后，仅示例中的 30→D；45 仍在 B，90 仍需绕回 A。标出被迁移的区间 `(20,35]`，说明规则是找到第一个不小于键位置的节点，没有时绕回第一个。
 
 补充虚拟节点改善分布；一致性哈希本身不提供复制或故障恢复。纠正现有 Redis Cluster 表述：它使用 16384 个哈希槽，不能直接当作这里的一致性哈希环实例。
 
-- [ ] **Step 3: 给布隆过滤器和其余算法补足前提与限制**
+- [x] **Step 3: 给布隆过滤器和其余算法补足前提与限制**
 
 布隆例子用 8 位、两个简化哈希结果：插入 cat 设置下标 1、5，位数组为 `[0,1,0,0,0,1,0,0]`；dog 也映射到 1、5，产生假阳性；fox 映射到 2、5，位 2 为 0，可排除。正结果仍查真实存储。明确这是只插入、参数一致且状态未损坏的标准过滤器，不可随意清位删除。
 
 保留 KMP、Trie、AC 自动机、Rabin–Karp、B+ 树。KMP 解释单模式的前缀回退；Trie 解释按字符走路径；AC 解释多模式与失败链接、输出数影响成本；Rabin–Karp 解释滚动哈希与碰撞后核对原文。B+ 树说明多路节点降低索引高度、叶子支持范围扫描，是许多数据库索引的常见结构。成本注明字符串长度、输出数或存储模型，避免无条件结论。
 
-- [ ] **Step 4: 验证缓存操作并逐行核对两种图例，提交该页**
+- [x] **Step 4: 验证缓存操作并逐行核对两种图例，提交该页**
 
 ```bash
 python3 tools/algorithms/check_examples.py engineering
@@ -660,7 +660,7 @@ git commit -m "Explain LRU eviction consistent hashing migration and Bloom limit
 
 **Interfaces:** Consumes Task 1 的图示样式与 `ai` 验证；Produces `cosine-search`、`linear-loss`、`attention` 三个代码块，以及相似度与注意力权重的完整演算。
 
-- [ ] **Step 1: 先用精确检索说明向量、度量和 Top-K**
+- [x] **Step 1: 先用精确检索说明向量、度量和 Top-K**
 
 输入查询 q=(1,0)，文档 A=(1,0)、B=(1,1)、C=(0,1)、D=(-1,0)。点积除以两向量范数，余弦分数分别为 1、1/√2≈0.7071、0、−1，Top-2 是 A、B。分步图依次显示向量、打分表和排序结果。说明分数是该表示和度量下的相似度，不是“事实正确率”。
 
@@ -689,7 +689,7 @@ def search(query_vec, docs, top_k=3):
 
 此实现全量打分再排序，N 篇、d 维时为 O(Nd+N log N)，结果辅助空间 O(N)。它是精确基线；ANN 用与精确 Top-K 的交集解释 recall@k 及近似取舍。区分 Embedding 表示、HNSW 索引方法和 Faiss 检索库，不再并列成同类算法。
 
-- [ ] **Step 2: 说明经典模型在做什么，解释预测与损失**
+- [x] **Step 2: 说明经典模型在做什么，解释预测与损失**
 
 线性回归说明拟合数值关系，决策树说明特征阈值划分，XGBoost 说明组合提升树逐步修正目标，KMeans 说明按距离交替分配与更新中心以及需要选择 k。分别给输入、输出、目标和限制。成本与样本、特征、树规模或迭代数有关，不给脱离实现的固定复杂度。
 
@@ -705,7 +705,7 @@ def mse_loss(samples, weight, bias):
     return sum((predict_linear(x,weight,bias)-y)**2 for x,y in samples) / len(samples)
 ```
 
-- [ ] **Step 3: 增加 Attention 的数值过程，而不是只画模型方框**
+- [x] **Step 3: 增加 Attention 的数值过程，而不是只画模型方框**
 
 使用一个查询 q=[1,0]，键 k1=[1,0]、k2=[0,1]，值 v1=[2,0]、v2=[0,2]。d_k=2，缩放分数为 `[1/√2,0]`，softmax 权重约 `[0.6698,0.3302]`，对 V 加权得到 `[1.3395,0.6605]`。图清楚区分 K 用于打分、V 用于加权；这是单查询教学计算，不是完整 Transformer。
 
@@ -731,7 +731,7 @@ def attention(query, keys, values):
 
 输入限有限实数，代码减去最大 logit 提高 softmax 的数值稳定性。说明真实 Q/K/V 来自学习到的投影，Self-Attention 的三者来自同一序列，位置表示提供顺序信息，注意力权重不能直接当作严格因果解释。单查询的成本随键数量与向量维度增长，不能把它等同于完整模型训练成本。
 
-- [ ] **Step 4: 核对三个实际示例、浮点容差和错误输入，提交该页**
+- [x] **Step 4: 核对三个实际示例、浮点容差和错误输入，提交该页**
 
 ```bash
 python3 tools/algorithms/check_examples.py ai
@@ -748,7 +748,7 @@ git commit -m "Teach exact vector retrieval and attention with numeric examples"
 
 **Interfaces:** Consumes Task 2–6 的最终术语、页面 URL 与共用图示类；Produces 6 个既有专题入口，以及“问题特征→候选工具→检查前提”的有方向图。总览不新增运行时算法。
 
-- [ ] **Step 1: 用六个选择分支重做总览图，保留语义链接**
+- [x] **Step 1: 用六个选择分支重做总览图，保留语义链接**
 
 分支固定为：有序范围边界→二分；关系与最少边数→图/BFS；状态递推与重复子问题→DP；缓存容量与访问局部性→LRU；语义近邻→向量检索；尚缺先修知识→学习路线。各分支允许重叠，图注说明仍需检查输入前提与目标，不宣称自动选出唯一算法。含链接的 SVG 使用 group 角色、可访问名称和可聚焦链接；现有 6 个 HTML 入口继续作为等价导航。
 
@@ -763,13 +763,13 @@ git commit -m "Teach exact vector retrieval and attention with numeric examples"
 </nav>
 ```
 
-- [ ] **Step 2: 重写概览而不重复专题全文**
+- [x] **Step 2: 重写概览而不重复专题全文**
 
 删除缺少类型与真实输入的 `choose_tool()`。保留排序对比、数据结构、算法思想、工程和 AI 的摘要；每段用一个问题连接到详细页。排序表保留冒泡、选择、插入、快排、归并、堆，注明平均/最坏或最佳条件；快排平均 O(n log n)、最坏 O(n²)，不再写“最常用”；堆排序与 Top-K 选择区别清楚。稳定性取决于具体实现，归并相等时先取左侧，经典原地快排与新列表教学版分开说明。
 
 同步修正总览中的 Redis Cluster、布隆过滤器和 DP 适用条件，确保与 Task 4–6 一致。
 
-- [ ] **Step 3: 核对每个分支可到达对应说明，提交总览**
+- [x] **Step 3: 核对每个分支可到达对应说明，提交总览**
 
 逐个检查 6 个 HTML 入口和图中链接；图例与分支条件使用同一术语。生成站点后的路径与链接由 Task 9 统一验证。
 
@@ -785,11 +785,11 @@ git commit -m "Connect algorithm overview to concrete problem conditions"
 
 **Interfaces:** Consumes Task 2–6 的实际样例与 6 个专题 URL；Produces 阶段先修关系、明确练习结果和不同方向的学习优先级，不提供固定周数排课函数。
 
-- [ ] **Step 1: 用三段学习成果连接先修关系**
+- [x] **Step 1: 用三段学习成果连接先修关系**
 
 阶段一：数组/哈希/链表/栈队列/树/排序/二分；阶段二：DFS/BFS、递归、回溯、贪心、DP；阶段三：图、并查集、Trie、堆、线段树、位运算/状态压缩与工程应用。每段回答“先会什么→练什么→怎样判断掌握”，阶段图向下连接，允许因目标不同回看先修主题。
 
-- [ ] **Step 2: 给出可以对照的学习者案例与检查点**
+- [x] **Step 2: 给出可以对照的学习者案例与检查点**
 
 删除 `weekly_plan()` 及其固定周数承诺。用一个已懂数组、想理解缓存的读者串起“二分边界练习→链表指针→哈希与双向顺序→LRU”。提供以下结果作为自查依据：
 
@@ -803,7 +803,7 @@ git commit -m "Connect algorithm overview to concrete problem conditions"
 
 至少保留一条完整学习案例及其实际输入/结果，保证本页也有能跟随的具体过程。岗位方向保留后端、前端、AI、游戏开发，说明重点与使用场景，而非把岗位和固定算法清单画等号。
 
-- [ ] **Step 3: 把练习链接到现有专题，提交学习路线**
+- [x] **Step 3: 把练习链接到现有专题，提交学习路线**
 
 所有跳转继续使用 Liquid baseurl，图与正文的阶段名称一致，返回地图的链接保留。
 
@@ -825,7 +825,7 @@ git commit -m "Make algorithm learning milestones observable and actionable"
 
 **Interfaces:** Consumes Task 1–8 的全部产物；Produces 可运行示例、生成后的 7 个页面、本地 HTTP 预览和具体的验证结果。修正问题时回到所属任务的文件范围，重新运行受影响的检查。
 
-- [ ] **Step 1: 复核预检结果并实际完成构建**
+- [x] **Step 1: 复核预检结果并实际完成构建**
 
 现有环境调查结果：Ruby 2.6.10、Bundler 2.4.22；`bundle check` 报告锁定 gems 缺失，`bundle exec jekyll --version` 报 `command not found: jekyll`。因此此前没有本地 Jekyll 构建成功的证据。Python 3.9.6 和 Pillow 11.3.0 可用。
 
@@ -840,7 +840,7 @@ BUNDLE_PATH=/tmp/algorithms-bundle BUNDLE_FROZEN=true bundle exec jekyll build -
 
 开始执行前先记录 `git status --short`，保留其他未跟踪文件；可将已认可的设计修订和本计划逐文件提交。不要把其他历史计划纳入本次提交。
 
-- [ ] **Step 2: 完成全部实际文章代码与动图验证**
+- [x] **Step 2: 完成全部实际文章代码与动图验证**
 
 ```bash
 python3 tools/algorithms/check_examples.py
@@ -849,7 +849,7 @@ python3 tools/algorithms/generate_quicksort_gif.py --output /tmp/quicksort-parti
 
 预期：全部 10 个文章代码块通过；GIF 生成器的算法和解码断言全部通过。图表中的每一行状态与本计划的固定轨迹逐项核对；不是只看函数最终输出。若修改过 GIF 生成器的绘制或轨迹，同步重新生成仓库中的 GIF 并查看分区、子调用、末帧和移动中间帧。
 
-- [ ] **Step 3: 检查生成后的路由、素材、内部片段和 SVG 名称**
+- [x] **Step 3: 检查生成后的路由、素材、内部片段和 SVG 名称**
 
 构建成功后运行以下一次性脚本；它不写入仓库，不替代浏览器检查。
 
@@ -937,7 +937,7 @@ PY
 
 预期：7 页均报告通过，排序素材存在，页面与素材链接不包含未渲染 Liquid。SVG 的可访问名称、ID 和 XML 均合法。若实际站点使用非空 baseurl，验证脚本的站点路径解析需按该前缀剥离后检查；本仓库当前 baseurl 为空。
 
-- [ ] **Step 4: 从 HTTP 服务查看，而不是直接打开 Liquid 源文件**
+- [x] **Step 4: 从 HTTP 服务查看，而不是直接打开 Liquid 源文件**
 
 使用满足依赖的同一 Bundler 环境启动服务：
 
@@ -953,7 +953,7 @@ for page in '' basic.html data-structures.html thinking.html engineering.html ai
 done
 ```
 
-- [ ] **Step 5: 检查 7 页在桌面和手机宽度下的真实显示**
+- [x] **Step 5: 检查 7 页在桌面和手机宽度下的真实显示**
 
 使用可用的浏览器控制工具查看 1280×900 与 390×844 两种视口，保存能显示关键图示的截图并实际查看。逐页确认：步骤顺序与图注相邻，箭头方向、数字、队列和指针标签不重叠或裁切；代码与表格可局部滚动；正文和步骤图无需横向拖动；深色节点上的文字保持对比度；独立图中文字实际显示约 14px 以上。
 
@@ -993,3 +993,20 @@ git status --short
 | 可访问、对比度、手机可读 | Task 1 规范，Tasks 2–8 应用 | Task 9 SVG 名称与两种视口查看 |
 | 不引入网页脚本或外部图库 | Tasks 1–8 | 差异审阅、资源与依赖范围检查 |
 | 真实构建与诚实记录限制 | Task 9 | 构建及浏览器检查的实际输出与未验证项 |
+
+
+## 执行结果（2026-10-28）
+
+- 工作分支：`codex/algorithm-lessons`，工作区：`/Users/duanhao.ling/.codex/worktrees/algorithm-lessons/holiday-toby.github.io`。源码验证版本为 `d983741`；后续本次提交仅更新执行记录。
+- Task 1–8 均已实现并完成独立的需求/质量复核。复核提出的快排平均情形前提、Top K 释义、股票 DP 转移、总览 DP 初值、首次 LRU 释义和总览图标签间距均已修正并经过限定范围复核。
+- 代码：`python3 tools/algorithms/check_examples.py` 的 10 个必需示例全部通过；补充探针执行了全部 13 个展示代码块（含归并、区间选择及 LRU 使用示例），固定轨迹与输出相符。
+- 动图：重新生成并解码 76 帧，分区/递归断言通过；仓库成品与新渲染逐帧像素及时长相同，1120×820、29.3 秒、末帧停留 4 秒。
+- 本机依赖：锁定 bundle 已安装到 `/tmp/algorithms-bundle`。系统 Ruby 查找 universal-darwin25 头文件而 SDK 提供 universal-darwin26；通过 `/tmp/algorithms-ruby-sdk-path.rb` 仅对构建进程修正头文件目录。没有改动系统 Ruby、Gemfile、锁文件或 gemspec。现有 RubyGems 版本兼容提示仍存在，命令退出码为 0。
+- 构建命令：`RUBYOPT=-r/tmp/algorithms-ruby-sdk-path.rb BUNDLE_PATH=/tmp/algorithms-bundle BUNDLE_FROZEN=true bundle exec jekyll build --destination /tmp/algorithms-jekyll-site`，退出码 0。
+- 渲染检查：计划中的原始页面脚本通过全部 7 页和排序素材；9 个 HTTP 响应（7 页 + GIF + 静态 SVG）均为 200，且与新构建文件字节一致。`git diff --check` 通过，14 个变更路径均属于本计划。
+- 浏览器：在 1280×900 与 390×844 查看全部 7 页；45 个内联 SVG 在两种尺寸下均无文字边界裁切/交叠，页面宽度未超出视口。手机端图中文字最小有效字号约 16.76px，总览约 19.16px。代码/宽表沿用局部溢出容器，未逐个手动拖动每一个容器。
+- 键盘：实际使用 Enter 打开总览的 6 个 HTML 入口和 6 个 SVG 入口，目标 URL 与文章标题相符；6 页返回地图链接均实际使用 Enter 激活。Tab 焦点可见。一次片段 URL 的等待接口超时和末项一次按键重试均通过重新读取真实 URL/页面确认，与源码链接错误无关。
+- 图片：正常模式 `image.currentSrc` 实际选中了 GIF；静态图链接已打开，完整四阶段图在手机宽度下可读。
+- 证据：截图、14 组图形测量与 12 个键盘入口记录位于 `/tmp/algorithm-review/`；技术报告在本计划的 SDD 临时工作目录 `task-9-report.md`。关键截图包含 `basic-desktop-binary.png`、`structures-mobile-bfs.png`、`thinking-desktop-dp.png`、`engineering-mobile-ring.png`、`ai-desktop-attention.png`、`overview-desktop-map.png`、`path-mobile-cache.png`。
+- 明确未验证：当前浏览器控制接口不支持模拟系统 `prefers-reduced-motion: reduce`，因此没有声称实际偏好切换已通过；替代图、媒体声明、XML 和 HTTP 交付均已检查。独立打开 SVG 时，宿主工具产生 animation 属性错误；用仅有矩形和文字且没有脚本的对照 SVG 复现，属于宿主 SVG 检查问题，成品 SVG 正常显示。
+- 本地预览：`http://127.0.0.1:4000/algorithms/`。发布与分支合并在最终审阅后单独选择。
