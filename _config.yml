@@ -12,6 +12,9 @@ author:
 
 # Build settings
 markdown: kramdown
+# Internal plans contain code samples, not publishable Liquid templates.
+exclude:
+  - docs/superpowers
 # Gems
 plugins:
   - jekyll-paginate
